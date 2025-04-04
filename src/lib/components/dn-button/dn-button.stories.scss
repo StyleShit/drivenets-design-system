@@ -1,0 +1,47 @@
+.row {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 20px;
+  align-items: center;
+}
+
+.combinations-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 20px;
+}
+
+.schema-container {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.schema-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: 8px;
+  min-width: 150px;
+  text-transform: capitalize;
+  align-self: center;
+}
+
+.variant-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.variant-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.button-showcase {
+  text-transform: capitalize;
+}
