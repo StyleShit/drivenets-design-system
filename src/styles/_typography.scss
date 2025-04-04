@@ -1,0 +1,138 @@
+// typography is defined in: https://www.figma.com/design/XJwVCvDPhD0dMTP4vr3xY3/%F0%9F%A6%95-%F0%9F%AA%86Style-%26-Design-System?node-id=4804-91960&node-type=frame&t=6LW93tAe2no6Rhgx-0
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+@mixin base-font {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+@mixin line-clamp($lines: 2) {
+  overflow: hidden;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+}
+
+@mixin ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+h1, .h1 {
+  @include base-font;
+  font-size: 42px;
+  line-height: 64px;
+}
+
+h2, .h2 {
+  @include base-font;
+  font-size: 36px;
+  line-height: 54px;
+}
+
+h3, .h3 {
+  @include base-font;
+  font-size: 32px;
+  line-height: 48px;
+}
+
+h4, .h4 {
+  @include base-font;
+  font-size: 24px;
+  line-height: 36px;
+}
+
+h5, .h5 {
+  @include base-font;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+h6, .h6 {
+  @include base-font;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+h7, .h7 {
+  @include base-font;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.p-xl {
+  @include base-font;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.p-lg {
+  @include base-font;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.p-base {
+  @include base-font;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.p-special {
+  @include base-font;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.p-s {
+  @include base-font;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.action {
+  @include base-font;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.action-lg {
+  @include base-font;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.action-med {
+  @include base-font;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.action-small {
+  @include base-font;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+
+.bold {
+  font-weight: 700;
+}
+
+.medium {
+  font-weight: 500;
+}
+
+.regular {
+  font-weight: 400;
+}
+
+.light {
+  font-weight: 300;
+}

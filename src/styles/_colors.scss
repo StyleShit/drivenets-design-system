@@ -1,0 +1,76 @@
+// all colors are defined in https://www.figma.com/file/ABNdeJG7jP0fDMyD0BJCKI/The-Style-Guide?node-id=67%3A74496&t=j2uu2WntRYHvkUTW-4
+$colors: (
+  // Primary
+  deep-blue: #001b48,
+  white: #ffffff,
+  black: #000000,
+
+  // Gradient
+  gradient-component: linear-gradient(90deg, #698fc7 -0.12%, #236aab 99.86%),
+  gradient-lines: linear-gradient(90deg, rgba(105, 143, 199, 0.4) -0.12%, rgba(35, 106, 171, 0.4) 99.86%),
+  // Neutral
+  neutral-1: #2c3a4b,
+  neutral-2: #4c5f76,
+  neutral-3: #6c7b8e,
+  neutral-4: #8b98a6,
+  neutral-5: #a0aab7,
+  neutral-6: #b3bfd1,
+  neutral-7: #c2cedf,
+  neutral-8: #dee6f1,
+  neutral-9: #eaecef,
+  neutral-10: #f3f5fa,
+  neutral-bluish: #759cec,
+  neutral-bg: #dae2f4,
+
+  // Action Primary
+  action-primary-default: #0066fa,
+  action-primary-hover: #4176e6,
+  action-primary-active: #1e59d7,
+  action-primary-active-light: #d6e2ff,
+  action-primary-default-light: #a6bff3,
+  action-primary-hover-light: #dfe9ff,
+  action-primary-active-20: #eaeffb,
+  action-primary-disabled: #e9eefc,
+  action-primary-info: #559aff,
+
+  // Status
+  status-success: #28d473,
+  status-success-bg: #e4f8e9,
+  status-warning: #fb881d,
+  status-warning-bg: #ffdcc2,
+  status-comm-error-bg: #fffbe6,
+  status-comm-error-border: #ffe58f,
+  status-comm-error: #faad14,
+  status-error: #ed6c66,
+  status-error-bg-2: #ed6760,
+  status-error-bg: #ffd2d2,
+  status-info: #5c9dfd,
+  status-info-bg: #d6e2ff,
+  status-info-secondary: #5452f6,
+  status-pending: #979fdf,
+  status-pending-bg: #f3e3ff,
+  status-processing: #fafafa,
+  status-processing-bg: #b3bfd1,
+  status-disabled: #acb8d0,
+  status-disabled-bg: #e6eaf2,
+  status-process: #c37af7,
+
+  status-healthy: #28d473,
+  status-warning-minor: #f1b425,
+  status-warning-major: #fb881d,
+  status-installing: #5452f6,
+  status-waiting-for-equipment: #a595ff,
+  status-discovered: #fff,
+  status-communication-error: #b0c0e5,
+  status-delete: #f25951
+);
+
+@mixin applyRootColors($colors) {
+  :root {
+    @each $name, $color in $colors {
+      #{'--' + $name}: #{$color};
+    }
+  }
+}
+
+@include applyRootColors($colors);
