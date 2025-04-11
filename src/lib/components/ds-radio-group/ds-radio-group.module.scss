@@ -1,0 +1,94 @@
+@use 'typography' as typography;
+
+.radioGroupRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radioItemContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  &:has([data-disabled]) {
+    cursor: not-allowed;
+  }
+}
+
+.radioItem {
+  all: unset;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out;
+  width: 16px;
+  height: 16px;
+
+  .radioItemWrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: 2px solid;
+    border-radius: 50%;
+    background: none;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &[data-state='checked'] {
+    .radioItemWrapper {
+      border-color: var(--action-primary-default);
+      background-color: var(--action-primary-default);
+    }
+  }
+
+  &[data-state='unchecked'] {
+    .radioItemWrapper {
+      background-color: var(--action-primary-hover-light);
+      border-color: var(--action-primary-hover-light);
+    }
+  }
+
+  &:hover .radioItemWrapper {
+    width: 24px;
+    height: 24px;
+    background-color: var(--action-primary-hover-light);
+    border-color: var(--action-primary-hover-light);
+  }
+
+  &[data-disabled] {
+    pointer-events: none;
+
+    & + label {
+      pointer-events: none;
+    }
+
+    .radioItemWrapper {
+      background-color: var(--action-primary-hover-light);
+      border-color: var(--action-primary-hover-light);
+    }
+
+    .radioIndicator {
+      // FIXME sync with design
+      background: #A0AAB7;
+    }
+  }
+}
+
+.radioIndicator {
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.radioLabel {
+  @extend .p-special, .medium;
+  color: var(--neutral-1);
+  cursor: pointer;
+}
