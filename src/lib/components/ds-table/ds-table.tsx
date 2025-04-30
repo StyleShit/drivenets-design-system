@@ -4,6 +4,8 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  Row,
+  RowSelectionState,
   useReactTable,
   type ColumnFiltersState,
   type SortingState,
@@ -14,12 +16,14 @@ import classnames from 'classnames';
 import * as React from 'react';
 
 import DsIcon from '../ds-icon/ds-icon';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './core-table';
+import { Table, TableBody, TableCell, TableRow } from './core-table';
+import DsTableHeader from './ds-table-header';
 
+import { CSSProperties } from 'react';
 import Button from '../ds-button/ds-button';
+import { DsCheckbox } from '../ds-checkbox';
 import styles from './ds-table.module.scss';
 import type { DataTableProps } from './ds-table.types';
-
 /**
  * Design system Table component
  */
@@ -38,21 +42,28 @@ const DsTable = <TData, TValue>({
   emptyState,
   stickyHeader = true,
   bordered = true,
-  dense = false,
   fullWidth = true,
   highlightOnHover = true,
   expandable = false,
   renderExpandedRow,
   filterElement,
   onTableCreated,
+  selectable = false,
+  onSelectionChange,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [expandedRows, setExpandedRows] = React.useState<Record<string, boolean>>({});
 
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (onSelectionChange && selectable) {
+      onSelectionChange(rowSelection);
+    }
+  }, [rowSelection, onSelectionChange, selectable]);
 
   const table = useReactTable({
     data,
@@ -76,6 +87,7 @@ const DsTable = <TData, TValue>({
         pageSize,
       },
     },
+    enableRowSelection: selectable,
   });
 
   React.useEffect(() => {
@@ -100,6 +112,125 @@ const DsTable = <TData, TValue>({
     }));
   };
 
+  const virtualItems = virtualized ? rowVirtualizer.getVirtualItems() : null;
+  const totalSize = virtualized ? rowVirtualizer.getTotalSize() : null;
+
+  const renderRow = (row: Row<TData>, virtualRow?: VirtualItem) => {
+    const isExpanded = expandable && expandedRows[row.id];
+
+    const rowStyle: CSSProperties = virtualRow
+      ? {
+          height: `${virtualRow.size}px`,
+          transform: `translateY(${virtualRow.start}px)`,
+          position: 'absolute',
+          width: '100%',
+        }
+      : {};
+
+    return (
+      <React.Fragment key={row.id}>
+        <TableRow
+          data-state={row.getIsSelected() && 'selected'}
+          className={classnames(
+            styles.tableRow,
+            virtualized && styles.virtualizedRow,
+            onRowClick && styles.clickableRow,
+            highlightOnHover && styles.highlightHoverRow,
+            !bordered && styles.rowNoBorder,
+          )}
+          style={rowStyle}
+          onClick={() => onRowClick && onRowClick(row.original)}
+        >
+          {selectable && (
+            <TableCell className={classnames(styles.tableCell, styles.cellCheckbox)}>
+              <DsCheckbox
+                style={{
+                  height: 16,
+                  width: 16,
+                }}
+                checked={row.getIsSelected()}
+                onClick={e => {
+                  e.stopPropagation();
+                  const toggleHandler = row.getToggleSelectedHandler();
+                  toggleHandler(e);
+                }}
+              />
+            </TableCell>
+          )}
+          {expandable && (
+            <TableCell className={classnames(styles.tableCell, styles.cellButton)}>
+              <Button
+                variant={virtualized ? 'ghost' : 'borderless'}
+                size="small"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  toggleRowExpanded(row.id);
+                }}
+                className={styles.expandToggleButton}
+              >
+                <DsIcon
+                  name={virtualized ? (isExpanded ? 'arrow_drop_down' : 'arrow_right') : 'chevron_right'}
+                  className={classnames(
+                    styles.pageButtonIcon,
+                    !virtualized && isExpanded && 'rotate-90',
+                  )}
+                />
+              </Button>
+            </TableCell>
+          )}
+          {row.getVisibleCells().map((cell: any) => (
+            <TableCell
+              key={cell.id}
+              className={styles.tableCell}
+              style={
+                virtualized
+                  ? {
+                      width: cell.column.getSize(),
+                      minWidth: cell.column.getSize(),
+                    }
+                  : undefined
+              }
+            >
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </TableCell>
+          ))}
+        </TableRow>
+        {isExpanded && renderExpandedRow && (
+          <TableRow
+            style={
+              virtualRow
+                ? {
+                    transform: `translateY(${virtualRow.start + virtualRow.size}px)`,
+                    position: 'absolute',
+                    width: '100%',
+                  }
+                : undefined
+            }
+            className={styles.expandedRow}
+          >
+            <TableCell
+              colSpan={row.getVisibleCells().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)}
+              className={styles.tableCell}
+            >
+              {renderExpandedRow(row.original)}
+            </TableCell>
+          </TableRow>
+        )}
+      </React.Fragment>
+    );
+  };
+
+  const renderEmptyState = () => (
+    <TableRow>
+      <TableCell
+        colSpan={columns.length + (expandable ? 1 : 0) + (selectable ? 1 : 0)}
+        className={styles.emptyState}
+      >
+        {emptyState || 'No results.'}
+      </TableCell>
+    </TableRow>
+  );
+
   return (
     <div className={classnames(styles.container, className)}>
       {filterElement}
@@ -107,262 +238,42 @@ const DsTable = <TData, TValue>({
         ref={tableContainerRef}
         className={classnames(styles.dataTableContainer, virtualized && styles.virtualized)}
       >
-        {virtualized ? (
+        {virtualized && totalSize ? (
           <div
             className={styles.virtualRowContainer}
             style={{
-              height: `${rowVirtualizer.getTotalSize()}px`,
+              height: `${totalSize}px`,
             }}
           >
             <table className={classnames(styles.table, !bordered && styles.tableNoBorder)}>
-              <thead className={classnames(stickyHeader && styles.stickyHeader)}>
-                {table.getHeaderGroups().map(headerGroup => (
-                  <tr
-                    key={headerGroup.id}
-                    className={classnames(styles.headerRow, !bordered && styles.headerRowNoBorder)}
-                  >
-                    {expandable && <th className={styles.expandColumn}></th>}
-                    {headerGroup.headers.map(header => {
-                      return (
-                        <th
-                          key={header.id}
-                          className={classnames(
-                            styles.headerCell,
-                            dense ? styles.headerCellDense : styles.headerCellStandard,
-                            header.column.getCanSort() && styles.sortableHeader,
-                          )}
-                          onClick={header.column.getToggleSortingHandler()}
-                          style={{
-                            width: header.getSize(),
-                            minWidth: header.getSize(),
-                          }}
-                        >
-                          {header.isPlaceholder ? null : (
-                            <div className={styles.headerSortContainer}>
-                              <div>
-                                {flexRender(header.column.columnDef.header, header.getContext())}
-                              </div>
-                              {header.column.getCanSort() && (
-                                <div>
-                                  {{
-                                    asc: (
-                                      <DsIcon name="arrow_upward" className={styles.pageButtonIcon} />
-                                    ),
-                                    desc: (
-                                      <DsIcon name="arrow_downward" className={styles.pageButtonIcon} />
-                                    ),
-                                  }[header.column.getIsSorted() as string] ?? (
-                                    <DsIcon
-                                      name="unfold_more"
-                                      className={styles.pageButtonIcon}
-                                      style={{ opacity: 0.5 }}
-                                    />
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </th>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </thead>
-              <tbody>
-                {rowVirtualizer.getVirtualItems().map((virtualRow: VirtualItem) => {
-                  const row = rows[virtualRow.index];
-                  const isExpanded = expandable && expandedRows[row.id];
-
-                  return (
-                    <React.Fragment key={row.id}>
-                      <tr
-                        data-state={row.getIsSelected() && 'selected'}
-                        style={{
-                          height: `${virtualRow.size}px`,
-                          transform: `translateY(${virtualRow.start}px)`,
-                          position: 'absolute',
-                          width: '100%',
-                        }}
-                        className={classnames(
-                          styles.virtualizedRow,
-                          onRowClick && styles.clickableRow,
-                          highlightOnHover && styles.highlightHoverRow,
-                          !bordered && styles.rowNoBorder,
-                        )}
-                        onClick={() => onRowClick && onRowClick(row.original)}
-                      >
-                        {expandable && (
-                          <td className={classnames(styles.tableCell, styles.cellButton)}>
-                            <Button
-                              variant="ghost"
-                              size="small"
-                              onClick={(e: React.MouseEvent) => {
-                                e.stopPropagation();
-                                toggleRowExpanded(row.id);
-                              }}
-                              className={styles.expandToggleButton}
-                            >
-                              {isExpanded ? (
-                                <DsIcon name="arrow_drop_down" className={styles.pageButtonIcon} />
-                              ) : (
-                                <DsIcon name="arrow_right" className={styles.pageButtonIcon} />
-                              )}
-                            </Button>
-                          </td>
-                        )}
-                        {row.getVisibleCells().map(cell => (
-                          <td
-                            key={cell.id}
-                            className={classnames(
-                              styles.tableCell,
-                              dense ? styles.cellDense : styles.cellStandard,
-                            )}
-                            style={{
-                              width: cell.column.getSize(),
-                              minWidth: cell.column.getSize(),
-                            }}
-                          >
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </td>
-                        ))}
-                      </tr>
-                      {isExpanded && renderExpandedRow && (
-                        <tr
-                          style={{
-                            transform: `translateY(${virtualRow.start + virtualRow.size}px)`,
-                            position: 'absolute',
-                            width: '100%',
-                          }}
-                          className={styles.expandedRow}
-                        >
-                          <td colSpan={row.getVisibleCells().length + 1} className={styles.tableCell}>
-                            {renderExpandedRow(row.original)}
-                          </td>
-                        </tr>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
-              </tbody>
+              <DsTableHeader
+                table={table}
+                stickyHeader={stickyHeader}
+                bordered={bordered}
+                expandable={expandable}
+                selectable={selectable}
+              />
+              <TableBody>
+                {virtualItems &&
+                  virtualItems.map((virtualRow: VirtualItem) => {
+                    const row = rows[virtualRow.index];
+                    return renderRow(row, virtualRow);
+                  })}
+              </TableBody>
             </table>
           </div>
         ) : (
           <Table
             className={classnames(fullWidth && styles.fullWidth, !bordered && styles.tableNoBorder)}
           >
-            <TableHeader className={classnames(stickyHeader && styles.stickyHeader)}>
-              {table.getHeaderGroups().map(headerGroup => (
-                <TableRow
-                  key={headerGroup.id}
-                  className={classnames(!bordered && styles.headerRowNoBorder)}
-                >
-                  {expandable && <TableHead className={styles.expandColumn}></TableHead>}
-                  {headerGroup.headers.map(header => {
-                    return (
-                      <TableHead
-                        key={header.id}
-                        className={classnames(
-                          dense ? styles.headerCellDense : styles.headerCellStandard,
-                          header.column.getCanSort() && styles.sortableHeader,
-                        )}
-                        onClick={header.column.getToggleSortingHandler()}
-                        style={{
-                          width: header.getSize(),
-                          minWidth: header.getSize(),
-                        }}
-                      >
-                        {header.isPlaceholder ? null : (
-                          <div className={styles.headerSortContainer}>
-                            <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-                            {header.column.getCanSort() && (
-                              <div>
-                                {{
-                                  asc: <DsIcon name="arrow_upward" className={styles.pageButtonIcon} />,
-                                  desc: (
-                                    <DsIcon name="arrow_downward" className={styles.pageButtonIcon} />
-                                  ),
-                                }[header.column.getIsSorted() as string] ?? (
-                                  <DsIcon
-                                    name="unfold_more"
-                                    className={styles.pageButtonIcon}
-                                    style={{ opacity: 0.5 }}
-                                  />
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map(row => {
-                  const isExpanded = expandable && expandedRows[row.id];
-
-                  return (
-                    <React.Fragment key={row.id}>
-                      <TableRow
-                        data-state={row.getIsSelected() && 'selected'}
-                        className={classnames(
-                          onRowClick && styles.clickableRow,
-                          highlightOnHover && styles.highlightHoverRow,
-                          !bordered && styles.rowNoBorder,
-                        )}
-                        onClick={() => onRowClick && onRowClick(row.original)}
-                      >
-                        {expandable && (
-                          <TableCell className={styles.cellButton}>
-                            <Button
-                              variant="ghost"
-                              size="small"
-                              onClick={(e: React.MouseEvent) => {
-                                e.stopPropagation();
-                                toggleRowExpanded(row.id);
-                              }}
-                              className={styles.expandToggleButton}
-                            >
-                              {isExpanded ? (
-                                <DsIcon name="arrow_drop_down" className={styles.pageButtonIcon} />
-                              ) : (
-                                <DsIcon name="arrow_right" className={styles.pageButtonIcon} />
-                              )}
-                            </Button>
-                          </TableCell>
-                        )}
-                        {row.getVisibleCells().map(cell => (
-                          <TableCell
-                            key={cell.id}
-                            className={classnames(dense ? styles.cellDense : styles.cellStandard)}
-                          >
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                      {isExpanded && renderExpandedRow && (
-                        <TableRow className={styles.expandedRow}>
-                          <TableCell colSpan={row.getVisibleCells().length + 1}>
-                            {renderExpandedRow(row.original)}
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </React.Fragment>
-                  );
-                })
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length + (expandable ? 1 : 0)}
-                    className={styles.emptyState}
-                  >
-                    {emptyState || 'No results.'}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
+            <DsTableHeader
+              table={table}
+              stickyHeader={stickyHeader}
+              bordered={bordered}
+              expandable={expandable}
+              selectable={selectable}
+            />
+            <TableBody>{rows.length ? rows.map(row => renderRow(row)) : renderEmptyState()}</TableBody>
           </Table>
         )}
       </div>

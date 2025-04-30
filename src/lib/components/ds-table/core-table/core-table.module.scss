@@ -7,8 +7,9 @@
 .table {
   width: 100%;
   caption-side: bottom;
-  font-size: 0.875rem; /* text-sm */
-  line-height: 1.25rem; /* text-sm */
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-collapse: collapse;
 }
 
 .tableHeader {
@@ -32,25 +33,7 @@
   }
 }
 
-.tableRow {
-  border-bottom-width: 1px;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-
-  &:hover {
-    background-color: rgba(241, 245, 249, 0.5);
-  }
-
-  &[data-state='selected'] {
-    background-color: rgb(241, 245, 249);
-  }
-}
-
 .tableHead {
-  height: 3rem; /* h-12 */
-  padding-left: 1rem; /* px-4 */
-  padding-right: 1rem; /* px-4 */
   text-align: left;
   vertical-align: middle;
   font-weight: 500;
@@ -58,11 +41,12 @@
 
   &:has([role='checkbox']) {
     padding-right: 0;
+    padding-left: 24px;
   }
 }
 
 .tableCell {
-  padding: 1rem; /* p-4 */
+  padding: 1rem;
   vertical-align: middle;
 
   &:has([role='checkbox']) {
@@ -71,8 +55,8 @@
 }
 
 .tableCaption {
-  margin-top: 1rem; /* mt-4 */
-  font-size: 0.875rem; /* text-sm */
-  line-height: 1.25rem; /* text-sm */
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   color: rgb(100, 116, 139);
 }

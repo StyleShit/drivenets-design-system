@@ -76,11 +76,6 @@ export interface DataTableProps<TData, TValue> {
   bordered?: boolean;
 
   /**
-   * Whether the table is dense
-   */
-  dense?: boolean;
-
-  /**
    * Whether the table is full width
    */
   fullWidth?: boolean;
@@ -109,4 +104,15 @@ export interface DataTableProps<TData, TValue> {
    * Function to handle table creation
    */
   onTableCreated?: (table: any) => void;
+
+  /**
+   * Whether the table rows are selectable
+   * @default false
+   */
+  selectable?: boolean;
+
+  /**
+   * Function to handle selection change
+   */
+  onSelectionChange?: (selectedRows: Record<string, boolean>) => void;
 }

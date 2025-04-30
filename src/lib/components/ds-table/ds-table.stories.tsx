@@ -191,7 +191,6 @@ const meta: Meta<typeof DsTable<Person, unknown>> = {
     // pagination: { control: 'boolean' },
     // zebra: { control: 'boolean' },
     // bordered: { control: 'boolean' },
-    // dense: { control: 'boolean' },
     // highlightOnHover: { control: 'boolean' },
   },
   args: {
@@ -202,7 +201,6 @@ const meta: Meta<typeof DsTable<Person, unknown>> = {
     pageSize: 5,
     stickyHeader: true,
     bordered: true,
-    dense: false,
     fullWidth: true,
     highlightOnHover: true,
     expandable: false,
@@ -210,6 +208,13 @@ const meta: Meta<typeof DsTable<Person, unknown>> = {
     emptyState: <div>No data available</div>,
     onRowClick: row => console.log('Row clicked:', row),
   },
+  decorators: [
+    Story => (
+      <div style={{ padding: '1rem' }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
@@ -267,15 +272,16 @@ export const EmptyState: Story = {
   },
 };
 
-export const Dense: Story = {
-  args: {
-    dense: true,
-  },
-};
-
 export const NoBorder: Story = {
   args: {
     bordered: false,
+  },
+};
+
+export const Selectable: Story = {
+  args: {
+    selectable: true,
+    onSelectionChange: selectedRows => console.log('Selected rows:', selectedRows),
   },
 };
 
