@@ -16,7 +16,7 @@
   width: 20px;
   height: 20px;
   background-color: white;
-  border: 2px solid var(--action-primary-default);
+  border: 2px solid var(--action-cta1);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -35,7 +35,7 @@
   }
 
   &[data-disabled] {
-    border-color: var(--action-primary-info);
+    border-color: var(--action-disabled);
     pointer-events: none;
   }
 
@@ -44,28 +44,16 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-
-      &:hover {
-        background: var(--action-primary-hover-light);
-        box-shadow: 0 0 0 4px var(--action-primary-hover-light);
-      }
-    }
-
-    &:active {
-      .checkboxWrapper {
-        background: var(--action-primary-disabled);
-        box-shadow: 0 0 0 4px var(--action-primary-disabled);
-      }
     }
   }
 
   &[data-state='checked'] {
-    background-color: var(--action-primary-default);
+    background-color: var(--action-cta1);
   }
 
   &[data-state='indeterminate'] {
-    background-color: var(--action-primary-default);
-    border-color: var(--action-primary-default);
+    background-color: var(--action-cta1);
+    border-color: var(--action-cta1);
   }
 }
 

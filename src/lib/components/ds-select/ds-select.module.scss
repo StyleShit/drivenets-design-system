@@ -21,14 +21,14 @@
   cursor: pointer;
 
   &:focus {
-    border-color: var(--action-primary-default);
+    border-color: var(--action-cta1);
     outline: none;
   }
 }
 
 .content {
   border-radius: 4px;
-  border: 1px solid var(--action-primary-active);
+  border: 1px solid var(--action-cta1);
   background: var(--white);
   box-shadow: 0 12px 36px 0 rgba(4, 69, 204, 0.40);
   z-index: 9999;
@@ -84,11 +84,11 @@
   }
 
   &[data-highlighted] {
-    border-left-color: var(--action-primary-default);
-    background: var(--action-primary-hover-light);
+    border-left-color: var(--action-cta1);
+    background: var(--action-hover-light);
 
     .indicator, .itemIcon {
-      color: var(--action-primary-default);
+      color: var(--action-cta1);
     }
   }
 }

@@ -17,7 +17,7 @@
 }
 
 @mixin list-item-wrapper-hover {
-  background: var(--action-primary-hover-light);
+  background: var(--action-hover-light);
   border-radius: 4px;
 }
 
@@ -37,8 +37,8 @@
 }
 
 @mixin list-item-selected {
-  color: var(--action-primary-default);
-  background: var(--action-primary-active-light);
+  color: var(--action-cta1);
+  background: var(--action-active-light);
   border-radius: 4px;
 }
 
@@ -47,7 +47,7 @@
   right: 0;
   width: 3px;
   height: 24px;
-  background: var(--action-primary-default);
+  background: var(--action-cta1);
 }
 
 @mixin list-scroll {

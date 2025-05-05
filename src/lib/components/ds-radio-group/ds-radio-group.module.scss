@@ -34,7 +34,7 @@
     justify-content: center;
     width: 16px;
     height: 16px;
-    border: 2px solid;
+    border: 1px solid;
     border-radius: 50%;
     background: none;
     transition: all 0.2s ease-in-out;
@@ -42,23 +42,29 @@
 
   &[data-state='checked'] {
     .radioItemWrapper {
-      border-color: var(--action-primary-default);
-      background-color: var(--action-primary-default);
+      border-color: var(--action-cta1);
+      background-color: var(--action-cta1);
+    }
+
+    &[data-disabled] {
+      .radioItemWrapper {
+        border: none;
+        background-color: var(--utility-disabled);
+      }
     }
   }
 
   &[data-state='unchecked'] {
     .radioItemWrapper {
-      background-color: var(--action-primary-hover-light);
-      border-color: var(--action-primary-hover-light);
+      border-color: var(--action-cta1);
     }
   }
 
   &:hover .radioItemWrapper {
     width: 24px;
     height: 24px;
-    background-color: var(--action-primary-hover-light);
-    border-color: var(--action-primary-hover-light);
+    background-color: var(--action-hover-light);
+    border-color: var(--action-hover-light);
   }
 
   &[data-disabled] {
@@ -69,13 +75,12 @@
     }
 
     .radioItemWrapper {
-      background-color: var(--action-primary-hover-light);
-      border-color: var(--action-primary-hover-light);
+      background-color: var(--utility-disabled);
+      border-color: var(--action-disabled);
     }
 
     .radioIndicator {
-      // FIXME sync with design
-      background: #A0AAB7;
+      background: var(--action-disabled);
     }
   }
 }

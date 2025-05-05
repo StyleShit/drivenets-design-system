@@ -1,35 +1,26 @@
-//@use '../../../styles/typography';
 @use 'typography';
 
-$color-primary-default: var(--action-primary-default);
-$color-primary-hover: var(--action-primary-hover);
-$color-primary-active: var(--action-primary-active);
-$color-primary-disabled: var(--action-primary-disabled);
+$color-primary-default: var(--action-cta1);
+$color-primary-hover: var(--action-hover-light);
+$color-primary-active: var(--action-active-light);
+$color-primary-disabled: var(--action-disabled);
 
-$color-secondary-default: var(--neutral-2);
-$color-secondary-hover: var(--neutral-3);
-$color-secondary-disabled: var(--action-primary-disabled);
+$color-secondary-default: var(--action-cta3);
+$color-secondary-hover: var(--neutral-4);
+$color-secondary-disabled: var(--action-disabled);
 
-$color-error-default: var(--status-error);
-$color-error-hover: var(--status-error-bg);
-$color-error-active: var(--status-error-bg-2);
-$color-error-disabled: var(--action-primary-disabled);
+$color-error-default: var(--system-status-error);
+$color-error-hover: var(--utility-error);
+$color-error-active: var(--utility-error);
+$color-error-disabled: var(--action-disabled);
 
 $color-white: var(--white);
-$color-neutral-6: var(--neutral-6);
+$color-neutral-6: var(--utility-disabled);
 $color-neutral-4: var(--neutral-4);
 
 @mixin button-filled($background, $hover, $active, $disabled) {
   background: $background;
   color: $color-white;
-
-  &:hover {
-    background: $hover;
-  }
-
-  &:active {
-    background: $active;
-  }
 
   &:disabled {
     color: $color-neutral-6;
@@ -40,16 +31,6 @@ $color-neutral-4: var(--neutral-4);
 @mixin button-ghost($color, $hover, $active, $disabled) {
   border: 2px solid $color;
   color: $color;
-
-  &:hover {
-    color: $hover;
-    border-color: $hover;
-  }
-
-  &:active {
-    color: $active;
-    border-color: $active;
-  }
 
   &:disabled {
     color: $disabled;

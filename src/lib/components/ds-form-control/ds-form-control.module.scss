@@ -7,40 +7,40 @@
 
   &.info {
     .message {
-      color: var(--action-primary-default);
+      color: var(--action-cta1);
     }
   }
 
   &.success {
     .control {
-      border-color: var(--status-success);
+      border-color: var(--system-status-ok);
     }
 
     .message {
-      color: var(--status-success);
-      background: var(--status-success-bg);
+      color: var(--system-status-ok);
+      background: var(--utility-ok);
     }
   }
 
   &.warning {
     .control {
-      border-color: var(--status-warning);
+      border-color: var(--system-status-alert);
     }
 
     .message {
-      color: var(--status-warning-major);
-      background: var(--status-warning-bg);
+      color: var(--system-status-alert);
+      background: var(--utility-alert);
     }
   }
 
   &.error {
     .control {
-      border-color: var(--status-error);
+      border-color: var(--system-status-error);
     }
 
     .message {
-      color: var(--status-error);
-      background: var(--status-error-bg);
+      color: var(--system-status-error);
+      background: var(--utility-error);
     }
   }
 }
@@ -56,7 +56,7 @@
     position: relative;
     top: -3px;
     left: 1px;
-    color: var(--status-error);
+    color: var(--system-status-error);
   }
 
   &.disabled {
@@ -121,7 +121,7 @@
 
   &:focus {
     outline: none;
-    border-color: var(--action-primary-default);
+    border-color: var(--action-cta1);
   }
 
   &:disabled {
@@ -136,7 +136,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  background: var(--action-primary-hover-light);
+  background: var(--action-hover-light);
   color: var(--neutral-1);
   padding: 6px 8px;
   border-radius: 4px;
