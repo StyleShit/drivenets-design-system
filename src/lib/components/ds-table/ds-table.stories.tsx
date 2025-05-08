@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ColumnDef } from '@tanstack/react-table';
-import DsIcon from '../ds-icon/ds-icon'; // Assuming DsIcon exists
-import DsTable from './ds-table'; // Assuming DsTable is exported from ds-table.tsx
+import classnames from 'classnames';
+import DsIcon from '../ds-icon/ds-icon';
+import DsTable from './ds-table';
+import styles from './ds-table.stories.module.scss';
 
-// --- Mock Data and Types ---
 type Person = {
   id: number;
   firstName: string;
@@ -13,6 +14,58 @@ type Person = {
   status: 'relationship' | 'complicated' | 'single';
   progress: number;
 };
+
+const ProgressInfographic = ({ value }: { value: number }) => {
+  let barClass = styles.bar;
+  if (value > 70) {
+    barClass += ` ${styles['bar--high']}`;
+  } else if (value > 40) {
+    barClass += ` ${styles['bar--medium']}`;
+  } else {
+    barClass += ` ${styles['bar--low']}`;
+  }
+
+  return (
+    <div className={styles.progressInfographic}>
+      <div className={barClass} style={{ width: `${value}%` }}>
+        {value}%
+      </div>
+    </div>
+  );
+};
+
+const columns: ColumnDef<Person>[] = [
+  {
+    accessorKey: 'firstName',
+    header: 'First Name',
+    cell: info => info.getValue(),
+  },
+  {
+    accessorKey: 'lastName',
+    header: 'Last Name',
+    cell: info => info.getValue(),
+  },
+  {
+    accessorKey: 'age',
+    header: 'Age',
+    cell: info => info.getValue(),
+  },
+  {
+    accessorKey: 'visits',
+    header: 'Visits',
+    cell: info => info.getValue(),
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: info => info.getValue(),
+  },
+  {
+    accessorKey: 'progress',
+    header: 'Profile Progress',
+    cell: info => `${info.getValue()}%`,
+  },
+];
 
 const defaultData: Person[] = [
   {
@@ -144,39 +197,6 @@ const defaultData: Person[] = [
   },
 ];
 
-const columns: ColumnDef<Person>[] = [
-  {
-    accessorKey: 'firstName',
-    header: 'First Name',
-    cell: info => info.getValue(),
-  },
-  {
-    accessorKey: 'lastName',
-    header: 'Last Name',
-    cell: info => info.getValue(),
-  },
-  {
-    accessorKey: 'age',
-    header: 'Age',
-    cell: info => info.getValue(),
-  },
-  {
-    accessorKey: 'visits',
-    header: 'Visits',
-    cell: info => info.getValue(),
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: info => info.getValue(),
-  },
-  {
-    accessorKey: 'progress',
-    header: 'Profile Progress',
-    cell: info => `${info.getValue()}%`,
-  },
-];
-
 // --- Storybook Meta ---
 const meta: Meta<typeof DsTable<Person, unknown>> = {
   title: 'Design System/Table',
@@ -210,7 +230,7 @@ const meta: Meta<typeof DsTable<Person, unknown>> = {
   },
   decorators: [
     Story => (
-      <div style={{ padding: '1rem' }}>
+      <div className={styles.storyPadding}>
         <Story />
       </div>
     ),
@@ -248,7 +268,7 @@ export const Expandable: Story = {
   args: {
     expandable: true,
     renderExpandedRow: row => (
-      <div style={{ padding: '10px', backgroundColor: '#f9f9f9', borderLeft: '3px solid lightblue' }}>
+      <div className={styles.expandedRowDetails}>
         <h4>Expanded Details for {row.firstName}</h4>
         <p>ID: {row.id}</p>
         <p>
@@ -264,9 +284,9 @@ export const EmptyState: Story = {
   args: {
     data: [], // Provide empty data array
     emptyState: (
-      <div style={{ padding: '20px', textAlign: 'center', border: '1px dashed #ccc' }}>
-        <DsIcon name="info" size="large" /> {/* Assuming DsIcon exists */}
-        <p style={{ marginTop: '10px' }}>No matching records found.</p>
+      <div className={styles.emptyStateContainer}>
+        <DsIcon name="info" size="large" />
+        <p className={styles.emptyStateContainer__text}>No matching records found.</p>
       </div>
     ),
   },
@@ -296,8 +316,36 @@ export const WithBulkActions: Story = {
   },
 };
 
-// Add more stories for other features like:
-// - Virtualized
-// - Custom Cell Rendering
-// - Filtering (requires adding filterElement)
-// - Row Selection (requires adding selection column/logic)
+export const WithProgressInfographic: Story = {
+  name: 'Progress as Infographic',
+  args: {
+    columns: columns.map(col => {
+      if ('accessorKey' in col && col.accessorKey === 'progress') {
+        return {
+          ...col,
+          header: 'Profile Progress',
+          cell: info => <ProgressInfographic value={info.getValue() as number} />,
+        } as ColumnDef<Person>;
+      } else if ('accessorKey' in col && col.accessorKey === 'status') {
+        return {
+          ...col,
+          header: 'Status',
+          cell: info => (
+            <span
+              className={classnames(
+                styles.statusCell,
+                styles[`statusCell--${info.getValue() as string}`],
+              )}
+            >
+              {info.getValue() as string}
+            </span>
+          ),
+        } as ColumnDef<Person>;
+      }
+      return col;
+    }),
+    data: defaultData,
+    pagination: true,
+    pageSize: 5,
+  },
+};
