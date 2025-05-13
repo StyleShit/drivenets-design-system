@@ -16,15 +16,15 @@ const DsFormControl: React.FC<DsFormControlProps> = ({
   messageIcon = 'info',
   className,
   as = 'input',
+  onValueChange,
   ...props
 }) => {
   const controlId = id || React.useId();
 
   const renderControl = () => {
     if (as === 'select') {
-      const value = props.value || (props as any).defaultValue;
       const options = props.options || [];
-      return <DsSelect id={controlId} value={value} options={options} disabled={disabled} {...props} />;
+      return <DsSelect id={controlId} value={props.value ?? props.defaultValue} options={options} disabled={disabled} onChange={(e) => onValueChange?.(e.target.value)} {...props} />;
     }
 
     const ControlElement = as;
@@ -35,6 +35,8 @@ const DsFormControl: React.FC<DsFormControlProps> = ({
           [styles.withIcon]: icon,
         })}
         disabled={disabled}
+        value={props.value}
+        onChange={(e) => onValueChange?.(e.target.value)}
         {...props}
       />
     );
