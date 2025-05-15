@@ -53,6 +53,7 @@ const DsTable = <TData, TValue>({
   selectable = false,
   onSelectionChange,
   actions = [],
+  onRowDoubleClick,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -143,6 +144,7 @@ const DsTable = <TData, TValue>({
           )}
           style={rowStyle}
           onClick={() => onRowClick && onRowClick(row.original)}
+          onDoubleClick={() => onRowDoubleClick && onRowDoubleClick(row.original)}
         >
           {selectable && (
             <TableCell className={classnames(styles.tableCell, styles.cellCheckbox)}>
@@ -236,7 +238,8 @@ const DsTable = <TData, TValue>({
 
   const selectedRows = Object.keys(rowSelection)
     .map(key => rows.find(row => row.id === key))
-    .filter(Boolean) as TData[];
+    .filter(Boolean)
+    .map(row => row!.original);
 
   return (
     <div className={classnames(styles.container, className)}>

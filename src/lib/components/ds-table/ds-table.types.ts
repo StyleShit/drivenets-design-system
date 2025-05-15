@@ -62,6 +62,11 @@ export interface DataTableProps<TData, TValue> {
   onRowClick?: (row: TData) => void;
 
   /**
+   * Function to handle row double click
+   */
+  onRowDoubleClick?: (row: TData) => void;
+
+  /**
    * Empty state of the table
    */
   emptyState?: React.ReactNode;
