@@ -33,6 +33,11 @@ export interface TableRowProps<TData, TValue> {
   selectable: boolean;
 
   /**
+   * Whether the row is reorderable
+   */
+  reorderable?: boolean;
+
+  /**
    * Optional function to handle row click
    */
   onRowClick?: (data: TData) => void;

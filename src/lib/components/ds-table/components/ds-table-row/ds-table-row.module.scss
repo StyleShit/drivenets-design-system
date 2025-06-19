@@ -43,6 +43,19 @@
   text-align: center;
 }
 
+.cellReorder {
+  width: vars.$reorder-column-width;
+  text-align: center;
+
+  &.isDragging {
+    background: var(--action-cta1);
+
+    .rowDragHandle {
+      color: var(--white);
+    }
+  }
+}
+
 .tableCell {
   padding: vars.$cell-padding;
   vertical-align: middle;

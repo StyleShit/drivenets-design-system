@@ -25,6 +25,10 @@
   text-align: center;
 }
 
+.reorderColumn {
+  width: vars.$reorder-column-width;
+}
+
 .headerCell {
   @extend .p-base, .regular;
   color: var(--neutral-4);
