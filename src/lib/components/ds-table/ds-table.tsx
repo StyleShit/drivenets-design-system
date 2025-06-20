@@ -52,19 +52,38 @@ const DsTable = <TData extends { id: string }, TValue>({
 	secondaryRowActions,
 	reorderable = false,
 	onOrderChange,
+	columnFilters: externalColumnFilters,
+	onColumnFiltersChange,
 }: DataTableProps<TData, TValue>) => {
+	const [data, setData] = React.useState(tableData);
 	const [sorting, setSorting] = React.useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+	const [internalColumnFilters, setInternalColumnFilters] = React.useState<ColumnFiltersState>([]);
 	const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 	const [expandedRows, setExpandedRows] = React.useState<Record<string, boolean>>({});
-	const { DragWrapper, SortableWrapper, data } = useDragAndDrop(
-		reorderable && !virtualized,
-		onOrderChange,
-		tableData,
-	);
+
+	const { DragWrapper, SortableWrapper } = useDragAndDrop<TData>({
+		isDragEnabled: reorderable && !virtualized,
+		onOrderChange: (newData) => {
+			setData(newData);
+			onOrderChange?.(newData);
+		},
+		items: data,
+	});
 
 	const tableContainerRef = React.useRef<HTMLDivElement>(null);
+
+	const columnFilters = externalColumnFilters ?? internalColumnFilters;
+	const handleColumnFiltersChange = (
+		updaterOrValue: ColumnFiltersState | ((old: ColumnFiltersState) => ColumnFiltersState),
+	) => {
+		const newFilters = typeof updaterOrValue === 'function' ? updaterOrValue(columnFilters) : updaterOrValue;
+		if (onColumnFiltersChange) {
+			onColumnFiltersChange(newFilters);
+		} else {
+			setInternalColumnFilters(newFilters);
+		}
+	};
 
 	React.useEffect(() => {
 		if (onSelectionChange && selectable) {
@@ -73,13 +92,13 @@ const DsTable = <TData extends { id: string }, TValue>({
 	}, [rowSelection, onSelectionChange, selectable]);
 
 	const table = useReactTable({
-		data,
+		data: reorderable ? data : tableData,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: pagination ? getPaginationRowModel() : undefined,
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
-		onColumnFiltersChange: setColumnFilters,
+		onColumnFiltersChange: handleColumnFiltersChange,
 		getFilteredRowModel: getFilteredRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: setRowSelection,
@@ -134,10 +153,9 @@ const DsTable = <TData extends { id: string }, TValue>({
 		</TableRow>
 	);
 
-	const selectedRows = Object.keys(rowSelection)
-		.map((key) => rows.find((row) => row.id === key))
-		.filter(Boolean)
-		.map((row) => row!.original);
+	const selectedRows = Object.entries(rowSelection)
+		.filter(([, selected]) => selected)
+		.map(([key]) => table.getRow(key).original);
 
 	return (
 		<div className={classnames(styles.container, className)}>
@@ -153,9 +171,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 							height: `${totalSize}px`,
 						}}
 					>
-						<table
-							className={classnames(styles.table, !bordered && styles.tableNoBorder)}
-						>
+						<table className={classnames(styles.table, !bordered && styles.tableNoBorder)}>
 							<DsTableHeader
 								table={table}
 								stickyHeader={stickyHeader}
@@ -192,12 +208,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 					</div>
 				) : (
 					<DragWrapper>
-						<Table
-							className={classnames(
-								fullWidth && styles.fullWidth,
-								!bordered && styles.tableNoBorder,
-							)}
-						>
+						<Table className={classnames(fullWidth && styles.fullWidth, !bordered && styles.tableNoBorder)}>
 							<DsTableHeader
 								table={table}
 								stickyHeader={stickyHeader}

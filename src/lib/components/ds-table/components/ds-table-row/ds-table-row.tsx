@@ -11,14 +11,12 @@ import styles from './ds-table-row.module.scss';
 import stylesShared from '../../styles/shared/ds-table-shared.module.scss';
 
 interface DsRowDragHandleProps {
-	rowId: string;
 	isDragging: boolean;
+	attributes: ReturnType<typeof useSortable>['attributes'];
+	listeners: ReturnType<typeof useSortable>['listeners'];
 }
 
-const DsRowDragHandle = ({ rowId, isDragging }: DsRowDragHandleProps) => {
-	const { attributes, listeners } = useSortable({
-		id: rowId,
-	});
+const DsRowDragHandle = ({ isDragging, attributes, listeners }: DsRowDragHandleProps) => {
 	return (
 		<TableCell
 			className={classnames(styles.tableCell, styles.cellReorder, {
@@ -29,6 +27,7 @@ const DsRowDragHandle = ({ rowId, isDragging }: DsRowDragHandleProps) => {
 				className={styles.rowDragHandle}
 				icon={isDragging ? 'drag_indicator' : 'arrow_downward'}
 				size={isDragging ? 'medium' : 'small'}
+				onClick={(e: React.MouseEvent) => e.stopPropagation()}
 				{...attributes}
 				{...listeners}
 			></DsIcon>
@@ -67,7 +66,8 @@ const DsTableRow = <TData, TValue>({
 			}
 		: reorderable
 			? {
-					transform: CSS.Transform.toString(transform), //let dnd-kit do its thing
+					// Convert DND-kit's transform coordinates to CSS transform string
+					transform: CSS.Transform.toString(transform),
 					transition: transition,
 					...(isDragging
 						? {
@@ -83,8 +83,6 @@ const DsTableRow = <TData, TValue>({
 	return (
 		<React.Fragment key={row.id}>
 			<TableRow
-				{...attributes}
-				{...listeners}
 				ref={setNodeRef}
 				data-state={row.getIsSelected() && 'selected'}
 				className={classnames(
@@ -129,23 +127,14 @@ const DsTableRow = <TData, TValue>({
 							className={styles.expandToggleButton}
 						>
 							<DsIcon
-								icon={
-									virtualized
-										? isExpanded
-											? 'arrow_drop_down'
-											: 'arrow_right'
-										: 'chevron_right'
-								}
-								className={classnames(
-									stylesShared.pageButtonIcon,
-									!virtualized && isExpanded && 'rotate-90',
-								)}
+								icon={virtualized ? (isExpanded ? 'arrow_drop_down' : 'arrow_right') : 'chevron_right'}
+								className={classnames(stylesShared.pageButtonIcon, !virtualized && isExpanded && 'rotate-90')}
 							/>
 						</DsButton>
 					</TableCell>
 				)}
 				{reorderable && (
-					<DsRowDragHandle rowId={row.id} isDragging={isDragging}></DsRowDragHandle>
+					<DsRowDragHandle isDragging={isDragging} attributes={attributes} listeners={listeners} />
 				)}
 				{row.getVisibleCells().map((cell, idx) => (
 					<TableCell
@@ -190,7 +179,8 @@ const DsTableRow = <TData, TValue>({
 						colSpan={
 							row.getVisibleCells().length +
 							(selectable ? 1 : 0) +
-							(expandable ? 1 : 0)
+							(expandable ? 1 : 0) +
+							(reorderable ? 1 : 0)
 						}
 						className={styles.tableCell}
 					>

@@ -13,26 +13,49 @@ import {
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
-interface UseDragAndDropResult<T> {
-	data: T[];
-	DragWrapper: React.FC<{ children: React.ReactNode }>;
-	SortableWrapper: React.FC<{ children: React.ReactNode }>;
+export interface UseDragAndDropResult {
+	DragWrapper: React.ComponentType<React.PropsWithChildren>;
+	SortableWrapper: React.ComponentType<React.PropsWithChildren>;
 }
 
-export function useDragAndDrop<T extends { id: string }>(
-	isDragEnabled: boolean,
-	onOrderChange: ((newData: T[]) => void) | undefined,
-	initialData: T[],
-): UseDragAndDropResult<T> {
-	const [tableData, setTableData] = React.useState(initialData);
-	const dataIds = React.useMemo<UniqueIdentifier[]>(
-		() => tableData?.map((row) => row.id),
-		[tableData],
-	);
+export interface UseDragAndDropOptions<T> {
+	isDragEnabled: boolean;
+	onOrderChange?: (newData: T[]) => void;
+	items: T[];
+}
 
-	React.useEffect(() => {
-		setTableData(initialData);
-	}, [initialData]);
+type DragWrapperProps = React.PropsWithChildren<{
+	onDragEnd: (event: DragEndEvent) => void;
+	sensors: ReturnType<typeof useSensors>;
+}>;
+
+const DragWrapper = ({ children, onDragEnd, sensors }: DragWrapperProps) => (
+	<DndContext
+		collisionDetection={closestCenter}
+		modifiers={[restrictToVerticalAxis]}
+		onDragEnd={onDragEnd}
+		sensors={sensors}
+	>
+		{children}
+	</DndContext>
+);
+
+type SortableWrapperProps = React.PropsWithChildren<{
+	items: UniqueIdentifier[];
+}>;
+
+const SortableWrapper = ({ children, items }: SortableWrapperProps) => (
+	<SortableContext items={items} strategy={verticalListSortingStrategy}>
+		{children}
+	</SortableContext>
+);
+
+export function useDragAndDrop<T extends { id: string }>({
+	isDragEnabled,
+	onOrderChange,
+	items,
+}: UseDragAndDropOptions<T>): UseDragAndDropResult {
+	const dataIds = React.useMemo(() => items.map((row) => row.id), [items]);
 
 	const sensors = useSensors(
 		useSensor(MouseSensor, {}),
@@ -44,44 +67,41 @@ export function useDragAndDrop<T extends { id: string }>(
 		(event: DragEndEvent) => {
 			const { active, over } = event;
 			if (active.id !== over?.id) {
-				const oldIndex = tableData.findIndex((row) => row.id === active.id);
-				const newIndex = tableData.findIndex((row) => row.id === over?.id);
+				const oldIndex = items.findIndex((row) => row.id === active.id);
+				const newIndex = items.findIndex((row) => row.id === over?.id);
 				if (oldIndex !== -1 && newIndex !== -1) {
-					const newData = arrayMove(tableData, oldIndex, newIndex);
-					setTableData(newData);
-					if (onOrderChange) onOrderChange(newData);
+					const newData = arrayMove(items, oldIndex, newIndex);
+					onOrderChange?.(newData);
 				}
 			}
 		},
-		[tableData, onOrderChange],
+		[items, onOrderChange],
 	);
 
-	return React.useMemo(() => {
-		if (!isDragEnabled) {
-			return {
-				data: tableData,
-				DragWrapper: ({ children }) => children,
-				SortableWrapper: ({ children }) => children,
-			};
-		}
+	const DragWrapperComponent = React.useMemo(
+		() =>
+			isDragEnabled
+				? ({ children }: React.PropsWithChildren) => (
+						<DragWrapper onDragEnd={handleDragEnd} sensors={sensors}>
+							{children}
+						</DragWrapper>
+					)
+				: React.Fragment,
+		[isDragEnabled, handleDragEnd, sensors],
+	);
 
-		return {
-			data: tableData,
-			DragWrapper: ({ children }) => (
-				<DndContext
-					collisionDetection={closestCenter}
-					modifiers={[restrictToVerticalAxis]}
-					onDragEnd={handleDragEnd}
-					sensors={sensors}
-				>
-					{children}
-				</DndContext>
-			),
-			SortableWrapper: ({ children }) => (
-				<SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
-					{children}
-				</SortableContext>
-			),
-		};
-	}, [isDragEnabled, handleDragEnd, sensors, dataIds, tableData]);
+	const SortableWrapperComponent = React.useMemo(
+		() =>
+			isDragEnabled
+				? ({ children }: React.PropsWithChildren) => (
+						<SortableWrapper items={dataIds}>{children}</SortableWrapper>
+					)
+				: React.Fragment,
+		[isDragEnabled, dataIds],
+	);
+
+	return {
+		DragWrapper: DragWrapperComponent,
+		SortableWrapper: SortableWrapperComponent,
+	};
 }

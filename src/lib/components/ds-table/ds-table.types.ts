@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef, ColumnFiltersState } from '@tanstack/react-table';
 import { IconType } from '../ds-icon';
 
 /**
@@ -189,6 +189,7 @@ export interface DataTableProps<TData, TValue> {
 
 	/**
 	 * Whether the table rows are reorderable via drag & drop
+	 * @note This feature does not work when virtualization is enabled
 	 */
 	reorderable?: boolean;
 
@@ -196,4 +197,14 @@ export interface DataTableProps<TData, TValue> {
 	 * Callback when the order of rows changes via drag & drop
 	 */
 	onOrderChange?: (newData: TData[]) => void;
+
+	/**
+	 * External column filters state
+	 */
+	columnFilters?: ColumnFiltersState;
+
+	/**
+	 * Callback when column filters change
+	 */
+	onColumnFiltersChange?: (filters: ColumnFiltersState) => void;
 }

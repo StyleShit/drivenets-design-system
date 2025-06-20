@@ -1,9 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ColumnDef } from '@tanstack/react-table';
+import React, { useMemo, useState } from 'react';
+import { ColumnDef, ColumnFiltersState } from '@tanstack/react-table';
 import classnames from 'classnames';
 import DsIcon from '../ds-icon/ds-icon';
+import { IconType } from '../ds-icon/ds-icon.types';
 import DsTable from './ds-table';
 import styles from './ds-table.stories.module.scss';
+
+export enum Status {
+	Relationship = 'relationship',
+	Complicated = 'complicated',
+	Single = 'single',
+}
 
 type Person = {
 	id: string;
@@ -11,19 +19,16 @@ type Person = {
 	lastName: string;
 	age: number;
 	visits: number;
-	status: 'relationship' | 'complicated' | 'single';
+	status: Status;
 	progress: number;
 };
 
 const ProgressInfographic = ({ value }: { value: number }) => {
-	let barClass = styles.bar;
-	if (value > 70) {
-		barClass += ` ${styles['bar--high']}`;
-	} else if (value > 40) {
-		barClass += ` ${styles['bar--medium']}`;
-	} else {
-		barClass += ` ${styles['bar--low']}`;
-	}
+	const barClass = classnames(styles.bar, {
+		[styles['bar--high']]: value > 70,
+		[styles['bar--medium']]: value > 40 && value <= 70,
+		[styles['bar--low']]: value <= 40,
+	});
 
 	return (
 		<div className={styles.progressInfographic}>
@@ -74,7 +79,7 @@ const defaultData: Person[] = [
 		lastName: 'Linsley',
 		age: 33,
 		visits: 100,
-		status: 'single',
+		status: Status.Single,
 		progress: 75,
 	},
 	{
@@ -83,7 +88,7 @@ const defaultData: Person[] = [
 		lastName: 'Vonderheide',
 		age: 28,
 		visits: 200,
-		status: 'relationship',
+		status: Status.Relationship,
 		progress: 50,
 	},
 	{
@@ -92,7 +97,7 @@ const defaultData: Person[] = [
 		lastName: 'Doe',
 		age: 45,
 		visits: 50,
-		status: 'complicated',
+		status: Status.Complicated,
 		progress: 90,
 	},
 	{
@@ -101,7 +106,7 @@ const defaultData: Person[] = [
 		lastName: 'Smith',
 		age: 30,
 		visits: 150,
-		status: 'single',
+		status: Status.Single,
 		progress: 60,
 	},
 	{
@@ -110,7 +115,7 @@ const defaultData: Person[] = [
 		lastName: 'Jones',
 		age: 22,
 		visits: 250,
-		status: 'relationship',
+		status: Status.Relationship,
 		progress: 30,
 	},
 	{
@@ -119,7 +124,7 @@ const defaultData: Person[] = [
 		lastName: 'Jane',
 		age: 38,
 		visits: 80,
-		status: 'complicated',
+		status: Status.Complicated,
 		progress: 85,
 	},
 	{
@@ -128,7 +133,7 @@ const defaultData: Person[] = [
 		lastName: 'Williams',
 		age: 50,
 		visits: 120,
-		status: 'single',
+		status: Status.Single,
 		progress: 40,
 	},
 	{
@@ -137,7 +142,7 @@ const defaultData: Person[] = [
 		lastName: 'Brown',
 		age: 25,
 		visits: 180,
-		status: 'relationship',
+		status: Status.Relationship,
 		progress: 70,
 	},
 	{
@@ -146,7 +151,7 @@ const defaultData: Person[] = [
 		lastName: 'Davis',
 		age: 41,
 		visits: 95,
-		status: 'complicated',
+		status: Status.Complicated,
 		progress: 20,
 	},
 	{
@@ -155,7 +160,7 @@ const defaultData: Person[] = [
 		lastName: 'Miller',
 		age: 36,
 		visits: 110,
-		status: 'single',
+		status: Status.Single,
 		progress: 55,
 	},
 	{
@@ -164,7 +169,7 @@ const defaultData: Person[] = [
 		lastName: 'Wilson',
 		age: 29,
 		visits: 220,
-		status: 'relationship',
+		status: Status.Relationship,
 		progress: 80,
 	},
 	{
@@ -173,7 +178,7 @@ const defaultData: Person[] = [
 		lastName: 'Moore',
 		age: 48,
 		visits: 65,
-		status: 'complicated',
+		status: Status.Complicated,
 		progress: 15,
 	},
 	{
@@ -182,7 +187,7 @@ const defaultData: Person[] = [
 		lastName: 'Taylor',
 		age: 31,
 		visits: 135,
-		status: 'single',
+		status: Status.Single,
 		progress: 95,
 	},
 	{
@@ -191,7 +196,7 @@ const defaultData: Person[] = [
 		lastName: 'Anderson',
 		age: 27,
 		visits: 170,
-		status: 'relationship',
+		status: Status.Relationship,
 		progress: 25,
 	},
 	{
@@ -200,7 +205,7 @@ const defaultData: Person[] = [
 		lastName: 'Thomas',
 		age: 43,
 		visits: 88,
-		status: 'complicated',
+		status: Status.Complicated,
 		progress: 50,
 	},
 ];
@@ -340,7 +345,7 @@ export const WithRowActions: Story = {
 				icon: 'delete_outline',
 				label: 'Delete',
 				tooltip: 'Delete this row',
-				disabled: (data) => data.status === 'single',
+				disabled: (data) => data.status === Status.Single,
 				onClick: (data) => {
 					alert(`Delete action for ${data.firstName}`);
 				},
@@ -364,17 +369,23 @@ export const WithBulkActions: Story = {
 			{
 				icon: 'alarm',
 				label: 'Notify',
-				onClick: () => {},
+				onClick: (args) => {
+					console.log('Bulk actions', args);
+				},
 			},
 			{
 				icon: 'folder_open',
 				label: 'Folder',
-				onClick: () => {},
+				onClick: (args) => {
+					console.log('Bulk actions', args);
+				},
 			},
 			{
 				icon: 'delete_outline',
 				label: 'Delete',
-				onClick: () => {},
+				onClick: (args) => {
+					console.log('Bulk actions', args);
+				},
 			},
 		],
 	},
@@ -396,10 +407,7 @@ export const WithProgressInfographic: Story = {
 					header: 'Status',
 					cell: (info) => (
 						<span
-							className={classnames(
-								styles.statusCell,
-								styles[`statusCell--${info.getValue() as string}`],
-							)}
+							className={classnames(styles.statusCell, styles[`statusCell--${info.getValue() as string}`])}
 						>
 							{info.getValue() as string}
 						</span>
@@ -411,5 +419,139 @@ export const WithProgressInfographic: Story = {
 		data: defaultData,
 		pagination: true,
 		pageSize: 5,
+	},
+};
+
+export const AdvancedSearch: Story = {
+	name: 'With External Global Search',
+	render: function Render(args) {
+		const [globalFilter, setGlobalFilter] = useState('');
+
+		const filteredData = useMemo(() => {
+			if (!globalFilter) return args.data;
+
+			const lowercasedFilter = globalFilter.toLowerCase();
+
+			return (args.data as Person[]).filter((row) => {
+				return Object.values(row).some((value) => String(value).toLowerCase().includes(lowercasedFilter));
+			});
+		}, [globalFilter, args.data]);
+
+		return (
+			<div>
+				<div style={{ marginBottom: '1rem' }}>
+					<input
+						type="text"
+						value={globalFilter}
+						onChange={(e) => setGlobalFilter(e.target.value)}
+						placeholder="Search all columns..."
+						style={{ padding: '0.5rem', width: '300px' }}
+					/>
+				</div>
+				<DsTable {...args} data={filteredData} />
+			</div>
+		);
+	},
+	args: {
+		pagination: true,
+		pageSize: 10,
+	},
+};
+
+export const TabFilters: Story = {
+	name: 'With Tab Filters',
+	render: function Render(args) {
+		const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+		const [activeTab, setActiveTab] = useState<Status | 'all'>('all');
+
+		const tabs: { name: string; value: Status | 'all'; icon: IconType }[] = useMemo(
+			() => [
+				{ name: 'All People', value: 'all', icon: 'groups' },
+				{ name: 'In a Relationship', value: Status.Relationship, icon: 'favorite' },
+				{ name: "It's Complicated", value: Status.Complicated, icon: 'psychology' },
+				{ name: 'Single', value: Status.Single, icon: 'person' },
+			],
+			[],
+		);
+
+		const handleTabClick = (tabValue: Status | 'all') => {
+			setActiveTab(tabValue);
+			if (tabValue === 'all') {
+				setColumnFilters([]);
+			} else {
+				setColumnFilters([{ id: 'status', value: tabValue }]);
+			}
+		};
+
+		const getTabTotal = (tabValue: Status | 'all') => {
+			if (tabValue === 'all') {
+				return defaultData.length;
+			}
+			return defaultData.filter((row) => row.status === tabValue).length;
+		};
+
+		const getStatusIcon = (status: Status): IconType => {
+			switch (status) {
+				case Status.Relationship:
+					return 'favorite';
+				case Status.Complicated:
+					return 'psychology';
+				default:
+					return 'person';
+			}
+		};
+
+		const statusColumnDef: ColumnDef<Person> = {
+			accessorKey: 'status',
+			header: 'Status',
+			cell: (info) => {
+				const status = info.getValue() as Status;
+				const icon = getStatusIcon(status);
+				return (
+					<div className={styles.customTabRow}>
+						<DsIcon icon={icon} size="small" />
+						<span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+					</div>
+				);
+			},
+		};
+
+		const tableColumns = useMemo(() => {
+			return args.columns.map((col) =>
+				(col as { accessorKey: string }).accessorKey === 'status' ? statusColumnDef : col,
+			);
+		}, [args.columns]);
+
+		return (
+			<div className={styles.tableFilterContainer}>
+				<div className={styles.tabFilterContainer}>
+					{tabs.map((tab) => (
+						<div
+							key={tab.name}
+							className={classnames(styles.tab, {
+								[styles.active]: activeTab === tab.value,
+							})}
+							onClick={() => handleTabClick(tab.value)}
+						>
+							<DsIcon icon={tab.icon} size="small" />
+							<span className={styles.title}>{tab.name}</span>
+							<span className={styles.total}>{getTabTotal(tab.value)}</span>
+						</div>
+					))}
+				</div>
+				<div className={styles.table}>
+					<DsTable
+						{...args}
+						columns={tableColumns}
+						columnFilters={columnFilters}
+						onColumnFiltersChange={setColumnFilters}
+					/>
+				</div>
+			</div>
+		);
+	},
+	args: {
+		pagination: true,
+		pageSize: 10,
 	},
 };
