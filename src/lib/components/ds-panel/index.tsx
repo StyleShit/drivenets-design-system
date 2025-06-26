@@ -1,1 +1,1 @@
-export { DsPanel, type DsPanelProps } from './ds-panel';
+export { DsPanel, DsPanelContent, DsPanelMinimizedContent, type DsPanelProps } from './ds-panel';

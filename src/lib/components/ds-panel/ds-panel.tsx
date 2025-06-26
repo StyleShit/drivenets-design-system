@@ -35,17 +35,13 @@ export function DsPanel({
 			})}
 			{...props}
 		>
-			<DsPanel.Trigger />
+			<DsPanelTrigger />
 			<PanelContext.Provider value={{ variant, open }}>{children}</PanelContext.Provider>
 		</Collapsible.Root>
 	);
 }
 
-DsPanel.Trigger = Trigger;
-DsPanel.Content = Content;
-DsPanel.MinimizedContent = MinimizedContent;
-
-function Trigger() {
+function DsPanelTrigger() {
 	return (
 		<Collapsible.Trigger className={styles.trigger} aria-label="Toggle panel">
 			<DsIcon icon="arrow_circle_left" variant="outlined" />
@@ -53,7 +49,7 @@ function Trigger() {
 	);
 }
 
-function Content({ children }: PropsWithChildren) {
+export function DsPanelContent({ children }: PropsWithChildren) {
 	const context = usePanel();
 
 	if (context.variant === 'minimized' && !context.open) {
@@ -63,7 +59,7 @@ function Content({ children }: PropsWithChildren) {
 	return <Collapsible.Content>{children}</Collapsible.Content>;
 }
 
-function MinimizedContent({ children }: PropsWithChildren) {
+export function DsPanelMinimizedContent({ children }: PropsWithChildren) {
 	const context = usePanel();
 
 	if (context.variant !== 'minimized' || context.open) {

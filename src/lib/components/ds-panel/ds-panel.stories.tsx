@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DsPanel } from './ds-panel';
+import { DsPanel, DsPanelContent, DsPanelMinimizedContent } from './ds-panel';
 import { DsButton } from '../ds-button/';
 import { useState } from 'react';
 import styles from './ds-panel.stories.module.scss';
@@ -33,7 +33,7 @@ export const Default: Story = {
 				{shouldShowOpenButton && <DsButton onClick={() => setOpen(true)}>Open Panel</DsButton>}
 
 				<DsPanel open={open} onOpenChange={setOpen} variant={variant}>
-					<DsPanel.Content>
+					<DsPanelContent>
 						<p>
 							This is a panel. It can contain any content you like, such as text, images, or other components.
 						</p>
@@ -41,13 +41,13 @@ export const Default: Story = {
 						<p>It is collapsible. Hover it to see the trigger button.</p>
 
 						<DsButton size="small">Primary Action</DsButton>
-					</DsPanel.Content>
+					</DsPanelContent>
 
-					<DsPanel.MinimizedContent>
+					<DsPanelMinimizedContent>
 						<div className={styles.minimizedContent}>
 							Minimized content <DsButton size="small">Action</DsButton>
 						</div>
-					</DsPanel.MinimizedContent>
+					</DsPanelMinimizedContent>
 				</DsPanel>
 			</>
 		);
