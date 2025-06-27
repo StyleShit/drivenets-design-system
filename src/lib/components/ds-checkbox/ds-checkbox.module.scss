@@ -1,78 +1,130 @@
 @use 'typography' as typography;
 
 .container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding-right: 1px;
+	border: 1px solid transparent;
+	border-radius: 4px;
 
-  &:has([data-disabled]) {
-    cursor: not-allowed;
-  }
+	&:has([data-disabled]) {
+		cursor: not-allowed;
+		pointer-events: none;
+
+		.labelInfo {
+			color: var(--color-secondary-500-net-4);
+		}
+	}
+
+	&:has(.checkboxRoot:focus) {
+		border-color: var(--color-primary-700-default);
+	}
+
+	&:has([data-state='unchecked']:focus) {
+		border-color: var(--color-primary-800);
+	}
 }
 
 .checkboxRoot {
-  all: unset;
-  position: relative;
-  width: 14px;
-  height: 14px;
-  background-color: white;
-  border: 1px solid var(--action-cta1);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
+	all: unset;
+	position: relative;
+	border-radius: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease-in-out;
+	cursor: pointer;
 
-  .checkboxWrapper {
-    position: absolute;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    background: none;
-    transition: all 0.2s ease-in-out;
-  }
+	&[data-disabled] {
+		border-color: var(--color-secondary-300);
+		pointer-events: none;
 
-  &[data-disabled] {
-    border-color: var(--action-disabled);
-    pointer-events: none;
-  }
+		&[data-state='unchecked'] {
+			.checkboxWrapper {
+				border-color: var(--color-secondary-300);
+			}
+		}
 
-  &:not([data-disabled]) {
-    .checkboxWrapper {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-    }
-  }
+		&[data-state='checked'],
+		&[data-state='indeterminate'] {
+			.checkboxWrapper {
+				border-color: var(--color-secondary-300);
+				background-color: var(--color-secondary-300);
+			}
+		}
+	}
 
-  &[data-state='checked'] {
-    background-color: var(--action-cta1);
-  }
+	&[data-state='checked'] {
+		.checkboxWrapper {
+			border-color: var(--color-primary-500);
+			background-color: var(--color-primary-500);
+		}
 
-  &[data-state='indeterminate'] {
-    background-color: var(--action-cta1);
-    border-color: var(--action-cta1);
-  }
+		&:hover {
+			background: var(--color-primary-100);
+		}
+	}
+
+	&[data-state='unchecked'] {
+		.checkboxWrapper {
+			border-color: var(--color-secondary-500-net-4);
+		}
+
+		&:hover {
+			background: var(--color-secondary-100);
+		}
+	}
+
+	&[data-state='indeterminate'] {
+		.checkboxWrapper {
+			border-color: var(--color-primary-500);
+			background-color: var(--color-primary-500);
+		}
+
+		&:hover {
+			background: var(--color-primary-100);
+		}
+	}
+
+	.checkboxWrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 16px;
+		width: 16px;
+		margin: var(--spacing-4xs);
+		border: 2px solid transparent;
+		border-radius: 2px;
+	}
 }
 
 .checkboxIndicator {
-  flex: 1;
-  color: white;
-  width: 16px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	flex: 1;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-  svg {
-    width: 100%;
-    height: 100%;
-  }
+	svg {
+		width: 100%;
+		height: 100%;
+	}
 }
 
 .label {
-  @extend .p-base, .medium;
-  color: var(--neutral-1);
+	@extend .body-sm-reg;
+	color: var(--color-secondary-800);
+	cursor: pointer;
+}
+
+.labelInfo {
+	@extend .body-xs-reg;
+	@include typography.ellipsis;
+	position: absolute;
+	color: var(--color-secondary-600-net-2);
+	cursor: pointer;
+	width: 100%;
 }

@@ -1,21 +1,21 @@
-$sizes: (
-  extra-large: 32px,
-  large: 28px,
-  medium: 24px,
-  small: 20px,
-  tiny: 16px,
-);
-
-:root {
-  @each $name, $size in $sizes {
-    --icon-width-#{$name}: #{$size};
-  }
-}
-
 .icon {
-  @each $name, $size in $sizes {
-    &.#{$name} {
-      font-size: $size;
-    }
-  }
+	&.extra-large {
+		font-size: var(--icon-width-extra-large);
+	}
+
+	&.large {
+		font-size: var(--icon-width-large);
+	}
+
+	&.medium {
+		font-size: var(--icon-width-medium);
+	}
+
+	&.small {
+		font-size: var(--icon-width-small);
+	}
+
+	&.tiny {
+		font-size: var(--icon-width-tiny);
+	}
 }
