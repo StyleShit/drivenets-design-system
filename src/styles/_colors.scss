@@ -298,7 +298,8 @@ $colors: (
 	--color-background-warning-strong: var(--color-warning-600-default);
 	--color-background-warning-weak: var(--color-negative-050);
 	--color-background-danger-strong: var(--color-negative-400-default);
-	--color-background-danger-stronger: var(--color-negative-500);
+	--color-background-danger-strong-hover: var(--color-negative-500);
+	--color-background-danger-weak: var(--color-negative-050);
 
 	/* Border */
 	--color-border-secondary: var(--color-secondary-200);
