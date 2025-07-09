@@ -5,9 +5,11 @@ import { DsButtonProps } from './ds-button-new.types';
 import DsIcon from '../../../ds-icon/ds-icon';
 
 const isIconOnly = (children: React.ReactNode) => {
-	// Only one child
 	if (Children.count(children) !== 1) return false;
-	const onlyChild = Children.only(children);
+
+	const childArray = Children.toArray(children);
+	const onlyChild = childArray[0];
+
 	return isValidElement(onlyChild) && onlyChild.type === DsIcon;
 };
 
@@ -15,7 +17,7 @@ const isIconOnly = (children: React.ReactNode) => {
  * Design system Button component
  */
 const DsButton: React.FC<DsButtonProps> = ({
-	buttonType = 'primary',
+	buttonType,
 	variant = 'filled',
 	size = 'medium',
 	disabled = false,
@@ -24,10 +26,11 @@ const DsButton: React.FC<DsButtonProps> = ({
 	children,
 	...props
 }) => {
+	const type = buttonType ?? (variant === 'ghost' ? 'secondary' : 'primary');
 	const buttonClass = classNames(
 		styles.button,
 		{ [styles.iconButton]: isIconOnly(children) },
-		styles[`${buttonType}-${variant}`],
+		styles[`${type}-${variant}`],
 		styles[size],
 		{ [styles.disabled]: disabled },
 		className,
