@@ -9,7 +9,7 @@ const DsTooltip: React.FC<DsTooltipProps> = ({ content, children }) => {
 			<Tooltip.Root>
 				<Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
 				<Tooltip.Portal>
-					<Tooltip.Content className={styles.tooltip} side="right" align="center" sideOffset={4}>
+					<Tooltip.Content className={styles.tooltip} side="top" align="center" sideOffset={4}>
 						{content}
 						<Tooltip.Arrow className={styles.arrow} />
 					</Tooltip.Content>
