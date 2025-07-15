@@ -10,21 +10,21 @@ const DsIcon: React.FC<DsIconProps> = ({
 	icon,
 	size = 'medium',
 	variant = 'outlined',
+	filled,
 	className = '',
 	style = {},
-	onClick,
 	...rest
 }) => {
 	const variantClass = `material-symbols-${variant}`;
-	const iconClass = classNames(styles.icon, styles[size], className);
+	const iconClass = classNames(styles.icon, styles[size], { [styles.filled]: filled }, className);
 
 	if (typeof icon === 'function') {
 		const SvgComponent = icon;
-		return <SvgComponent className={iconClass} style={style} onClick={onClick} {...rest} />;
+		return <SvgComponent className={iconClass} style={style} {...rest} />;
 	}
 
 	return (
-		<span className={classNames(iconClass, variantClass)} style={style} onClick={onClick} {...rest}>
+		<span className={classNames(iconClass, variantClass)} style={style} {...rest}>
 			{icon}
 		</span>
 	);

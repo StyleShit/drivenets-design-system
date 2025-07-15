@@ -27,6 +27,10 @@ const meta: Meta<typeof DsIcon> = {
 			options: iconVariants,
 			description: 'Icon variant style',
 		},
+		filled: {
+			control: 'boolean',
+			description: 'Whether the icon should be filled',
+		},
 		onClick: { action: 'clicked' },
 	},
 };
@@ -45,6 +49,7 @@ export const Colored: Story = {
 	args: {
 		icon: 'check_circle',
 		size: 'medium',
+		filled: true,
 		style: { color: '#4CAF50' },
 	},
 };

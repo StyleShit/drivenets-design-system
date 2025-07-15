@@ -31,6 +31,12 @@ export interface DsIconProps {
 	variant?: IconVariant;
 
 	/**
+	 * Whether the icon should be filled
+	 * @default false
+	 */
+	filled?: boolean;
+
+	/**
 	 * Additional CSS class names
 	 */
 	className?: string;
