@@ -1,5 +1,9 @@
 @use 'typography';
 
+$button-size-small: 28px;
+$button-size-default: 32px;
+$button-size-large: 40px;
+
 .button {
 	@extend .body-sm-md;
 	display: flex;
@@ -12,9 +16,8 @@
 	padding-block: 0;
 	padding-inline: 0;
 	align-self: stretch;
-	//background: var(--color-background-selected);
+	max-height: fit-content;
 	border: 2px solid transparent;
-	//color: var(--color-font-on-action);
 	border-radius: var(---exo-spacing-2x-small, 4px);
 
 	.content {
@@ -24,50 +27,46 @@
 		gap: var(---exo-spacing-2x-small, 4px);
 		// We need to subtract 1px from the padding to account for the border width
 		padding: calc(var(---exo-spacing-2x-small, 4px) - 1px) calc(var(--spacing-sm) - 1px);
-		//border: 1px solid var(--color-background-selected);
 		border: 1px solid transparent;
 		border-radius: var(---exo-spacing-2x-small, 4px);
 	}
 
 	&.small {
 		@extend .body-xs-md;
+		max-height: $button-size-small;
 	}
 
 	&.medium {
-		.content {
-			// Minor tweak to ensure padding is consistent with the border
-			padding: calc(1.5 * var(---exo-spacing-2x-small, 4px) - 1px) calc(var(--spacing-sm) - 1px);
-		}
+		max-height: $button-size-default;
 	}
 
 	&.large {
 		@extend .body-md-md;
-
-		.content {
-			// Minor tweak to ensure padding is consistent with the border
-			padding: calc(1.5 * var(---exo-spacing-2x-small, 4px) - 1px) calc(var(--spacing-sm) - 1px);
-		}
+		max-height: $button-size-large;
 	}
 
 	&.iconButton {
 		aspect-ratio: 1 / 1;
+		align-items: stretch;
+
+		.content {
+			flex: 1;
+			padding: 0;
+		}
 
 		&.large {
-			.content {
-				padding: calc(2.5 * var(---exo-spacing-2x-small, 4px) - 1px);
-			}
+			height: $button-size-large;
+			width: $button-size-large;
 		}
 
 		&.medium {
-			.content {
-				padding: calc(2 * var(---exo-spacing-2x-small, 4px) - 1px);
-			}
+			height: $button-size-default;
+			width: $button-size-default;
 		}
 
 		&.small {
-			.content {
-				padding: calc(var(---exo-spacing-2x-small, 4px) - 1px);
-			}
+			height: $button-size-small;
+			width: $button-size-small;
 		}
 	}
 
