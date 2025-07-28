@@ -1,27 +1,27 @@
 @use 'typography' as typography;
 
 .tooltip {
-  background-color: var(--neutral-1);
-  color: var(--white);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid #fff;
-  opacity: 0.8;
-  // approx. 6 grid columns
-  max-width: 384px;
-  max-height: 40px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	background-color: var(--neutral-1);
+	color: var(--white);
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 1.4;
+	padding: 4px 8px;
+	border-radius: 4px;
+	border: 1px solid #fff;
+	opacity: 0.8;
+	// approx. 6 grid columns
+	max-width: 384px;
+	max-height: 40px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: normal;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .arrow {
-  fill: #fff;
+	fill: var(--neutral-1);
 }

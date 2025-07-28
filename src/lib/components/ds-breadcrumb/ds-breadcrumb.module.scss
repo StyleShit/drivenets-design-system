@@ -1,73 +1,94 @@
 @use 'typography' as typography;
 
 @mixin breadcrumb-item {
-  @extend .p-base;
-  color: var(--neutral-2);
-  text-decoration: none;
-  outline: none;
-  padding: 6px 12px;
+	@extend .body-sm-reg;
+	color: var(--color-background-action);
+	text-decoration: none;
+	outline: none;
+	padding: var(--exo-spacing-2x-small) var(--spacing-sm);
+	gap: var(--exo-spacing-2x-small);
+	border-radius: var(--exo-spacing-2x-small);
 
-  &:hover {
-    border-radius: 4px;
-    border: 0 solid var(--action-cta1);
-    background: var(--action-hover-light);
-  }
+	&:hover {
+		color: var(--color-background-selected);
+		background: var(--color-background-action-tertiary);
+	}
+
+	&:active {
+		color: var(--color-background-selected-hover);
+		background: var(--color-background-action-secondary-hover);
+	}
+
+	&:focus {
+		outline: 2px solid var(--color-background-selected);
+		outline-offset: 0;
+	}
+
+	&:disabled {
+		color: var(--color-background-disable);
+	}
 }
 
 .breadcrumb {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #333;
+	display: flex;
+	align-items: center;
 }
 
 .list {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+	display: flex;
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 .breadcrumbItem {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
+
+	&:not(:last-child)::after {
+		content: '/';
+		@extend .body-sm-reg;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: var(--color-font-disabled);
+		width: var(--icon-width-small);
+		height: var(--icon-width-small);
+	}
+
+	&:last-child {
+		.link,
+		.trigger {
+			@extend .body-sm-md;
+		}
+	}
 }
 
 .link {
-  @include breadcrumb-item;
+	@include breadcrumb-item;
 }
 
 .active {
-  @extend .bold;
-  color: var(--neutral-1);
-}
-
-.separator {
-  margin: 0 4px;
-  color: var(--action-cta3);
+	@extend .body-sm-md;
 }
 
 .trigger {
-  @include breadcrumb-item;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-
-  &:focus {
-    outline: none;
-  }
+	@include breadcrumb-item;
+	background: none;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
 }
 
 .icon {
-  margin-right: 4px;
-  display: flex;
-  align-items: center;
+	margin-right: var(--exo-spacing-2x-small);
+	display: flex;
+	align-items: center;
 }
 
 .dropdownIcon {
-  margin-left: 4px;
-  display: flex;
-  align-items: center;
+	margin-left: var(--exo-spacing-2x-small);
+	display: flex;
+	align-items: center;
 }

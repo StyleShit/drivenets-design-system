@@ -18,17 +18,17 @@ $button-size-large: 40px;
 	align-self: stretch;
 	max-height: fit-content;
 	border: 2px solid transparent;
-	border-radius: var(---exo-spacing-2x-small, 4px);
+	border-radius: var(--exo-spacing-2x-small);
 
 	.content {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: var(---exo-spacing-2x-small, 4px);
+		gap: var(--exo-spacing-2x-small);
 		// We need to subtract 1px from the padding to account for the border width
-		padding: calc(var(---exo-spacing-2x-small, 4px) - 1px) calc(var(--spacing-sm) - 1px);
+		padding: calc(var(--exo-spacing-2x-small) - 1px) calc(var(--spacing-sm) - 1px);
 		border: 1px solid transparent;
-		border-radius: var(---exo-spacing-2x-small, 4px);
+		border-radius: var(--exo-spacing-2x-small);
 	}
 
 	&.small {
@@ -88,7 +88,7 @@ $button-size-large: 40px;
 
 			.content {
 				border-color: var(--color-background);
-				border-radius: calc(var(---exo-spacing-2x-small, 4px) / 2);
+				border-radius: calc(var(--exo-spacing-2x-small) / 2);
 			}
 		}
 
@@ -174,7 +174,7 @@ $button-size-large: 40px;
 			.content {
 				border-color: var(--color-background);
 				background: var(--color-background-action-hover-weak);
-				border-radius: calc(var(---exo-spacing-2x-small, 4px) / 2);
+				border-radius: calc(var(--exo-spacing-2x-small) / 2);
 			}
 		}
 
@@ -287,7 +287,7 @@ $button-size-large: 40px;
 
 			.content {
 				border-color: var(--color-background);
-				border-radius: calc(var(---exo-spacing-2x-small, 4px) / 2);
+				border-radius: calc(var(--exo-spacing-2x-small) / 2);
 			}
 		}
 

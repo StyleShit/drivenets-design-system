@@ -10,49 +10,43 @@ import { DsDropdown } from '../ds-dropdown';
  * Design system Breadcrumb component
  */
 const DsBreadcrumb: React.FC<DsBreadcrumbProps> = ({ items, onSelect, className }) => {
-  const location = useLocation();
+	const location = useLocation();
 
-  return (
-    <nav className={classNames(styles.breadcrumb, className)} aria-label="Breadcrumb">
-      <ol className={styles.list}>
-        {items.map((item, index) => {
-          const isLast = index === items.length - 1;
-          const selectedOption =
-            item.type === 'dropdown'
-              ? item.options.find(option => option.href === location.pathname)
-              : null;
+	return (
+		<nav className={classNames(styles.breadcrumb, className)} aria-label="Breadcrumb">
+			<ol className={styles.list}>
+				{items.map((item, index) => {
+					const selectedOption =
+						item.type === 'dropdown'
+							? item.options.find((option) => option.href === location.pathname)
+							: null;
 
-          return (
-            <li key={index} className={styles.breadcrumbItem}>
-              {item.type === 'link' ? (
-                <Link
-                  to={item.href}
-                  className={classNames(styles.link, { [styles.active]: isLast })}
-                  aria-current={isLast ? 'page' : undefined}
-                  onClick={() => onSelect?.(item.href)}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <DsDropdown
-                  options={item.options}
-                  selectedHref={selectedOption?.href}
-                  onSelect={onSelect}
-                >
-                  <button className={classNames(styles.trigger, { [styles.active]: isLast })}>
-                    {item.icon && <DsIcon icon={item.icon} className={styles.icon} />}
-                    {selectedOption?.label || item.label}
-                    <DsIcon icon="arrow_drop_down" className={styles.dropdownIcon} />
-                  </button>
-                </DsDropdown>
-              )}
-              {!isLast && <DsIcon icon="chevron_right" className={styles.separator} />}
-            </li>
-          );
-        })}
-      </ol>
-    </nav>
-  );
+					return (
+						<li key={index} className={styles.breadcrumbItem}>
+							{item.type === 'link' ? (
+								<Link
+									to={item.href}
+									className={classNames(styles.link)}
+									aria-current={index === items.length - 1 ? 'page' : undefined}
+									onClick={() => onSelect?.(item.href)}
+								>
+									{item.label}
+								</Link>
+							) : (
+								<DsDropdown options={item.options} selectedHref={selectedOption?.href} onSelect={onSelect}>
+									<button className={classNames(styles.trigger)}>
+										{item.icon && <DsIcon icon={item.icon} className={styles.icon} />}
+										{selectedOption?.label || item.label}
+										<DsIcon icon="arrow_drop_down" className={styles.dropdownIcon} />
+									</button>
+								</DsDropdown>
+							)}
+						</li>
+					);
+				})}
+			</ol>
+		</nav>
+	);
 };
 
 export default DsBreadcrumb;
