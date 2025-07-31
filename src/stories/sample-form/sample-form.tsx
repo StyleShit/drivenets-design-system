@@ -7,8 +7,6 @@ const defaultValues = {
 	name: '',
 	email: '',
 	description: '',
-	acceptTerms: false,
-	subscription: undefined,
 	contactMethod: '',
 };
 
@@ -50,7 +48,7 @@ const SampleForm = () => {
 	};
 
 	const handleCheckboxChange = (checked: DsCheckboxProps['checked']) => {
-		setValue('acceptTerms', checked as boolean, {
+		setValue('acceptTerms', checked as never, {
 			shouldValidate: true,
 			shouldTouch: true,
 		});

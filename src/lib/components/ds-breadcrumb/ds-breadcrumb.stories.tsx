@@ -139,6 +139,12 @@ const dropdownItems: DsBreadcrumbItem[] = [
 	},
 ];
 
+type ExtendedWindow = Window & {
+	resetBreadcrumbItems?: (initialPath: string) => void;
+};
+
+const extendedWindow = window as unknown as ExtendedWindow;
+
 const BreadcrumbStory = ({ items }: { items: DsBreadcrumbItem[] }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -152,14 +158,12 @@ const BreadcrumbStory = ({ items }: { items: DsBreadcrumbItem[] }) => {
 
 	// add reset function to window (for testing)
 	useEffect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(window as any).resetBreadcrumbItems = (initialPath: string) => {
+		extendedWindow.resetBreadcrumbItems = (initialPath: string) => {
 			setUpdatedItems(items);
 			navigate({ to: initialPath });
 		};
 		return () => {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			delete (window as any).resetBreadcrumbItems;
+			delete extendedWindow.resetBreadcrumbItems;
 		};
 	}, [items, navigate]);
 
@@ -212,8 +216,7 @@ export const Default: Story = {
 		const lastItemHref =
 			lastBreadcrumbItem.type === 'link' ? lastBreadcrumbItem.href : lastBreadcrumbItem.options[0].href;
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(window as any).resetBreadcrumbItems(lastItemHref);
+		extendedWindow.resetBreadcrumbItems?.(lastItemHref);
 
 		// Wait for state update
 		await new Promise((resolve) => setTimeout(resolve, 100));
@@ -277,8 +280,8 @@ export const WithDropdown: Story = {
 		await userEvent.click(homeLink);
 
 		// 11. Reset to initial state
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(window as any).resetBreadcrumbItems('/network/vienna/router-a');
+
+		extendedWindow.resetBreadcrumbItems?.('/network/vienna/router-a');
 
 		// Wait for state update
 		await new Promise((resolve) => setTimeout(resolve, 100));
