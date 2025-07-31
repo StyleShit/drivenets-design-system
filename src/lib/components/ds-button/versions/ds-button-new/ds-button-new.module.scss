@@ -29,6 +29,7 @@ $button-size-large: 40px;
 		padding: calc(var(--exo-spacing-2x-small) - 1px) calc(var(--spacing-sm) - 1px);
 		border: 1px solid transparent;
 		border-radius: var(--exo-spacing-2x-small);
+		flex-grow: 1;
 	}
 
 	&.small {
@@ -72,12 +73,8 @@ $button-size-large: 40px;
 
 	&.primary-filled {
 		background: var(--color-background-selected);
-		border: 2px solid var(--color-background);
+		border: 2px solid currentColor;
 		color: var(--color-font-on-action);
-
-		.content {
-			//border-color: var(--color-background-selected);
-		}
 
 		&:hover {
 			background: var(--color-background-selected-hover);
@@ -271,7 +268,7 @@ $button-size-large: 40px;
 
 	&.primary-danger {
 		background: var(--color-background-danger-strong);
-		border: 2px solid var(--color-background);
+		border: 2px solid transparent;
 		color: var(--color-font-on-action);
 
 		.content {
