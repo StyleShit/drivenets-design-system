@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ColumnDef, ColumnFiltersState, Table } from '@tanstack/react-table';
 import { IconType } from '../ds-icon';
+import { RowAction, SecondaryRowAction } from './components/ds-table-cell';
 
 /**
  * Represents a bulk action that can be performed on multiple selected rows
@@ -21,46 +22,6 @@ export interface Action<TData> {
 	 */
 	onClick: (rows: TData[]) => void;
 }
-
-/**
- * Represents an action that can be performed on a single row
- */
-export interface RowAction<TData> {
-	/**
-	 * Icon to be displayed for the action
-	 */
-	icon: IconType;
-
-	/**
-	 * Label text for the action
-	 */
-	label: string;
-
-	/**
-	 * Optional tooltip text to show on hover
-	 */
-	tooltip?: string;
-
-	/**
-	 * Optional function to determine if the action should be disabled for a specific row
-	 */
-	disabled?: (row: TData) => boolean;
-
-	/**
-	 * Function to be called when the action is clicked, receives the row data as parameter
-	 */
-	onClick: (row: TData) => void;
-}
-
-/**
- * Represents a secondary action that can be performed on a single row
- */
-export type SecondaryRowAction<TData> = Omit<RowAction<TData>, 'icon'> & {
-	/**
-	 * Optional icon to be displayed for the action
-	 */
-	icon?: IconType;
-};
 
 export interface DataTableProps<TData, TValue> {
 	/**

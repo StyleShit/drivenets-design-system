@@ -87,9 +87,14 @@ const DsTable = <TData extends { id: string }, TValue>({
 		}
 	};
 
-	React.useEffect(() => {
-		onSelectionChange?.(rowSelection);
-	}, [rowSelection]);
+	const handleRowSelectionChange = (
+		updaterOrValue: RowSelectionState | ((old: RowSelectionState) => RowSelectionState),
+	) => {
+		const newRowSelection =
+			typeof updaterOrValue === 'function' ? updaterOrValue(rowSelection) : updaterOrValue;
+		setRowSelection(newRowSelection);
+		onSelectionChange?.(newRowSelection);
+	};
 
 	const table = useReactTable({
 		data: reorderable ? data : tableData,
@@ -101,7 +106,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 		onColumnFiltersChange: handleColumnFiltersChange,
 		getFilteredRowModel: getFilteredRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
-		onRowSelectionChange: setRowSelection,
+		onRowSelectionChange: handleRowSelectionChange,
 		getRowId: (row) => row.id,
 		state: {
 			sorting,
@@ -116,10 +121,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 		},
 		enableRowSelection: selectable,
 	});
-
-	React.useEffect(() => {
-		onTableCreated?.(table);
-	}, [table]);
+	onTableCreated?.(table);
 
 	const { rows } = table.getRowModel();
 

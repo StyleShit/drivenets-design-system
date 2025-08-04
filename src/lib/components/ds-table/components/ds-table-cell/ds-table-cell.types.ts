@@ -2,6 +2,46 @@ import { Cell, Row } from '@tanstack/react-table';
 import type { IconType } from '@design-system/ui';
 
 /**
+ * Represents an action that can be performed on a single row
+ */
+export interface RowAction<TData> {
+	/**
+	 * Icon to be displayed for the action
+	 */
+	icon: IconType;
+
+	/**
+	 * Label text for the action
+	 */
+	label: string;
+
+	/**
+	 * Optional tooltip text to show on hover
+	 */
+	tooltip?: string;
+
+	/**
+	 * Optional function to determine if the action should be disabled for a specific row
+	 */
+	disabled?: (row: TData) => boolean;
+
+	/**
+	 * Function to be called when the action is clicked, receives the row data as parameter
+	 */
+	onClick: (row: TData) => void;
+}
+
+/**
+ * Represents a secondary action that can be performed on a single row
+ */
+export type SecondaryRowAction<TData> = Omit<RowAction<TData>, 'icon'> & {
+	/**
+	 * Optional icon to be displayed for the action
+	 */
+	icon?: IconType;
+};
+
+/**
  * Props for the table cell component
  */
 export interface TableCellProps<TData, TValue> {
@@ -18,55 +58,10 @@ export interface TableCellProps<TData, TValue> {
 	/**
 	 * Primary actions to be shown on each row (on hover)
 	 */
-	primaryRowActions?: Array<{
-		/**
-		 * Optional label text for the action
-		 */
-		label?: string;
-
-		/**
-		 * Icon to be displayed for the action
-		 */
-		icon: IconType;
-
-		/**
-		 * Optional tooltip text to show on hover
-		 */
-		tooltip?: string;
-
-		/**
-		 * Optional function to determine if the action should be disabled
-		 */
-		disabled?: (data: TData) => boolean;
-
-		/**
-		 * Function to be called when the action is clicked
-		 */
-		onClick: (data: TData) => void;
-	}>;
+	primaryRowActions?: RowAction<TData>[];
 
 	/**
 	 * Secondary actions to be shown in a dropdown on each row (on hover)
 	 */
-	secondaryRowActions?: Array<{
-		/**
-		 * Label text for the action
-		 */
-		label: string;
-
-		/**
-		 * Icon to be displayed for the action
-		 */
-		icon?: IconType;
-
-		/**
-		 * Optional function to determine if the action should be disabled
-		 */
-		disabled?: (data: TData) => boolean;
-
-		/**
-		 * Function to be called when the action is clicked
-		 */
-		onClick: (data: TData) => void;
-	}>;
+	secondaryRowActions?: SecondaryRowAction<TData>[];
 }

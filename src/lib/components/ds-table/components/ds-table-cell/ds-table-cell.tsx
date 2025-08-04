@@ -19,8 +19,8 @@ export const DsTableCell = <TData, TValue>({
 	primaryRowActions = [],
 	secondaryRowActions = [],
 }: TableCellProps<TData, TValue>) => {
-	if (primaryRowActions.length || secondaryRowActions?.length) {
-		const hasSecondaryRowActions = secondaryRowActions?.some((action) => !action.disabled?.(row.original));
+	if (primaryRowActions.length || secondaryRowActions.length) {
+		const hasSecondaryRowActions = secondaryRowActions.some((action) => !action.disabled?.(row.original));
 		return (
 			<div className={styles.lastCell}>
 				<DsDefaultTableCell cell={cell} />
