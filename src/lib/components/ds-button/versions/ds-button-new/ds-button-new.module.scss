@@ -72,12 +72,17 @@ $button-size-large: 40px;
 	}
 
 	&.primary-filled {
-		background: var(--color-background-selected);
-		border: 2px solid currentColor;
+		border: 2px solid transparent;
 		color: var(--color-font-on-action);
 
+		.content {
+			background: var(--color-background-selected);
+		}
+
 		&:hover {
-			background: var(--color-background-selected-hover);
+			.content {
+				background: var(--color-background-selected-hover);
+			}
 		}
 
 		&:focus {
