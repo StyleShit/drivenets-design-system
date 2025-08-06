@@ -4,6 +4,99 @@ import { IconType } from '../ds-icon';
 import { RowAction, SecondaryRowAction } from './components/ds-table-cell';
 
 /**
+ * API interface for programmatically controlling a DsTable component.
+ * This interface provides methods to interact with the table's selection, sorting, filtering, and pagination features.
+ *
+ * @template TData - The type of data items in the table
+ *
+ * @example
+ * ```tsx
+ * const tableRef = useRef<DsTableApi<Person>>(null);
+ *
+ * // Select a specific row
+ * tableRef.current?.selectRow('row-1');
+ *
+ * // Select multiple rows
+ * tableRef.current?.selectRows(['row-1', 'row-2', 'row-3']);
+ *
+ * // Get all selected rows
+ * const selected = tableRef.current?.getSelectedRows();
+ * ```
+ */
+export interface TableApi<TData> {
+	/**
+	 * Selects a single row by its ID.
+	 *
+	 * @param rowId - The unique identifier of the row to select
+	 *
+	 * @example
+	 * ```tsx
+	 * tableRef.current?.selectRow('user-123');
+	 * ```
+	 */
+	selectRow: (rowId: string) => void;
+
+	/**
+	 * Deselects a single row by its ID.
+	 *
+	 * @param rowId - The unique identifier of the row to deselect
+	 *
+	 * @example
+	 * ```tsx
+	 * tableRef.current?.deselectRow('user-123');
+	 * ```
+	 */
+	deselectRow: (rowId: string) => void;
+
+	/**
+	 * Selects all visible rows in the table.
+	 * This includes rows that are currently filtered or paginated.
+	 *
+	 * @example
+	 * ```tsx
+	 * tableRef.current?.selectAll();
+	 * ```
+	 */
+	selectAll: () => void;
+
+	/**
+	 * Deselects all rows in the table.
+	 * Clears the current selection state.
+	 *
+	 * @example
+	 * ```tsx
+	 * tableRef.current?.deselectAll();
+	 * ```
+	 */
+	deselectAll: () => void;
+
+	/**
+	 * Selects multiple rows by their IDs.
+	 *
+	 * @param rowIds - Array of unique identifiers for the rows to select
+	 *
+	 * @example
+	 * ```tsx
+	 * tableRef.current?.selectRows(['user-1', 'user-2', 'user-3']);
+	 * ```
+	 */
+	selectRows: (rowIds: string[]) => void;
+
+	/**
+	 * Returns an array of all currently selected row data.
+	 *
+	 * @returns Array of selected row data objects
+	 *
+	 * @example
+	 * ```tsx
+	 * const selectedUsers = tableRef.current?.getSelectedRows();
+	 * console.log('Selected users:', selectedUsers);
+	 * ```
+	 */
+	getSelectedRows: () => TData[];
+}
+
+/**
  * Represents a bulk action that can be performed on multiple selected rows
  */
 export interface Action<TData> {
@@ -24,6 +117,11 @@ export interface Action<TData> {
 }
 
 export interface DataTableProps<TData, TValue> {
+	/**
+	 * Ref to the table API
+	 */
+	ref?: React.RefObject<TableApi<TData> | null>;
+
 	/**
 	 * Columns of the table
 	 */

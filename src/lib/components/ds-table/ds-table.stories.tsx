@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { useMemo, useRef, useState } from 'react';
-import { ColumnDef, ColumnFiltersState, Table } from '@tanstack/react-table';
+import { ColumnDef, ColumnFiltersState } from '@tanstack/react-table';
 import classnames from 'classnames';
 import DsIcon from '../ds-icon/ds-icon';
 import { IconType } from '../ds-icon/ds-icon.types';
 import DsTable from './ds-table';
+import { TableApi } from './ds-table.types';
 import styles from './ds-table.stories.module.scss';
 
 export enum Status {
@@ -328,43 +329,23 @@ export const ProgrammaticRowSelection: Story = {
 		onSelectionChange: (selectedRows) => console.log('Selected rows:', selectedRows),
 	},
 	render: function Render(args) {
-		const tableRef = useRef<Table<Person>>(null);
+		const tableRef = useRef<TableApi<Person>>(null);
 		const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
-		const handleTableCreated = (table: Table<Person>) => {
-			tableRef.current = table;
-		};
-
 		const selectRow = (rowId: string) => {
-			if (tableRef.current) {
-				tableRef.current.getRow(rowId).toggleSelected(true);
-			}
+			tableRef.current?.selectRow(rowId);
 		};
 
 		const selectAllRows = () => {
-			if (tableRef.current) {
-				tableRef.current.toggleAllRowsSelected(true);
-			}
+			tableRef.current?.selectAll();
 		};
 
 		const deselectAllRows = () => {
-			if (tableRef.current) {
-				tableRef.current.setRowSelection({});
-			}
+			tableRef.current?.deselectAll();
 		};
 
 		const selectSpecificRows = () => {
-			if (tableRef.current) {
-				// Select first 3 rows
-				const newSelection: Record<string, boolean> = {};
-				tableRef.current
-					.getRowModel()
-					.rows.slice(0, 3)
-					.forEach((row) => {
-						newSelection[row.id] = true;
-					});
-				tableRef.current.setRowSelection(newSelection);
-			}
+			tableRef.current?.selectRows(['1', '2', '3']);
 		};
 
 		const handleSelectionChange = (selection: Record<string, boolean>) => {
@@ -405,7 +386,7 @@ export const ProgrammaticRowSelection: Story = {
 					</button>
 				</div>
 
-				<DsTable {...args} onTableCreated={handleTableCreated} onSelectionChange={handleSelectionChange} />
+				<DsTable {...args} ref={tableRef} onSelectionChange={handleSelectionChange} />
 			</div>
 		);
 	},

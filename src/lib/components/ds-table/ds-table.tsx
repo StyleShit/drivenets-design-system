@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useImperativeHandle } from 'react';
 import {
 	type ColumnFiltersState,
 	getCoreRowModel,
@@ -26,6 +26,7 @@ import { DsTableContext, DsTableContextType } from './context/ds-table-context';
  * Design system Table component
  */
 const DsTable = <TData extends { id: string }, TValue>({
+	ref,
 	columns,
 	data: tableData = [],
 	virtualized = false,
@@ -45,7 +46,6 @@ const DsTable = <TData extends { id: string }, TValue>({
 	expandable = false,
 	renderExpandedRow,
 	filterElement,
-	onTableCreated,
 	selectable = false,
 	showSelectAllCheckbox = true,
 	onSelectionChange,
@@ -123,10 +123,32 @@ const DsTable = <TData extends { id: string }, TValue>({
 		enableRowSelection: selectable,
 	});
 
-	useEffect(() => {
-		onTableCreated?.(table);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	useImperativeHandle(
+		ref,
+		() => ({
+			selectRow: (rowId: string) => {
+				table.getRow(rowId).toggleSelected(true);
+			},
+			deselectRow: (rowId: string) => {
+				table.getRow(rowId).toggleSelected(false);
+			},
+			selectAll: () => {
+				table.toggleAllRowsSelected(true);
+			},
+			deselectAll: () => {
+				table.setRowSelection({});
+			},
+			selectRows: (rowIds: string[]) => {
+				const selection: Record<string, boolean> = {};
+				rowIds.forEach((id) => (selection[id] = true));
+				table.setRowSelection(selection);
+			},
+			getSelectedRows: () => {
+				return table.getFilteredSelectedRowModel().rows.map((r) => r.original);
+			},
+		}),
+		[table],
+	);
 
 	const { rows } = table.getRowModel();
 
