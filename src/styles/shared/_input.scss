@@ -1,4 +1,4 @@
-@use 'typography' as typography;
+@use '../typography' as typography;
 
 // Variables
 $input-text-height-small: 28px;
@@ -18,7 +18,7 @@ $textarea-height-default: 120px;
 }
 
 @mixin base-input {
-	@extend .body-sm-reg;
+	@include typography.body-sm;
 	border: none;
 	background: transparent;
 	outline: none;
@@ -302,7 +302,7 @@ $textarea-height-default: 120px;
 	padding: var(--spacing-3xs);
 
 	.searchInputField {
-		@extend .body-sm-reg;
+		@include typography.body-sm;
 		width: 100%;
 		font-size: 14px;
 		border: 1px solid var(--color-border);
@@ -317,7 +317,7 @@ $textarea-height-default: 120px;
 		}
 
 		&::placeholder {
-			@extend .body-sm-reg;
+			@include typography.body-sm;
 			color: var(--color-background-deselected);
 		}
 	}

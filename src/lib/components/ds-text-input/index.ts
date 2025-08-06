@@ -1,8 +1,2 @@
 export { default as DsTextInput } from './ds-text-input';
-export type {
-	DsTextInputProps,
-	DsTextInputAdornmentProps,
-	DsTextInputInputProps,
-	TextInputSize,
-	textInputSizes,
-} from './ds-text-input.types';
+export type { DsTextInputProps, TextInputSize, textInputSizes } from './ds-text-input.types';
