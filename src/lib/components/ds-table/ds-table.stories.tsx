@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { useMemo, useRef, useState } from 'react';
 import { ColumnDef, ColumnFiltersState } from '@tanstack/react-table';
 import classnames from 'classnames';

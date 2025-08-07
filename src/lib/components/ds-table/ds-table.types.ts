@@ -4,7 +4,7 @@ import { IconType } from '../ds-icon';
 import { RowAction, SecondaryRowAction } from './components/ds-table-cell';
 
 /**
- * API interface for programmatically controlling a DsTable component.
+ * API for programmatically controlling a DsTable component.
  * This interface provides methods to interact with the table's selection, sorting, filtering, and pagination features.
  *
  * @template TData - The type of data items in the table
