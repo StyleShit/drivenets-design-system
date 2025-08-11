@@ -94,6 +94,37 @@ export interface DsTableApi<TData> {
 	 * ```
 	 */
 	getSelectedRows: () => TData[];
+
+	// Pagination API
+	/**
+	 * Go to the next page.
+	 */
+	nextPage: () => void;
+
+	/**
+	 * Go to the previous page.
+	 */
+	previousPage: () => void;
+
+	/**
+	 * Get the total number of pages.
+	 */
+	getPageCount: () => number;
+
+	/**
+	 * Returns true if there is a next page.
+	 */
+	getCanNextPage: () => boolean;
+
+	/**
+	 * Returns true if there is a previous page.
+	 */
+	getCanPreviousPage: () => boolean;
+
+	/**
+	 * Returns the current table state (including pagination).
+	 */
+	getState: () => any;
 }
 
 /**
