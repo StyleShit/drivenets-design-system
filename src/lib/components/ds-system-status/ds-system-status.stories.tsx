@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import DsSystemStatus from './ds-system-status';
+import { systemStatuses } from './ds-system-status.types';
 
 const meta: Meta<typeof DsSystemStatus> = {
 	title: 'Design System/System Status',
@@ -11,7 +12,7 @@ const meta: Meta<typeof DsSystemStatus> = {
 	argTypes: {
 		status: {
 			control: { type: 'select' },
-			options: ['healthy', 'neutral', 'error', 'in-progress', 'pending', 'alert'],
+			options: systemStatuses,
 		},
 		label: {
 			control: 'text',
