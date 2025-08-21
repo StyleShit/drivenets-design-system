@@ -34,6 +34,7 @@ const DsNumberInput: FC<DsNumberInputProps> = ({
 
 	return (
 		<NumberInput.Root
+			id={id}
 			min={min}
 			max={max}
 			step={step}
@@ -52,7 +53,6 @@ const DsNumberInput: FC<DsNumberInputProps> = ({
 
 					<NumberInput.Input asChild>
 						<input
-							id={id}
 							ref={ref}
 							name={name}
 							type="number"

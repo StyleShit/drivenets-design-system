@@ -423,6 +423,9 @@ export const Select: Story = {
 	args: {
 		label: 'Select Option',
 		required: true,
+		style: {
+			width: '200px',
+		},
 		children: (
 			<DsFormControl.Select
 				placeholder="Input"
@@ -431,9 +434,6 @@ export const Select: Story = {
 					{ label: 'Option 2', value: 'option2', icon: 'save' },
 					{ label: 'Option 3', value: 'option3', icon: 'description' },
 				]}
-				style={{
-					width: '200px',
-				}}
 			/>
 		),
 	},
@@ -443,6 +443,9 @@ export const SelectWithDescription: Story = {
 	args: {
 		label: 'Select Option',
 		required: true,
+		style: {
+			width: '325px',
+		},
 		children: (
 			<>
 				<DsFormControl.Description>
@@ -473,9 +476,6 @@ export const SelectWithDescription: Story = {
 						{ label: 'Option 2', value: 'option2', icon: 'save' },
 						{ label: 'Option 3', value: 'option3', icon: 'description' },
 					]}
-					style={{
-						width: '200px',
-					}}
 				/>
 			</>
 		),
@@ -518,7 +518,7 @@ export const NumberInput: Story = {
 					min={1}
 					max={100}
 					step={1}
-					defaultValue="10"
+					defaultValue={10}
 				/>
 			</>
 		),

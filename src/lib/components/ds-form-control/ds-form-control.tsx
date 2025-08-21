@@ -27,9 +27,9 @@ export const useFormControlContext = () => {
  * @returns A new component that automatically receives the controlId
  */
 export const controlify = <TProps extends { id?: string }>(Component: ComponentType<TProps>) => {
-	return function WrappedFormControl(props: Omit<TProps, 'id'>) {
+	return function WrappedFormControl(props: TProps) {
 		const { controlId } = useFormControlContext();
-		return <Component id={controlId} {...(props as unknown as TProps)} />;
+		return <Component id={controlId} {...props} />;
 	};
 };
 
