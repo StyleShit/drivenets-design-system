@@ -22,3 +22,5 @@ export * from './lib/components/ds-text-input';
 export * from './lib/components/ds-textarea';
 export * from './lib/components/ds-number-input';
 export * from './lib/components/ds-password-input';
+export * from './lib/components/ds-smart-tabs';
+export * from './lib/components/ds-spinner';
