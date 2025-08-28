@@ -53,37 +53,6 @@ export const AllSizes: Story = {
 	),
 };
 
-export const ColorCustomization: Story = {
-	render: () => (
-		<div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-			<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-				<div role="button" style={{ color: 'var(--color-icon-success)' }}>
-					<DsSpinner size="medium" />
-				</div>
-				<span>Success</span>
-			</div>
-			<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-				<div role="button" style={{ color: 'var(--color-icon-warning)' }}>
-					<DsSpinner size="medium" />
-				</div>
-				<span>Warning</span>
-			</div>
-			<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-				<div role="button" style={{ color: 'var(--color-icon-danger)' }}>
-					<DsSpinner size="medium" />
-				</div>
-				<span>Danger</span>
-			</div>
-			<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-				<div role="button" style={{ color: 'var(--color-border-action-primary)' }}>
-					<DsSpinner size="medium" />
-				</div>
-				<span>Primary</span>
-			</div>
-		</div>
-	),
-};
-
 export const ModalLoading: Story = {
 	render: () => (
 		<div className={styles.modalOverlay}>
