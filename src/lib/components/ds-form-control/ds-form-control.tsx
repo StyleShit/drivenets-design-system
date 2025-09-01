@@ -26,7 +26,7 @@ const DsFormControl: React.FC<DsFormControlProps> = ({
 			const value = props.value;
 			return (
 				<DsSelect
-					className={classNames(styles.control, className)}
+					className={className}
 					id={controlId}
 					value={value as string}
 					disabled={disabled}

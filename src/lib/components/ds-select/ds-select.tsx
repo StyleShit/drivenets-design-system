@@ -9,7 +9,7 @@ const SEARCH_THRESHOLD = 13;
 
 const DsSelect: React.FC<DsSelectProps> = ({
 	id,
-	options = [],
+	options,
 	value,
 	style,
 	size,
