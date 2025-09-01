@@ -1,8 +1,4 @@
-import { SemanticVariant } from '@design-system/ui';
-import React from 'react';
-
-// Semantic element mapping for semantic variants
-export const semanticElementMap: Record<SemanticVariant, React.ElementType> = {
+export const semanticElementMap = {
 	// Body variants
 	'body-md-reg': 'p',
 	'body-md-md': 'p',

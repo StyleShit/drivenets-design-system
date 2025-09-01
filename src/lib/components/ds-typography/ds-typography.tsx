@@ -9,14 +9,14 @@ import styles from './ds-typography.module.scss';
  * Design system Typography component that provides consistent text styling
  */
 const DsTypography: React.FC<DsTypographyProps & { ref?: React.Ref<HTMLElement> }> = ({
+	ref,
 	variant,
 	asChild = false,
 	className,
 	children,
-	ref,
 	...props
 }) => {
-	const Component = asChild ? Slot : semanticElementMap[variant];
+	const Component: React.ElementType = asChild ? Slot : semanticElementMap[variant];
 	return (
 		<Component ref={ref} className={classNames(styles[variant], className)} {...props}>
 			{children}

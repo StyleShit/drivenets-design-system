@@ -13,13 +13,7 @@ const meta: Meta<typeof DsTypography> = {
 			description: {
 				component: `
 A flexible typography component that supports both semantic variants and granular customization.
-
-## Features
-- **Semantic Variants**: Use predefined typography combinations (e.g., \`body-md-reg\`, \`code-xs-semi-bold\`)
-- **Granular Customization**: Mix and match size, weight, and alignment properties
-- **Semantic HTML**: Automatically renders appropriate HTML elements
-- **Composition Support**: Use \`asChild\` for zero-overhead composition
-- **TypeScript Support**: Full type safety with proper variant definitions
+Uses predefined typography combinations (e.g., \`body-md-reg\`, \`code-xs-semi-bold\`)
 				`,
 			},
 		},
@@ -49,12 +43,6 @@ A flexible typography component that supports both semantic variants and granula
 export default meta;
 type Story = StoryObj<typeof DsTypography>;
 
-type TypographyClass = {
-	name: string;
-	className: SemanticVariant;
-	description: string;
-};
-
 const sampleText = 'Almost before we knew it, we had left the ground.';
 
 export const Default: Story = {
@@ -66,148 +54,6 @@ export const Default: Story = {
 
 export const Showcase: Story = {
 	render: function Render() {
-		const typographyClasses: TypographyClass[] = [
-			{
-				name: 'Heading 1',
-				className: 'heading1',
-				description: '32px, Semi-bold, -0.01em letter spacing',
-			},
-			{
-				name: 'Heading 2',
-				className: 'heading2',
-				description: '24px, Semi-bold, -0.01em letter spacing',
-			},
-			{
-				name: 'Heading 3',
-				className: 'heading3',
-				description: '20px, Semi-bold, -0.01em letter spacing',
-			},
-			{
-				name: 'Heading 4',
-				className: 'heading4',
-				description: '18px, Semi-bold, -0.01em letter spacing',
-			},
-			{
-				name: 'Body MD Regular',
-				className: 'body-md-reg',
-				description: '16px, Regular, -0.01em letter spacing',
-			},
-			{
-				name: 'Body MD Semi-bold',
-				className: 'body-md-semi-bold',
-				description: '16px, Semi-bold, -0.01em letter spacing',
-			},
-			{
-				name: 'Body MD Bold',
-				className: 'body-md-bold',
-				description: '16px, Bold, -0.01em letter spacing',
-			},
-			{
-				name: 'Body MD Link',
-				className: 'body-md-link',
-				description: '16px, Regular, -0.01em letter spacing, with underline',
-			},
-			{
-				name: 'Body SM Regular',
-				className: 'body-sm-reg',
-				description: '14px, Regular, -0.01em letter spacing',
-			},
-			{
-				name: 'Body SM Semi-bold',
-				className: 'body-sm-semi-bold',
-				description: '14px, Semi-bold, -0.01em letter spacing',
-			},
-			{
-				name: 'Body SM Bold',
-				className: 'body-sm-bold',
-				description: '14px, Bold, -0.01em letter spacing',
-			},
-			{
-				name: 'Body SM Link',
-				className: 'body-sm-link',
-				description: '14px, Regular, -0.01em letter spacing, with underline',
-			},
-			{
-				name: 'Body XS Regular',
-				className: 'body-xs-reg',
-				description: '12px, Regular',
-			},
-			{
-				name: 'Body XS Semi-bold',
-				className: 'body-xs-semi-bold',
-				description: '12px, Semi-bold',
-			},
-			{
-				name: 'Body XS Bold',
-				className: 'body-xs-bold',
-				description: '12px, Bold',
-			},
-			{
-				name: 'Body XS Link',
-				className: 'body-xs-link',
-				description: '12px, Regular, with underline',
-			},
-			{
-				name: 'Code SM Regular',
-				className: 'code-sm-reg',
-				description: '14px, Regular, -0.01em letter spacing, Fira Mono',
-			},
-			{
-				name: 'Code SM Semi-bold',
-				className: 'code-sm-semi-bold',
-				description: '14px, Semi-bold, -0.01em letter spacing, Fira Mono',
-			},
-			{
-				name: 'Code XS Regular',
-				className: 'code-xs-reg',
-				description: '12px, Regular, -0.01em letter spacing, Fira Mono',
-			},
-			{
-				name: 'Code XS Semi-bold',
-				className: 'code-xs-semi-bold',
-				description: '12px, Semi-bold, -0.01em letter spacing, Fira Mono',
-			},
-		];
-
-		return (
-			<div className={styles.typographyContainer}>
-				<DsTypography className={styles.pageTitle} variant="heading1">
-					Typography Design System v1.2
-				</DsTypography>
-				<DsTypography className={styles.pageDescription} variant="body-md-reg">
-					This showcase displays all typography classes defined in the Design System v1.2.
-				</DsTypography>
-
-				<div className={styles.typographyGrid}>
-					{typographyClasses.map((typographyClass) => (
-						<div key={typographyClass.className} className={styles.typographyItem}>
-							<div className={styles.typographyInfo}>
-								<DsTypography className={styles.typographyName} variant="body-md-bold">
-									<h3>{typographyClass.name}</h3>
-								</DsTypography>
-								<DsTypography className={styles.typographyDescription} variant="body-md-reg">
-									{typographyClass.description}
-								</DsTypography>
-								<DsTypography className={styles.typographyClass} variant="code-sm-reg">
-									.{typographyClass.className}
-								</DsTypography>
-							</div>
-							<div className={styles.typographyPreview}>
-								<DsTypography variant={typographyClass.className}>
-									<p>{sampleText}</p>
-								</DsTypography>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		);
-	},
-};
-
-export const SemanticVariants: Story = {
-	render: function Render() {
-		// Construct sections from semanticElementMap
 		const semanticSections = [
 			{
 				title: 'Headings',
@@ -232,10 +78,10 @@ export const SemanticVariants: Story = {
 		return (
 			<div className={styles.typographyContainer}>
 				<DsTypography className={styles.pageTitle} variant="heading1">
-					Semantic Variants
+					Typography Design System v1.2
 				</DsTypography>
 				<DsTypography className={styles.pageDescription} variant="body-md-reg">
-					Predefined typography combinations that match your design system specifications.
+					Predefined variants that match design system typography specifications.
 				</DsTypography>
 
 				{semanticSections.map((section) => (
