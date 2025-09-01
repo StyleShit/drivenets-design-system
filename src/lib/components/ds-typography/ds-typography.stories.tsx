@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import DsTypography from './ds-typography';
 import styles from './ds-typography.stories.module.scss';
-import { SemanticVariant, TypographySize } from '@design-system/ui';
-import { granularElementMap, semanticElementMap } from './ds-typography.config';
+import { SemanticVariant, semanticVariants } from './ds-typography.types';
+import { semanticElementMap } from './ds-typography.config';
 
 const meta: Meta<typeof DsTypography> = {
 	title: 'Design System/Typography',
@@ -29,53 +29,7 @@ A flexible typography component that supports both semantic variants and granula
 		variant: {
 			control: 'select',
 			description: 'Predefined typography combination (overrides size/weight/align)',
-			options: [
-				// Body variants
-				'body-md-reg',
-				'body-md-md',
-				'body-md-semi-bold',
-				'body-md-bold',
-				'body-md-link',
-				'body-sm-reg',
-				'body-sm-md',
-				'body-sm-semi-bold',
-				'body-sm-bold',
-				'body-sm-link',
-				'body-xs-reg',
-				'body-xs-md',
-				'body-xs-semi-bold',
-				'body-xs-bold',
-				'body-xs-link',
-				// Code variants
-				'code-sm-reg',
-				'code-sm-semi-bold',
-				'code-xs-reg',
-				'code-xs-semi-bold',
-				// Heading variants
-				'heading1',
-				'heading2',
-				'heading3',
-				'heading4',
-			],
-		},
-		size: {
-			control: 'select',
-			description: 'Font size (only used when variant is not provided)',
-			options: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '4xl', '5xl', '6xl', '8xl'],
-		},
-		weight: {
-			control: 'select',
-			description: 'Font weight (only used when variant is not provided)',
-			options: ['light', 'regular', 'medium', 'semi-bold', 'bold', 'extra-bold'],
-		},
-		align: {
-			control: 'select',
-			description: 'Text alignment (only used when variant is not provided)',
-			options: ['left', 'center', 'right', 'justify'],
-		},
-		as: {
-			control: 'text',
-			description: 'Custom element to render',
+			options: semanticVariants,
 		},
 		asChild: {
 			control: 'boolean',
@@ -228,8 +182,8 @@ export const Showcase: Story = {
 					{typographyClasses.map((typographyClass) => (
 						<div key={typographyClass.className} className={styles.typographyItem}>
 							<div className={styles.typographyInfo}>
-								<DsTypography className={styles.typographyName} variant="body-md-bold" as="h3">
-									{typographyClass.name}
+								<DsTypography className={styles.typographyName} variant="body-md-bold">
+									<h3>{typographyClass.name}</h3>
 								</DsTypography>
 								<DsTypography className={styles.typographyDescription} variant="body-md-reg">
 									{typographyClass.description}
@@ -239,8 +193,8 @@ export const Showcase: Story = {
 								</DsTypography>
 							</div>
 							<div className={styles.typographyPreview}>
-								<DsTypography variant={typographyClass.className} as="p">
-									{sampleText}
+								<DsTypography variant={typographyClass.className}>
+									<p>{sampleText}</p>
 								</DsTypography>
 							</div>
 						</div>
@@ -286,8 +240,8 @@ export const SemanticVariants: Story = {
 
 				{semanticSections.map((section) => (
 					<section key={section.title} className={styles.comparisonSection}>
-						<DsTypography className={styles.sectionTitle} variant="heading3" as="h2">
-							{section.title}
+						<DsTypography className={styles.sectionTitle} variant="heading3" asChild>
+							<h2>{section.title}</h2>
 						</DsTypography>
 						{section.variants.map((variant: SemanticVariant) => (
 							<div key={variant} className={styles.comparisonItem}>
@@ -301,149 +255,6 @@ export const SemanticVariants: Story = {
 						))}
 					</section>
 				))}
-			</div>
-		);
-	},
-};
-
-export const ElementMapping: Story = {
-	render: function Render() {
-		return (
-			<div className={styles.typographyContainer}>
-				<DsTypography className={styles.pageTitle} variant="heading1">
-					Element Mapping
-				</DsTypography>
-				<DsTypography className={styles.pageDescription} variant="body-md-reg">
-					Control which HTML element is rendered using the asChild and as props.
-				</DsTypography>
-
-				<section className={styles.comparisonSection}>
-					<DsTypography className={styles.sectionTitle} variant="heading3" as="h2">
-						Using asChild for Composition
-					</DsTypography>
-					<div className={styles.comparisonItem}>
-						<DsTypography className={styles.comparisonLabel} variant="code-sm-reg">
-							asChild with link
-						</DsTypography>
-						<DsTypography variant="body-md-link" asChild>
-							<a href="#example" style={{ color: 'blue' }}>
-								This is a link with typography styling
-							</a>
-						</DsTypography>
-					</div>
-					<div className={styles.comparisonItem}>
-						<DsTypography className={styles.comparisonLabel} variant="code-sm-reg">
-							asChild with button
-						</DsTypography>
-						<DsTypography variant="heading2" asChild>
-							<button
-								onClick={() => alert('Clicked!')}
-								style={{ border: 'none', background: 'none', cursor: 'pointer' }}
-							>
-								This is a button with heading styling
-							</button>
-						</DsTypography>
-					</div>
-				</section>
-
-				<section className={styles.comparisonSection}>
-					<DsTypography className={styles.sectionTitle} variant="heading3" as="h2">
-						Using as for Custom Elements
-					</DsTypography>
-					<div className={styles.comparisonItem}>
-						<DsTypography className={styles.comparisonLabel} variant="code-sm-reg">
-							as=&#34;label&#34;
-						</DsTypography>
-						<DsTypography variant="body-sm-reg" as="label">
-							This is a form label element
-						</DsTypography>
-					</div>
-					<div className={styles.comparisonItem}>
-						<DsTypography className={styles.comparisonLabel} variant="code-sm-reg">
-							as=&#34;strong&#34;
-						</DsTypography>
-						<DsTypography size="lg" weight="bold" as="strong">
-							This is a strong emphasis element
-						</DsTypography>
-					</div>
-				</section>
-			</div>
-		);
-	},
-};
-
-export const GranularElementMappings: Story = {
-	render: function Render() {
-		return (
-			<div className={styles.typographyContainer}>
-				<DsTypography className={styles.pageTitle} variant="heading1">
-					Granular Element Mappings
-				</DsTypography>
-				<DsTypography className={styles.pageDescription} variant="body-md-reg">
-					Shows how different size values map to specific HTML elements and components.
-				</DsTypography>
-
-				<section className={styles.comparisonSection}>
-					<DsTypography className={styles.sectionTitle} variant="heading3" as="h2">
-						Size to Element Mapping
-					</DsTypography>
-					{Object.entries(granularElementMap).map(([size, element]) => (
-						<div key={size} className={styles.comparisonItem}>
-							<DsTypography className={styles.comparisonLabel} variant="code-sm-reg">
-								size=&#34;{size}&#34;
-							</DsTypography>
-							<DsTypography size={size as TypographySize}>
-								This text uses size=&#34;{size}&#34; (
-								{typeof element === 'string' ? element : element.displayName || element.name || 'Component'})
-							</DsTypography>
-						</div>
-					))}
-				</section>
-			</div>
-		);
-	},
-};
-
-export const Customization: Story = {
-	render: function Render() {
-		return (
-			<div className={styles.typographyContainer}>
-				<DsTypography className={styles.pageTitle} variant="heading1">
-					Customization
-				</DsTypography>
-				<DsTypography className={styles.pageDescription} variant="body-md-reg">
-					Override semantic variants with size, weight, and alignment properties.
-				</DsTypography>
-
-				<section className={styles.comparisonSection}>
-					<DsTypography className={styles.sectionTitle} variant="heading3" as="h2">
-						Overriding Semantic Variants
-					</DsTypography>
-					<div className={styles.comparisonItem}>
-						<DsTypography className={styles.comparisonLabel} variant="code-sm-reg">
-							heading1 + size=&#34;xl&#34; + weight=&#34;light&#34;
-						</DsTypography>
-						<DsTypography variant="heading1" size="xl" weight="light">
-							This heading1 variant is overridden with extra large size and light weight
-						</DsTypography>
-					</div>
-					<div className={styles.comparisonItem}>
-						<DsTypography className={styles.comparisonLabel} variant="code-sm-reg">
-							body-md-link + size=&#34;lg&#34; + align=&#34;center&#34;
-						</DsTypography>
-						<DsTypography variant="body-md-link" size="lg" align="center">
-							This body-md-link variant is overridden with large size and center alignment
-						</DsTypography>
-					</div>
-					<div className={styles.comparisonItem}>
-						<DsTypography className={styles.comparisonLabel} variant="code-sm-reg">
-							code-xs-reg + size=&#34;sm&#34; + weight=&#34;semi-bold&#34; + align=&#34;right&#34;
-						</DsTypography>
-						<DsTypography variant="code-xs-reg" size="sm" weight="semi-bold" align="right">
-							This code-xs-reg variant is overridden with small size, semi-bold weight, and right alignment
-						</DsTypography>
-					</div>
-				</section>
 			</div>
 		);
 	},

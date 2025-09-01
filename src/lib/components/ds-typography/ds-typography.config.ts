@@ -1,4 +1,4 @@
-import { SemanticVariant, TypographySize } from '@design-system/ui';
+import { SemanticVariant } from '@design-system/ui';
 import React from 'react';
 
 // Semantic element mapping for semantic variants
@@ -33,18 +33,4 @@ export const semanticElementMap: Record<SemanticVariant, React.ElementType> = {
 	heading2: 'h2',
 	heading3: 'h3',
 	heading4: 'h4',
-} as const;
-
-// Element mapping for granular customization
-export const granularElementMap: Record<TypographySize, React.ElementType> = {
-	xs: 'span',
-	sm: 'span',
-	base: 'p',
-	lg: 'p',
-	xl: 'h3',
-	'2xl': 'h2',
-	'4xl': 'h1',
-	'5xl': 'h1',
-	'6xl': 'h1',
-	'8xl': 'h1',
 } as const;

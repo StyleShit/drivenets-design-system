@@ -1,10 +1,4 @@
 /* Semantic variant classes */
-@mixin font-base {
-	font-family: var(--font-family-base);
-	font-style: normal;
-	letter-spacing: 0;
-}
-
 @mixin link-base {
 	text-decoration-line: underline;
 	text-decoration-style: solid;
@@ -16,17 +10,11 @@
 
 @mixin code-base {
 	font-family: var(--font-family-code);
-	font-style: normal;
-	letter-spacing: 0;
-	text-align: left;
-	// Enable ligatures for better code readability
-	font-feature-settings:
-		'liga' 1,
-		'calt' 1;
+	text-align: start;
 }
 
 .heading1 {
-	@include font-base;
+	font-family: var(--font-family-base);
 	font-size: var(--font-size-3xl);
 	font-weight: var(--font-weight-semi-bold);
 	line-height: var(--line-height-3xl);
@@ -34,7 +22,7 @@
 }
 
 .heading2 {
-	@include font-base;
+	font-family: var(--font-family-base);
 	font-size: var(--font-size-2xl);
 	font-weight: var(--font-weight-semi-bold);
 	line-height: var(--line-height-2xl);
@@ -42,7 +30,7 @@
 }
 
 .heading3 {
-	@include font-base;
+	font-family: var(--font-family-base);
 	font-size: var(--font-size-xl);
 	font-weight: var(--font-weight-semi-bold);
 	line-height: var(--line-height-xl);
@@ -50,7 +38,7 @@
 }
 
 .heading4 {
-	@include font-base;
+	font-family: var(--font-family-base);
 	font-size: var(--font-size-large);
 	font-weight: var(--font-weight-semi-bold);
 	line-height: var(--line-height-large);
@@ -58,7 +46,7 @@
 }
 
 @mixin body-md($font-weight: var(--font-weight-regular)) {
-	@include font-base;
+	font-family: var(--font-family-base);
 	font-size: var(--font-size-md);
 	font-weight: $font-weight;
 	line-height: var(--line-height-md);
@@ -87,7 +75,7 @@
 }
 
 @mixin body-sm($font-weight: var(--font-weight-regular)) {
-	@include font-base;
+	font-family: var(--font-family-base);
 	font-size: var(--font-size-sm);
 	font-weight: $font-weight;
 	line-height: var(--line-height-sm);
@@ -116,7 +104,7 @@
 }
 
 @mixin body-xs($font-weight: var(--font-weight-regular)) {
-	@include font-base;
+	font-family: var(--font-family-base);
 	font-size: var(--font-size-xs);
 	font-weight: $font-weight;
 	line-height: var(--line-height-xs);
@@ -173,87 +161,4 @@
 
 .code-xs-semi-bold {
 	@include code-xs(var(--font-weight-semi-bold));
-}
-
-/* Size utility classes */
-.text-xs {
-	font-size: var(--font-size-xs);
-}
-
-.text-sm {
-	font-size: var(--font-size-sm);
-}
-
-.text-base {
-	font-size: var(--font-size-md);
-}
-
-.text-lg {
-	font-size: var(--font-size-large);
-}
-
-.text-xl {
-	font-size: var(--font-size-xl);
-}
-
-.text-2xl {
-	font-size: var(--font-size-2xl);
-}
-
-.text-4xl {
-	font-size: var(--font-size-3xl);
-}
-
-.text-5xl {
-	font-size: var(--font-size-3xl);
-}
-
-.text-6xl {
-	font-size: var(--font-size-3xl);
-}
-
-.text-8xl {
-	font-size: var(--font-size-3xl);
-}
-
-/* Weight utility classes */
-.weight-light {
-	font-weight: var(--font-weight-light);
-}
-
-.weight-regular {
-	font-weight: var(--font-weight-regular);
-}
-
-.weight-medium {
-	font-weight: var(--font-weight-medium);
-}
-
-.weight-semi-bold {
-	font-weight: var(--font-weight-semi-bold);
-}
-
-.weight-bold {
-	font-weight: var(--font-weight-bold);
-}
-
-.weight-extra-bold {
-	font-weight: var(--font-weight-extra-bold);
-}
-
-/* Alignment utility classes */
-.align-left {
-	text-align: left;
-}
-
-.align-center {
-	text-align: center;
-}
-
-.align-right {
-	text-align: right;
-}
-
-.align-justify {
-	text-align: justify;
 }
