@@ -29,6 +29,4 @@ export interface DsSystemStatusProps {
 	 * The icon to be displayed
 	 */
 	icon?: IconType;
-
-	varient?: 'default' | 'badge';
 }
