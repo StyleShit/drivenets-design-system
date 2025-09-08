@@ -1,4 +1,4 @@
-@use 'shared/input' as input;
+@use '@design-system/ui/src/styles/shared/input' as input;
 
 .textInputContainer {
 	@extend .inputContainer;
