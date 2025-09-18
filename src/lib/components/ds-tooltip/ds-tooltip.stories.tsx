@@ -77,4 +77,7 @@ export const RichContent: Story = {
 		),
 		children: <DsIcon icon="info" />,
 	},
+	play: async ({ canvasElement }) => {
+		await sanityCheck(canvasElement, 'Multi-line tooltip with JSX');
+	},
 };

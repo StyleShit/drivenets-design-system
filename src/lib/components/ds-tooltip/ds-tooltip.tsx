@@ -11,7 +11,7 @@ const DsTooltip: React.FC<DsTooltipProps> = ({ content, children }) => {
 				<Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
 				<Tooltip.Portal>
 					<Tooltip.Content
-						className={classNames(styles.tooltip, { [styles.noClamp]: typeof content !== 'string' })}
+						className={classNames(styles.tooltip, { [styles.noClamp]: React.isValidElement(content) })}
 						side="top"
 						align="center"
 						sideOffset={4}
