@@ -19,13 +19,27 @@ $grid-hd: (
 	--grid-gutter: #{$gutter};
 	--grid-margin: #{$margin-x};
 	--grid-columns: #{$columns};
+
+	// Computed width of a single grid column: (viewport_width - margins - gutters) / number_of_columns
 	--grid-column-size: calc(
 		((100vw - 2 * var(--grid-margin)) - ((var(--grid-columns) - 1) * var(--grid-gutter))) /
 			var(--grid-columns)
 	);
 
+	// Generate custom properties for each column span (1 through 12)
+	// Each --col-span-N represents the total width for spanning N columns
 	@for $i from 1 through $columns {
-		--col-span-#{$i}: calc(#{$i} * var(--grid-column-size) + #{($i - 1)} * var(--grid-gutter));
+		// Margins are added to all column spans to ensure proper alignment
+		// The last column span (full width) receives 2 margins (left + right), others receive 1 margin (typically left)
+		$margins: if($i == $columns, 2, 1);
+
+		// Calculate total width for spanning i columns:
+		// - i columns × column width
+		// - (i-1) gutters between columns
+		// - appropriate margins (1 or 2 depending on if it's full width)
+		--col-span-#{$i}: calc(
+			#{$i} * var(--grid-column-size) + #{($i - 1)} * var(--grid-gutter) + var(--grid-margin) * #{$margins}
+		);
 	}
 }
 

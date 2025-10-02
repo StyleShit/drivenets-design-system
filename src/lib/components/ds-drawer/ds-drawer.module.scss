@@ -1,0 +1,109 @@
+@use '@design-system/ui/src/styles/grid';
+
+.backdrop {
+	position: absolute;
+	inset: 0;
+	background: var(--Background-background-overlay, rgba(0, 26, 71, 0.2));
+	z-index: 1000;
+}
+
+.positioner {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+}
+
+.drawer {
+	position: absolute;
+	display: block;
+	top: 0;
+	bottom: 0;
+	background: var(--color-background);
+	box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.22);
+	z-index: 1200;
+	pointer-events: auto;
+	overflow: hidden;
+	transition:
+		transform 0.2s ease,
+		width 0.2s ease;
+
+	&.position-end {
+		right: 0;
+		transform: translateX(100%);
+
+		&[data-state='open'] {
+			transform: translateX(0);
+		}
+	}
+
+	&.position-start {
+		left: 0;
+		transform: translateX(-100%);
+
+		&[data-state='open'] {
+			transform: translateX(0);
+		}
+	}
+
+	@for $i from 1 through grid.$columns {
+		&.cols-#{$i} {
+			width: var(--col-span-#{$i});
+		}
+	}
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	border-bottom: 1px solid var(--color-border);
+	padding: var(--spacing-sm) var(--spacing-standard);
+	gap: var(--spacing-3xs);
+}
+
+.title {
+	margin: 0;
+	color: var(--color-font-main);
+}
+
+.closeTrigger {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-icon-secondary);
+}
+
+.toolbar {
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid var(--color-border);
+	padding: var(--spacing-sm) var(--spacing-standard);
+	gap: var(--spacing-3xs);
+}
+
+.body {
+	flex: 1;
+	overflow: auto;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	padding: var(--spacing-standard);
+	border-top: 1px solid var(--color-border);
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	margin-left: auto;
+}
