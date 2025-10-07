@@ -130,10 +130,16 @@ const DsTable = <TData extends { id: string }, TValue>({
 		ref,
 		() => ({
 			selectRow: (rowId: string) => {
-				table.getRow(rowId).toggleSelected(true);
+				const row = table.getRow(rowId);
+				if (row) {
+					row.toggleSelected(true);
+				}
 			},
 			deselectRow: (rowId: string) => {
-				table.getRow(rowId).toggleSelected(false);
+				const row = table.getRow(rowId);
+				if (row) {
+					row.toggleSelected(false);
+				}
 			},
 			selectAllRows: () => {
 				table.toggleAllRowsSelected(true);
@@ -153,7 +159,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 		[table],
 	);
 
-	const { rows } = table.getRowModel();
+	const { rows, rowsById } = table.getRowModel();
 
 	const rowVirtualizer = useVirtualizer({
 		count: rows.length,
@@ -194,7 +200,8 @@ const DsTable = <TData extends { id: string }, TValue>({
 
 	const selectedRows = Object.entries(rowSelection)
 		.filter(([, selected]) => selected)
-		.map(([key]) => table.getRow(key).original);
+		.map(([key]) => rowsById[key]?.original)
+		.filter(Boolean);
 
 	const contextValue: DsTableContextType<TData, TValue> = {
 		stickyHeader,
