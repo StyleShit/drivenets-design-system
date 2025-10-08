@@ -1,13 +1,17 @@
 @use 'sass:map';
 @use 'sass:math';
 
-// total columns
+:root {
+	--grid-gutter: 16px;
+}
+
+// max columns
 $columns: 12;
 // max rows
 $rows: 8;
 
 $grid-hd: (
-	gutter: 16px,
+	gutter: var(--grid-gutter),
 	margin: 16px 20px,
 );
 
@@ -40,6 +44,11 @@ $grid-hd: (
 			}
 		}
 	}
+	@for $i from 3 through $columns {
+		&.ds-grid-cols-#{$i} {
+			grid-template-columns: repeat($i, 1fr);
+		}
+	}
 	@for $i from 1 through math.floor(calc($rows / 2)) {
 		$row-count: 2 * $i;
 		&.ds-grid-rows-#{$row-count} {
@@ -57,7 +66,7 @@ $grid-hd: (
 .ds-grid {
 	display: grid;
 	grid-template-columns: repeat($columns, 1fr);
-	grid-template-rows: repeat($rows, 1fr);
+	grid-template-rows: 1fr;
 	@include grid-setup($grid-hd);
 	@include generate-grid-classes($grid-hd);
 
