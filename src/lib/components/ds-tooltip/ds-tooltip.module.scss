@@ -7,32 +7,11 @@
 	border-radius: var(--exo-spacing-2x-small);
 	// approx. 6 grid columns
 	max-width: 384px;
-<<<<<<< HEAD
-	max-height: 40px;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 2;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: normal;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-	z-index: 9999;
-}
-
-.noClamp {
-	max-height: none;
-	display: block;
-	-webkit-line-clamp: initial;
-	overflow: visible;
-	text-overflow: initial;
-	white-space: normal;
-=======
 	z-index: 9999;
 
 	.content {
 		@include typography.line-clamp(3);
 	}
->>>>>>> origin/v25.3.1
 }
 
 .arrow {

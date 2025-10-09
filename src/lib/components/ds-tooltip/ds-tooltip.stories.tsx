@@ -69,8 +69,6 @@ export const LongText: Story = {
 	},
 };
 
-<<<<<<< HEAD
-=======
 export const ConditionalOpenWithBoolean: Story = {
 	render: function Render() {
 		const [isFeatureEnabled, setFeatureEnabled] = useState(false);
@@ -119,7 +117,6 @@ export const ConditionalOpenWithBoolean: Story = {
 	},
 };
 
->>>>>>> origin/v25.3.1
 export const RichContent: Story = {
 	args: {
 		content: (
