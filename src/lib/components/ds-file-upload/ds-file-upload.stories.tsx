@@ -11,8 +11,6 @@ const meta: Meta<typeof DsFileUpload> = {
 	},
 	tags: ['autodocs'],
 	argTypes: {
-		label: { control: 'text' },
-		helperText: { control: 'text' },
 		errorText: { control: 'text' },
 		dropzoneText: { control: 'text' },
 		triggerText: { control: 'text' },
@@ -32,8 +30,6 @@ type Story = StoryObj<typeof DsFileUpload>;
 
 export const Default: Story = {
 	args: {
-		label: 'S3 Upload Example (Auto)',
-		helperText: 'This shows automatic S3 upload integration - uploads start immediately',
 		showProgress: true,
 	},
 	render: function Render(args) {
@@ -51,6 +47,7 @@ export const Default: Story = {
 			// Simulate S3 upload with progress
 			// const uploadDuration = 2000 + Math.random() * 3000;
 			const uploadDuration = 20000 + Math.random() * 3000;
+			// const uploadDuration = 200000 + Math.random() * 3000;
 			const steps = 20;
 			const stepDuration = uploadDuration / steps;
 
@@ -107,8 +104,6 @@ export const Default: Story = {
 
 export const Manual: Story = {
 	args: {
-		label: 'S3 Upload Example (Manual)',
-		helperText: 'This shows manual S3 upload integration with upload button',
 		showProgress: true,
 	},
 	render: function Render(args) {
@@ -185,10 +180,14 @@ export const Manual: Story = {
 	},
 };
 
+export const Compact: Story = {
+	args: {
+		compact: true,
+	},
+};
+
 export const SingleFile: Story = {
 	args: {
-		label: 'Upload Document',
-		helperText: 'Choose a single document file',
 		maxFiles: 1,
 		dropzoneText: 'Drop your document here',
 		triggerText: 'Choose document',
@@ -197,17 +196,14 @@ export const SingleFile: Story = {
 
 export const WithError: Story = {
 	args: {
-		label: 'Upload Files',
-		errorText: 'File size exceeds the maximum limit of 25MB',
 		hasError: true,
 	},
 };
 
 export const Disabled: Story = {
 	args: {
-		label: 'Upload Files',
-		helperText: 'File upload is currently disabled',
 		disabled: true,
+		style: { width: '300px' },
 	},
 };
 /*

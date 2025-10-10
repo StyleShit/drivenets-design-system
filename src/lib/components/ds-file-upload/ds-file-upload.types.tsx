@@ -11,14 +11,6 @@ export type FileError = FileUploadFileError;
 
 export interface DsFileUploadProps {
 	/**
-	 * Label text for the file upload
-	 */
-	label?: string;
-	/**
-	 * Helper text displayed below the upload area
-	 */
-	helperText?: string;
-	/**
 	 * Error text displayed when validation fails
 	 */
 	errorText?: string;
@@ -89,4 +81,8 @@ export interface DsFileUploadProps {
 	 * Whether the file upload is disabled
 	 */
 	disabled?: boolean;
+	/**
+	 * Whether the file upload layout is compact (inline)
+	 */
+	compact?: boolean;
 }

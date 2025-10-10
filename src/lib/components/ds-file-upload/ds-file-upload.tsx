@@ -2,94 +2,103 @@ import React from 'react';
 import classNames from 'classnames';
 import { FileUpload } from '@ark-ui/react';
 import { DsIcon } from '../ds-icon';
-import { Dropzone } from './components/dropzone';
-import { FileItem } from './components/file-item';
-import styles from './ds-file-upload.module.scss';
+import { DsTypography } from '../ds-typography';
+import { DsButton } from '../ds-button';
+import { FileUploadItem } from './components/file-upload-item';
 import { DsFileUploadProps } from './ds-file-upload.types';
 import {
 	DEFAULT_ALLOWED_FILE_TYPES,
 	DEFAULT_MAX_FILE_SIZE,
 	DEFAULT_MAX_FILES,
-} from './utils/file-validation';
+	generateHelperText,
+} from './utils';
+import styles from './ds-file-upload.module.scss';
 
 /**
  * Design system File Upload component using Ark UI
  * Used in conjunction with the useFileUpload hook
  */
 const DsFileUpload: React.FC<DsFileUploadProps> = ({
+	style = {},
+	className,
 	files,
 	acceptedFiles,
-	label,
-	helperText,
 	errorText,
-	dropzoneText = 'Drag and drop files here or click to browse',
-	triggerText = 'Choose files',
+	dropzoneText = 'Drag and drop files here or ',
+	triggerText = 'Select file...',
 	showProgress = false,
 	allowDrop = true,
 	onFileAccept,
 	onFileReject,
 	onRemove,
-	className,
-	style = {},
-	hasError = false,
 	accept = DEFAULT_ALLOWED_FILE_TYPES,
 	maxFiles = DEFAULT_MAX_FILES,
 	maxFileSize = DEFAULT_MAX_FILE_SIZE,
+	compact = false,
 	disabled = false,
 }) => {
-	const rootClass = classNames(
-		styles.fileUploadRoot,
-		{
-			[styles.error]: hasError || errorText,
-			[styles.disabled]: disabled,
-		},
-		className,
-	);
+	const infoText = generateHelperText(accept, maxFileSize, maxFiles);
 
 	return (
-		<div className={rootClass} style={style}>
-			<FileUpload.Root
-				maxFiles={maxFiles}
-				maxFileSize={maxFileSize}
-				accept={accept}
-				disabled={disabled}
-				allowDrop={allowDrop}
-				acceptedFiles={acceptedFiles}
-				onFileAccept={onFileAccept}
-				onFileReject={onFileReject}
+		<FileUpload.Root
+			style={style}
+			className={classNames(styles.fileUploadRoot, className)}
+			maxFiles={maxFiles}
+			maxFileSize={maxFileSize}
+			accept={accept}
+			disabled={disabled}
+			allowDrop={allowDrop}
+			acceptedFiles={acceptedFiles}
+			onFileAccept={onFileAccept}
+			onFileReject={onFileReject}
+		>
+			<FileUpload.Dropzone
+				className={classNames(styles.dropzone, {
+					[styles.dropzoneCompact]: compact,
+				})}
 			>
-				<Dropzone
-					label={label}
-					dropzoneText={dropzoneText}
-					triggerText={triggerText}
-					disabled={disabled}
-					hasError={hasError || !!errorText}
-				/>
+				<DsIcon icon="upload" className={styles.dropzoneIcon} />
+				<DsTypography className={styles.dropzoneText} variant="body-xs-reg">
+					{dropzoneText}
+				</DsTypography>
+				<FileUpload.Trigger asChild>
+					<DsButton design="v1.2" variant="ghost" size="small" disabled={disabled}>
+						{triggerText}
+					</DsButton>
+				</FileUpload.Trigger>
+			</FileUpload.Dropzone>
 
-				{files && files.length > 0 && (
-					<div className={styles.fileList}>
-						{files.map((uploadFile) => (
-							<FileItem
-								key={uploadFile.id}
-								uploadFile={uploadFile}
-								onRemove={onRemove}
-								showProgress={showProgress}
-							/>
-						))}
-					</div>
-				)}
-
-				<FileUpload.HiddenInput />
-			</FileUpload.Root>
-
-			{helperText && !errorText && <div className={styles.helperText}>{helperText}</div>}
+			{infoText && !disabled && !errorText && (
+				<DsTypography className={styles.infoText} variant="body-xs-reg">
+					{infoText}
+				</DsTypography>
+			)}
 			{errorText && (
-				<div className={styles.errorText}>
+				<DsTypography className={styles.errorText} variant="body-xs-reg">
 					<DsIcon icon="error" size="tiny" />
 					{errorText}
+				</DsTypography>
+			)}
+
+			{files && files.length > 0 && (
+				<div className={styles.fileList}>
+					{files.map((uploadFile) => (
+						<FileUploadItem
+							key={uploadFile.id}
+							id={uploadFile.id}
+							name={uploadFile.name}
+							progress={uploadFile.progress}
+							showProgress={showProgress}
+							status={uploadFile.status}
+							errors={uploadFile.errors}
+							onRemove={onRemove}
+						/>
+					))}
 				</div>
 			)}
-		</div>
+
+			<FileUpload.HiddenInput />
+		</FileUpload.Root>
 	);
 };
 

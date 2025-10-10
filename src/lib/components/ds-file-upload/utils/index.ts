@@ -1,11 +1,9 @@
 export {
-	validateFile,
-	validateFiles,
+	isFileEqual,
+	getErrorMessage,
 	formatFileSize,
-	getFileTypeIcon,
-	isFileTypeAllowed,
-	ALLOWED_FILE_TYPES,
-	MAX_FILE_SIZE,
-	MAX_FILES,
+	generateHelperText,
+	DEFAULT_ALLOWED_FILE_TYPES,
+	DEFAULT_MAX_FILE_SIZE,
+	DEFAULT_MAX_FILES,
 } from './file-validation';
-export type { FileValidationError, FileValidationResult } from './file-validation';

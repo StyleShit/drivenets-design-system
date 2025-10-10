@@ -1,4 +1,3 @@
-import { IconType } from '../../ds-icon';
 import { FileError } from '../ds-file-upload.types';
 import { FileMeta } from '../hooks/use-file-upload';
 
@@ -33,26 +32,54 @@ export function formatFileSize(bytes: number): string {
 	return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 }
 
-/**
- * Get file type icon based on file extension
- */
-export function getFileTypeIcon(fileName: string): IconType {
-	const extension = fileName.toLowerCase().split('.').pop();
-
-	switch (extension) {
-		case 'pdf':
-			return 'picture_as_pdf';
-		case 'csv':
-			return 'table_chart';
-		case 'zip':
-			return 'folder_zip';
-		default:
-			return 'insert_drive_file';
-	}
-}
-
 export function isFileEqual(file1: FileMeta, file2: FileMeta): boolean {
 	return file1.name === file2.name && file1.size === file2.size && file1.type === file2.type;
+}
+
+/**
+ * Generate info text based on validation props
+ */
+export function generateHelperText(
+	accept: Record<string, string[]> | string | string[] | undefined,
+	maxFileSize: number,
+	maxFiles: number,
+): string {
+	let fileTypes = '';
+
+	// Handle different accept prop types
+	if (typeof accept === 'string') {
+		// Single MIME type
+		fileTypes = accept.split('/')[1]?.toUpperCase() || '';
+	} else if (Array.isArray(accept)) {
+		// Array of MIME types
+		const extensions = accept.map((type) => type.split('/')[1]).filter(Boolean);
+		fileTypes = extensions.map((ext) => ext.toUpperCase()).join(', ');
+	} else if (accept && typeof accept === 'object') {
+		// Record<string, string[]> - extract extensions
+		const extensions = Object.values(accept).flat();
+		const uniqueExtensions = [...new Set(extensions)];
+		fileTypes = uniqueExtensions.map((ext) => ext.toUpperCase()).join(', ');
+	}
+
+	// Format file size
+	const maxSizeText = formatFileSize(maxFileSize);
+
+	// Build helper text
+	const parts: string[] = [];
+
+	if (fileTypes) {
+		parts.push(`Only ${fileTypes} files`);
+	}
+
+	if (maxFileSize < Infinity) {
+		parts.push(`File size ${maxSizeText} max`);
+	}
+
+	if (maxFiles > 1) {
+		parts.push(`Up to ${maxFiles} files`);
+	}
+
+	return parts.join('. ') + '.';
 }
 
 /**

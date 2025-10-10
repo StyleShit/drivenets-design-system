@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { FileError } from '../ds-file-upload.types';
-import { isFileEqual } from '../utils/file-validation';
+import { isFileEqual } from '../utils';
 
 export interface FileWithErrors {
 	file: File;
 	errors: FileError[];
 }
 
-export type UploadFileStatus = 'pending' | 'uploading' | 'completed' | 'error';
+export type UploadFileStatus = 'pending' | 'uploading' | 'interrupted' | 'completed' | 'error';
 export type FileMeta = Pick<File, 'name' | 'type' | 'size'>;
 
 export interface UploadFileMeta extends FileMeta {
