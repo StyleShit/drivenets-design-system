@@ -13,9 +13,8 @@ const DsAlertBanner = ({
 	open,
 	onOpenChange,
 	inline = false,
-	variant,
+	variant = 'info-blue',
 	icon,
-	title,
 	closable = false,
 	className,
 	style = {},
@@ -51,14 +50,9 @@ const DsAlertBanner = ({
 	return (
 		<div className={alertBannerClass} style={style}>
 			{icon && <DsIcon className={styles.icon} icon={icon} size="small" filled />}
-			{title && (
-				<DsTypography className={styles.title} variant="body-md-md">
-					{title}
-				</DsTypography>
-			)}
 			{children}
 			{closable && (
-				<button className={styles.closeButton} onClick={handleClose} aria-label="Close alert">
+				<button className={styles.closeButton} onClick={handleClose} aria-label="Close alert" data-close>
 					<DsIcon icon="close" size="small" />
 				</button>
 			)}

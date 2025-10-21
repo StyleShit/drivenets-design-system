@@ -2,6 +2,16 @@
 	position: fixed;
 	inset: var(--spacing-md);
 	bottom: auto;
+
+	.customBody {
+		align-items: flex-start;
+	}
+
+	[data-close] {
+		display: flex;
+		align-items: center;
+		height: 32px;
+	}
 }
 
 .trigger {

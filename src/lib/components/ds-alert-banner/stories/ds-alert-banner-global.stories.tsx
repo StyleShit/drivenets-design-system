@@ -23,10 +23,6 @@ const meta: Meta<typeof DsAlertBanner> = {
 			options: alertBannerVariants,
 			description: 'The variant of the alert banner',
 		},
-		title: {
-			control: 'text',
-			description: 'The title of the alert banner',
-		},
 		closable: {
 			control: 'boolean',
 			description: 'Whether the alert banner can be closed with an X button',
@@ -58,14 +54,8 @@ export const InfoBlue: Story = {
 	render: function Render() {
 		const [open, setOpen] = useState(true);
 		return (
-			<DsAlertBanner
-				open={open}
-				onOpenChange={setOpen}
-				variant="info-blue"
-				title="Information"
-				icon="info"
-				closable={true}
-			>
+			<DsAlertBanner open={open} onOpenChange={setOpen} variant="info-blue" icon="info" closable={true}>
+				<DsAlertBanner.Title>Information</DsAlertBanner.Title>
 				<DsAlertBanner.Body>
 					Aww yeah, you successfully read this important alert message. This example text is going to run a
 					bit longer so that you can see how spacing within an alert works with this kind of content.
@@ -87,13 +77,8 @@ export const InfoNeutral: Story = {
 	render: function Render() {
 		const [open, setOpen] = useState(true);
 		return (
-			<DsAlertBanner
-				open={open}
-				onOpenChange={setOpen}
-				variant="info-neutral"
-				title="Information"
-				closable={true}
-			>
+			<DsAlertBanner open={open} onOpenChange={setOpen} variant="info-neutral" closable={true}>
+				<DsAlertBanner.Title>Information</DsAlertBanner.Title>
 				<DsAlertBanner.Body>This is an informational alert message.</DsAlertBanner.Body>
 			</DsAlertBanner>
 		);
@@ -104,14 +89,8 @@ export const Warning: Story = {
 	render: function Render() {
 		const [open, setOpen] = useState(true);
 		return (
-			<DsAlertBanner
-				open={open}
-				onOpenChange={setOpen}
-				variant="warning"
-				title="Warning"
-				icon="warning"
-				closable={true}
-			>
+			<DsAlertBanner open={open} onOpenChange={setOpen} variant="warning" icon="warning" closable={true}>
+				<DsAlertBanner.Title>Warning</DsAlertBanner.Title>
 				<DsAlertBanner.Body>This is a warning alert message. Please pay attention.</DsAlertBanner.Body>
 			</DsAlertBanner>
 		);
@@ -122,14 +101,8 @@ export const Error: Story = {
 	render: function Render() {
 		const [open, setOpen] = useState(true);
 		return (
-			<DsAlertBanner
-				open={open}
-				onOpenChange={setOpen}
-				variant="error"
-				title="Error"
-				icon="error"
-				closable={true}
-			>
+			<DsAlertBanner open={open} onOpenChange={setOpen} variant="error" icon="error" closable={true}>
+				<DsAlertBanner.Title>Error</DsAlertBanner.Title>
 				<DsAlertBanner.Body>Something went wrong. Please try again.</DsAlertBanner.Body>
 			</DsAlertBanner>
 		);
@@ -140,14 +113,8 @@ export const Success: Story = {
 	render: function Render() {
 		const [open, setOpen] = useState(true);
 		return (
-			<DsAlertBanner
-				open={open}
-				onOpenChange={setOpen}
-				variant="success"
-				title="Success"
-				icon="check_circle"
-				closable={true}
-			>
+			<DsAlertBanner open={open} onOpenChange={setOpen} variant="success" icon="check_circle" closable={true}>
+				<DsAlertBanner.Title>Success</DsAlertBanner.Title>
 				<DsAlertBanner.Body>Your action was completed successfully!</DsAlertBanner.Body>
 			</DsAlertBanner>
 		);
@@ -161,14 +128,8 @@ export const WithActions: Story = {
 		return (
 			<div>
 				<div className={styles.globalMessages}>
-					<DsAlertBanner
-						open={open}
-						onOpenChange={setOpen}
-						variant="warning"
-						title="Attention needed"
-						icon="warning"
-						closable={true}
-					>
+					<DsAlertBanner open={open} onOpenChange={setOpen} variant="warning" icon="warning" closable={true}>
+						<DsAlertBanner.Title>Attention needed</DsAlertBanner.Title>
 						<DsAlertBanner.Body>
 							Aww yeah, you successfully read this important alert message. This example text is going to run
 							a bit longer so that you can see how spacing within an alert works with this kind of content.
@@ -220,13 +181,14 @@ export const CustomBody: Story = {
 			<div>
 				<div className={styles.globalMessages}>
 					<DsAlertBanner
+						className={styles.customBody}
 						open={open}
 						onOpenChange={setOpen}
 						variant="warning"
-						title="Security Alert"
 						icon="warning"
-						closable={true}
+						closable
 					>
+						<DsAlertBanner.Title>Security Alert</DsAlertBanner.Title>
 						<DsAlertBanner.Body>
 							<div className={styles.customBodyContainer}>
 								<p className={styles.customBodyText}>

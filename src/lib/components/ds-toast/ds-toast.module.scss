@@ -1,0 +1,114 @@
+[data-scope='toast'][data-part='root'] {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas:
+		'icon title close'
+		'description description description'
+		'actions actions actions';
+	align-items: start;
+	padding: var(--spacing-standard);
+	border-radius: 4px;
+	column-gap: var(--spacing-xs);
+	row-gap: var(--spacing-4xs);
+	color: var(--color-font-on-action);
+	box-shadow: 0 1.25px 4px 0 rgba(0, 0, 0, 0.25);
+	// approx. 6 columns (64 * 2)
+	min-width: 384px;
+	// approx. 10 columns (64 * 10)
+	max-width: 640px;
+	overflow-wrap: anywhere;
+	translate: var(--x) var(--y);
+	scale: var(--scale);
+	z-index: var(--z-index);
+	opacity: var(--opacity);
+
+	will-change: translate, opacity, scale;
+	transition:
+		translate 400ms,
+		scale 400ms,
+		opacity 400ms,
+		height 400ms,
+		box-shadow 200ms;
+	transition-timing-function: cubic-bezier(0.21, 1.02, 0.73, 1);
+
+	&[data-state='closed'] {
+		transition:
+			translate 400ms,
+			scale 400ms,
+			opacity 200ms;
+		transition-timing-function: cubic-bezier(0.06, 0.71, 0.55, 1);
+	}
+
+	&[data-type='success'] {
+		background: var(--color-background-success-strong);
+	}
+
+	&[data-type='info'] {
+		background: var(--color-background-info-strong);
+	}
+
+	&[data-type='warning'] {
+		background: var(--color-background-warning-strong);
+	}
+
+	&[data-type='error'] {
+		background: var(--color-background-danger-strong);
+	}
+
+	&:not(:has([data-scope='toast'][data-part='title'])) {
+		grid-template-columns: auto 1fr auto auto;
+		grid-template-areas: 'icon description actions close';
+		align-items: center;
+
+		.actions {
+			margin: 0;
+		}
+	}
+}
+
+[data-scope='toast'][data-part='close-trigger'] {
+	grid-area: close;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--spacing-4xs);
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.05);
+	}
+
+	&:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 1px;
+	}
+}
+
+[data-scope='toast'][data-part='title'] {
+	grid-area: title;
+}
+
+[data-scope='toast'][data-part='description'] {
+	grid-area: description;
+}
+
+.icon {
+	grid-area: icon;
+	color: var(--color-icon-inverse);
+}
+
+.actions {
+	grid-area: actions;
+	margin-top: var(--spacing-sm);
+}
+
+@media (max-width: 640px) {
+	[data-scope='toast'][data-part='group'] {
+		width: 100%;
+	}
+
+	[data-scope='toast'][data-part='root'] {
+		inset-inline: 0;
+		width: calc(100% - var(--gap) * 2);
+	}
+}

@@ -23,10 +23,6 @@ const meta: Meta<typeof DsAlertBanner> = {
 			options: alertBannerVariants,
 			description: 'The variant of the alert banner',
 		},
-		title: {
-			control: 'text',
-			description: 'The title of the alert banner',
-		},
 		closable: {
 			control: 'boolean',
 			description: 'Whether the alert banner can be closed with an X button',
@@ -63,10 +59,10 @@ export const InfoBlue: Story = {
 				onOpenChange={setOpen}
 				inline={true}
 				variant="info-blue"
-				title="Information"
 				icon="info"
 				closable={true}
 			>
+				<DsAlertBanner.Title>Information</DsAlertBanner.Title>
 				<DsAlertBanner.Body>This is a blue informational alert message.</DsAlertBanner.Body>
 				<DsAlertBanner.Actions>
 					<button className={styles.primary}>Action</button>
@@ -81,14 +77,8 @@ export const InfoNeutral: Story = {
 	render: function Render() {
 		const [open, setOpen] = useState(true);
 		return (
-			<DsAlertBanner
-				open={open}
-				onOpenChange={setOpen}
-				inline={true}
-				variant="info-neutral"
-				title="Information"
-				closable={true}
-			>
+			<DsAlertBanner open={open} onOpenChange={setOpen} inline={true} variant="info-neutral" closable={true}>
+				<DsAlertBanner.Title>Information</DsAlertBanner.Title>
 				<DsAlertBanner.Body>This is an informational alert message.</DsAlertBanner.Body>
 			</DsAlertBanner>
 		);
@@ -104,10 +94,10 @@ export const Warning: Story = {
 				onOpenChange={setOpen}
 				inline={true}
 				variant="warning"
-				title="Warning"
 				icon="warning"
 				closable={true}
 			>
+				<DsAlertBanner.Title>Warning</DsAlertBanner.Title>
 				<DsAlertBanner.Body>This is a warning alert message. Please pay attention.</DsAlertBanner.Body>
 			</DsAlertBanner>
 		);
@@ -123,10 +113,10 @@ export const Error: Story = {
 				onOpenChange={setOpen}
 				inline={true}
 				variant="error"
-				title="Error"
 				icon="error"
 				closable={true}
 			>
+				<DsAlertBanner.Title>Error</DsAlertBanner.Title>
 				<DsAlertBanner.Body>Something went wrong. Please try again.</DsAlertBanner.Body>
 			</DsAlertBanner>
 		);
@@ -160,10 +150,10 @@ export const Success: Story = {
 				onOpenChange={setOpen}
 				inline={true}
 				variant="success"
-				title="Success"
 				icon="check_circle"
 				closable={true}
 			>
+				<DsAlertBanner.Title>Success</DsAlertBanner.Title>
 				<DsAlertBanner.Body>Your action was completed successfully!</DsAlertBanner.Body>
 			</DsAlertBanner>
 		);
@@ -185,10 +175,10 @@ export const WithActions: Story = {
 					onOpenChange={setOpen}
 					inline={true}
 					variant="warning"
-					title="Attention needed"
 					icon="warning"
 					closable={true}
 				>
+					<DsAlertBanner.Title>Attention needed</DsAlertBanner.Title>
 					<DsAlertBanner.Body>
 						Aww yeah, you successfully read this important alert message. This example text is going to run a
 						bit longer so that you can see how spacing within an alert works with this kind of content.
@@ -243,10 +233,10 @@ export const CustomBody: Story = {
 					onOpenChange={setOpen}
 					inline={true}
 					variant="info-blue"
-					title="System Update Available"
 					icon="info"
 					closable={true}
 				>
+					<DsAlertBanner.Title>System Update Available</DsAlertBanner.Title>
 					<DsAlertBanner.Body>
 						<div className={styles.customBodyContainer}>
 							<p className={styles.customBodyText}>

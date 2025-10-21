@@ -20,16 +20,13 @@ export interface DsAlertBannerProps {
 	inline?: boolean;
 	/**
 	 * The variant of the alert banner
+	 * @default 'info-blue'
 	 */
-	variant: AlertBannerVariant;
+	variant?: AlertBannerVariant;
 	/**
 	 * Optional icon to display using DsIcon
 	 */
 	icon?: IconType;
-	/**
-	 * The title of the alert banner
-	 */
-	title?: string;
 	/**
 	 * Whether the alert banner can be closed with an X button
 	 */

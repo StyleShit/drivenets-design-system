@@ -65,6 +65,7 @@
 
 	.closeButton {
 		grid-area: close;
+		display: flex;
 		color: var(--color-background-action);
 	}
 
