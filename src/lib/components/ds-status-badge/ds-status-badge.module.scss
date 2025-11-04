@@ -29,7 +29,7 @@
 	gap: var(--spacing-3xs);
 	border-radius: 100vmax;
 
-	&.compact {
+	&.small {
 		padding: var(--spacing-4xs) var(--spacing-xs) var(--spacing-4xs) var(--spacing-3xs);
 		gap: var(--spacing-4xs);
 	}

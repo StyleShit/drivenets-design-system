@@ -11,31 +11,29 @@ import { DsTypography } from '../ds-typography';
 const DsStatusBadge: React.FC<DsStatusBadgeProps> = ({
 	icon,
 	status,
-	label,
+	label = status,
 	className,
 	style,
-	filled = true,
-	compact,
+	ghost = false,
+	size = 'medium',
 	'aria-label': ariaLabel,
 }) => {
-	const displayLabel = label || status;
-
 	return (
 		<div
 			style={style}
 			className={classNames(
 				styles.container,
 				styles[status],
-				filled && styles.filled,
-				compact && styles.compact,
+				!ghost && styles.filled,
+				size === 'small' && styles.small,
 				className,
 			)}
 			role="status"
-			aria-label={ariaLabel || displayLabel}
+			aria-label={ariaLabel || label}
 		>
 			<DsIcon icon={icon} size="tiny" filled aria-hidden="true" />
-			<DsTypography className={styles.label} variant={filled ? 'body-xs-reg' : 'body-xs-md'}>
-				{displayLabel}
+			<DsTypography className={styles.label} variant={!ghost ? 'body-xs-reg' : 'body-xs-md'}>
+				{label}
 			</DsTypography>
 		</div>
 	);
