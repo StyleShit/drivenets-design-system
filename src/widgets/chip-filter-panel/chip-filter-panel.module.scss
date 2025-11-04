@@ -14,12 +14,10 @@
 	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--spacing-xs);
-	//max-height: 80px;
 	max-height: var(--spacing-3xl);
 	overflow: hidden;
 
 	.hidden {
-		//display: none;
 		visibility: hidden;
 		position: absolute;
 	}
