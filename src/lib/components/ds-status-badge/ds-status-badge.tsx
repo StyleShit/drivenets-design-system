@@ -24,7 +24,7 @@ const DsStatusBadge: React.FC<DsStatusBadgeProps> = ({
 			className={classNames(
 				styles.container,
 				styles[status],
-				!ghost && styles.filled,
+				ghost && styles.ghost,
 				size === 'small' && styles.small,
 				className,
 			)}
@@ -32,7 +32,7 @@ const DsStatusBadge: React.FC<DsStatusBadgeProps> = ({
 			aria-label={ariaLabel || label}
 		>
 			<DsIcon icon={icon} size="tiny" filled aria-hidden="true" />
-			<DsTypography className={styles.label} variant={!ghost ? 'body-xs-reg' : 'body-xs-md'}>
+			<DsTypography className={styles.label} variant={ghost ? 'body-xs-md' : 'body-xs-reg'}>
 				{label}
 			</DsTypography>
 		</div>
