@@ -28,24 +28,21 @@ const DsChip: React.FC<DsChipProps> = ({
 		className,
 	);
 
-	const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+	const handleDeleteClick = (event: React.MouseEvent<HTMLElement>) => {
 		event.stopPropagation();
 		onDelete?.(event);
 	};
 
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
 		if (onDelete && (event.key === 'Backspace' || event.key === 'Delete')) {
 			event.preventDefault();
-			onDelete(event as unknown as React.MouseEvent<HTMLButtonElement>);
-		}
-		if (event.key === 'Escape') {
-			(event.currentTarget as HTMLElement).blur();
+			onDelete(event);
 		}
 	};
 
 	return (
 		<div
-			ref={ref}
+			ref={ref as React.Ref<HTMLDivElement>}
 			className={chipClass}
 			style={style}
 			onClick={onClick}
@@ -66,7 +63,7 @@ const DsChip: React.FC<DsChipProps> = ({
 					aria-label="Delete chip"
 					tabIndex={-1}
 				>
-					{deleteIcon || <DsIcon icon="cancel" size="tiny" />}
+					<DsIcon icon={deleteIcon || 'cancel'} size="tiny" />
 				</button>
 			)}
 		</div>
