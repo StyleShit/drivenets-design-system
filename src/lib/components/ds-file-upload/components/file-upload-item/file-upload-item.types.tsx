@@ -1,4 +1,4 @@
-import { UploadFileStatus } from '../../hooks/use-file-upload';
+import { UploadFileStatus } from '../../ds-file-upload-api.types';
 
 export interface FileUploadItemProps {
 	/** Unique identifier for the file */
