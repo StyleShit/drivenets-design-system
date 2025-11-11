@@ -14,9 +14,6 @@ const config: StorybookConfig = {
 		name: '@storybook/react-vite',
 		options: {},
 	},
-	core: {
-		builder: '@storybook/builder-vite',
-	},
 	viteFinal: async (config) => {
 		if (!Array.isArray(config.plugins)) {
 			config.plugins = [];
