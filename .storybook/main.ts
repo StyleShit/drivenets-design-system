@@ -2,7 +2,7 @@ import type { StorybookConfig } from '@storybook/react-vite';
 import { vitePluginDsMaterialIconsFont } from '../src/plugins';
 
 const config: StorybookConfig = {
-	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+	stories: ['../src/**/!(*.docs).mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
 	addons: [
 		'@storybook/addon-essentials',
 		'@storybook/addon-onboarding',
