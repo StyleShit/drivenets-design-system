@@ -6,6 +6,7 @@
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	word-break: break-word;
 }
 
 .lastCell {
@@ -26,13 +27,13 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 32px;
-	height: 32px;
+	width: 36px;
+	height: 36px;
 	border-radius: 50%;
 	background: none;
 	cursor: pointer;
 	transition: background 0.15s;
-	color: var(--neutral-4);
+	color: var(--color-icon-secondary);
 
 	&.disabled {
 		opacity: 0.5;
@@ -45,4 +46,8 @@
 		background: var(--action-hover-light);
 		color: var(--action-cta1);
 	}
+}
+
+.secondaryActionsTrigger {
+	margin-inline-start: var(--spacing-sm);
 }

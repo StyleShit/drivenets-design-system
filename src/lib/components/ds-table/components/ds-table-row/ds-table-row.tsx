@@ -99,6 +99,7 @@ const DsTableRow = <TData, TValue>({ ref, row, virtualRow }: DsTableRowProps<TDa
 					onRowClick && styles.clickableRow,
 					highlightOnHover && styles.highlightHoverRow,
 					!bordered && styles.rowNoBorder,
+					isExpanded && styles.expanded,
 				)}
 				style={rowStyle}
 				onClick={() => onRowClick?.(row.original)}

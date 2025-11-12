@@ -20,6 +20,7 @@ import type { DsDataTableProps, DsTableRowSize } from './ds-table.types';
 import { DsTableRow } from './components/ds-table-row';
 import { useDragAndDrop } from './hooks/use-drag-and-drop';
 import { DsTableContext, DsTableContextType } from './context/ds-table-context';
+import { createColumnsGridTemplate } from './utils/create-columns-grid-template';
 
 // Row size to pixel height mapping (matches CSS variables)
 const ROW_SIZE_HEIGHT_MAP: Record<DsTableRowSize, number> = {
@@ -229,9 +230,25 @@ const DsTable = <TData extends { id: string }, TValue>({
 				)}
 			>
 				<DragWrapper>
-					<Table className={classnames(fullWidth && styles.fullWidth, !bordered && styles.tableNoBorder)}>
+					<Table
+						style={
+							virtualized
+								? ({
+										'--ds-table-columns-template': createColumnsGridTemplate({ columns, selectable }),
+									} as React.CSSProperties)
+								: undefined
+						}
+						className={classnames(
+							fullWidth && styles.fullWidth,
+							!bordered && styles.tableNoBorder,
+							virtualized && styles.virtualized,
+						)}
+					>
 						<DsTableHeader table={table} />
-						<TableBody style={{ height: virtualized ? `${rowVirtualizer.getTotalSize()}px` : undefined }}>
+						<TableBody
+							style={{ height: virtualized ? `${rowVirtualizer.getTotalSize()}px` : undefined }}
+							className={classnames(virtualized && styles.virtualizedBody)}
+						>
 							{virtualized ? (
 								rowVirtualizer.getVirtualItems().map((virtualRow: VirtualItem) => {
 									const row = rows[virtualRow.index];

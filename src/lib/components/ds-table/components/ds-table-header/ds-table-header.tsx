@@ -27,7 +27,9 @@ const DsTableHeader = <TData,>({ table }: DsTableHeaderProps<TData>) => {
 	};
 
 	return (
-		<TableHeader className={classnames(stickyHeader && styles.stickyHeader)}>
+		<TableHeader
+			className={classnames(stickyHeader && styles.stickyHeader, virtualized && styles.virtualizedHeader)}
+		>
 			{table.getHeaderGroups().map((headerGroup) => (
 				<TableRow
 					key={headerGroup.id}

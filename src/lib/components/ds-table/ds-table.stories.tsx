@@ -279,14 +279,34 @@ export const Expandable: Story = {
 		data: defaultData.slice(0, 5),
 		expandable: (row) => row.firstName !== 'Tanner',
 		renderExpandedRow: (row) => (
-			<div className={styles.expandedRowDetails}>
-				<h4>Expanded Details for {row.firstName}</h4>
-				<p>ID: {row.id}</p>
-				<p>
-					Full Name: {row.firstName} {row.lastName}
-				</p>
-				<p>Status: {row.status}</p>
-			</div>
+			<>
+				<div className={styles.expandedRowDetails}>
+					<h4>Expanded Details for {row.firstName}</h4>
+					<p>ID: {row.id}</p>
+					<p>
+						Full Name: {row.firstName} {row.lastName}
+					</p>
+					<p>Status: {row.status}</p>
+				</div>
+
+				<DsTable
+					columns={[
+						{
+							accessorKey: 'id',
+							header: 'ID',
+						},
+						{
+							accessorKey: 'firstName',
+							header: 'First Name',
+						},
+						{
+							accessorKey: 'lastName',
+							header: 'Last Name',
+						},
+					]}
+					data={defaultData.slice(0, 3)}
+				/>
+			</>
 		),
 	},
 };
@@ -399,8 +419,15 @@ export const WithRowActions: Story = {
 	args: {
 		primaryRowActions: [
 			{
-				icon: 'visibility',
+				icon: 'edit',
 				label: 'Edit',
+				onClick: (data) => {
+					alert(`Row clicked ${JSON.stringify(data)}`);
+				},
+			},
+			{
+				icon: 'open_in_new',
+				label: 'Open in New Window',
 				disabled: (data) => {
 					return data.firstName === 'Tanner'; // Example condition to disable action
 				},
@@ -720,6 +747,7 @@ export const Virtualized: Story = {
 		);
 	},
 	args: {
+		selectable: true,
 		columns: columns.map((col) => {
 			if ('accessorKey' in col && col.accessorKey === 'age') {
 				return {
