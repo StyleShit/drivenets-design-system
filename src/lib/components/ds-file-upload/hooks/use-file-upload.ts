@@ -88,23 +88,20 @@ export function useFileUpload({
 		onAllFileUploadsComplete?.();
 	}
 
-	const getNewAndDuplicateFiles = (newFiles: File[]) => {
-		const newFilesOnly = newFiles.filter(
-			(file) => !acceptedFiles.some((existing) => isFileEqual(existing, file)),
-		);
-		const duplicates = newFiles.filter((file) => {
-			const uploadedFile = file as UploadedFile;
-			if (!uploadedFile.id) {
-				const found = files.filter((existing) => isFileEqual(existing, file));
-				if (found.length) {
-					const alreadyAdded = found.some((existing) => existing.errors?.includes('FILE_EXISTS'));
-					return !alreadyAdded;
-				}
-			}
-		});
+	const getAddedFiles = (newFiles: File[]) =>
+		newFiles.filter((file) => !acceptedFiles.some((existing) => isFileEqual(existing, file)));
 
-		return { newFilesOnly, duplicates };
-	};
+	const getDuplicatedFiles = (newFiles: File[]) =>
+		newFiles.filter((file) => {
+			const uploadedFile = file as UploadedFile;
+			if (uploadedFile.id) return false;
+			const found = files.filter((existing) => isFileEqual(existing, file));
+			if (found.length) {
+				const alreadyAdded = found.some((existing) => existing.errors?.includes('FILE_EXISTS'));
+				return !alreadyAdded;
+			}
+			return false;
+		});
 
 	const markDuplicates = (duplicates: File[]) => {
 		const duplicateFilesWithErrors = duplicates.map((file) => ({
@@ -161,9 +158,10 @@ export function useFileUpload({
 	};
 
 	const addFiles = (newFiles: File[]): UploadedFile[] => {
-		const { newFilesOnly, duplicates } = getNewAndDuplicateFiles(newFiles);
-		markDuplicates(duplicates);
-		const filesToAdd = markMaxFiles(newFilesOnly);
+		const addedFiles = getAddedFiles(newFiles);
+		const duplicateFiles = getDuplicatedFiles(newFiles);
+		markDuplicates(duplicateFiles);
+		const filesToAdd = markMaxFiles(addedFiles);
 		const uploadedFiles = addNewFiles(filesToAdd);
 		uploadNewFiles(uploadedFiles);
 		return uploadedFiles;
