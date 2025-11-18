@@ -1,10 +1,10 @@
 import { ReactNode, useState } from 'react';
-import { ColumnDef } from '@tanstack/react-table';
+import { CellContext, ColumnDef } from '@tanstack/react-table';
 import { ColumnFilterState, FilterAdapter, FilterState } from '../types/filter-adapter.types';
 import { FilterChipItem } from '../../../../../widgets';
 import { TableFilterNavItem } from '../../stories/components/table-filter-modal';
 
-export interface UseTableFiltersResult<TData> {
+export interface UseTableFiltersResult<TData, TValue> {
 	/**
 	 * Current filter state
 	 */
@@ -37,7 +37,7 @@ export interface UseTableFiltersResult<TData> {
 		/**
 		 * Update a specific filter's value
 		 */
-		updateFilter: (filterId: string, value: any) => void;
+		updateFilter: (filterId: string, value: TValue) => void;
 
 		/**
 		 * Apply all filters (converts to TanStack format)
@@ -69,10 +69,10 @@ export interface UseTableFiltersResult<TData> {
  * @param baseColumns Base column definitions (optional)
  * @returns Complete filter management system
  */
-export function useTableFilters<TData>(
+export function useTableFilters<TData, TValue>(
 	filterAdapters: FilterAdapter<TData>[],
 	baseColumns?: ColumnDef<TData>[],
-): UseTableFiltersResult<TData> {
+): UseTableFiltersResult<TData, TValue> {
 	// Initialize filter state from adapters
 	const initialState: FilterState = {};
 	filterAdapters.forEach((adapter) => {
@@ -97,11 +97,12 @@ export function useTableFilters<TData>(
 				const adapter = filterAdapters.find((a) => a.id === col.id);
 
 				if (adapter) {
+					const cellRenderer = adapter.cellRenderer;
 					return {
 						...col,
 						filterFn: adapter.columnFilterFn,
-						...(adapter.cellRenderer && {
-							cell: (info: any) => adapter.cellRenderer(info.getValue()),
+						...(cellRenderer && {
+							cell: (info: CellContext<TData, TValue>) => cellRenderer(info.getValue()),
 						}),
 					};
 				}
@@ -110,7 +111,7 @@ export function useTableFilters<TData>(
 			});
 
 	// Handlers
-	const updateFilter = (filterId: string, value: any) => {
+	const updateFilter = (filterId: string, value: TValue) => {
 		setFilterState((prev) => ({
 			...prev,
 			[filterId]: value,
@@ -151,7 +152,7 @@ export function useTableFilters<TData>(
 	};
 
 	const deleteChip = (chip: FilterChipItem) => {
-		const filterKey = chip.metadata?.key as string;
+		const filterKey = typeof chip.metadata?.key === 'string' ? chip.metadata.key : undefined;
 		if (!filterKey) return;
 
 		const adapter = filterAdapters.find((a) => a.id === filterKey);
@@ -197,7 +198,7 @@ export function useTableFilters<TData>(
 		if (!adapter) return null;
 
 		const value = filterState[adapter.id];
-		const onChange = (newValue: any) => updateFilter(adapter.id, newValue);
+		const onChange = (newValue: TValue) => updateFilter(adapter.id, newValue);
 
 		return adapter.renderFilter(value, onChange);
 	};
