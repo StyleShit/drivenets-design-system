@@ -8,6 +8,8 @@
 	padding: var(--exo-spacing-2x-small) var(--spacing-sm);
 	gap: var(--exo-spacing-2x-small);
 	border-radius: var(--exo-spacing-2x-small);
+	display: flex;
+	align-items: center;
 
 	&:hover {
 		color: var(--color-background-selected);
@@ -77,8 +79,6 @@
 	background: none;
 	border: none;
 	cursor: pointer;
-	display: flex;
-	align-items: center;
 }
 
 .icon {

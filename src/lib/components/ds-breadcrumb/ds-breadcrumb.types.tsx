@@ -5,6 +5,7 @@ export type DsBreadcrumbItem =
 			type: 'link';
 			label: string;
 			href: string;
+			icon?: IconType;
 	  }
 	| {
 			type: 'dropdown';

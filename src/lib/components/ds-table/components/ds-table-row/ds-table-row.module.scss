@@ -1,6 +1,23 @@
 @use '@design-system/ui/src/styles/typography';
 @use '../../styles/variables' as vars;
 
+@mixin expanded-row-border($side) {
+	$border: 1px solid var(--color-border-action-primary);
+
+	// Prevent double border with adjacent expanded rows.
+	&:not(.expandedRow + &) > td {
+		border-#{$side}: $border;
+	}
+
+	& > td:first-child {
+		border-inline-start: $border;
+	}
+
+	& > td:last-child {
+		border-inline-end: $border;
+	}
+}
+
 .tableRow {
 	&:not(.virtualizedRow):not(:last-child) {
 		.tableCell {
@@ -14,25 +31,21 @@
 	}
 
 	&.virtualizedRow {
-		position: absolute;
-		display: flex;
-		width: 100%;
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 1 / -1;
+		grid-row: 1;
+		align-items: center;
 
 		&:not(:last-child) {
 			border-bottom: vars.$border-width solid var(--color-border-secondary);
 		}
 
 		.tableCell {
-			display: flex;
-			align-items: center;
-			flex-basis: 0;
-			flex-grow: 1;
-
 			&.cellCheckbox {
 				text-align: center;
 				padding: 0;
-				flex-grow: 0;
-				flex-basis: vars.$select-column-width;
+				width: vars.$select-column-width;
 			}
 		}
 	}
@@ -53,8 +66,8 @@
 		border-bottom: none;
 	}
 
-	&.expandedRow {
-		background-color: vars.$expanded-row-bg-color;
+	&.expanded {
+		@include expanded-row-border('top');
 	}
 
 	&.sizeSmall {
@@ -71,7 +84,13 @@
 }
 
 .expandedRow {
-	background-color: vars.$expanded-row-bg-color;
+	background-color: var(--color-background-secondary);
+
+	& > td {
+		padding: var(--spacing-standard);
+	}
+
+	@include expanded-row-border('bottom');
 }
 
 .cellButton {

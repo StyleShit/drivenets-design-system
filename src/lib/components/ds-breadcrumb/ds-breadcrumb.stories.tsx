@@ -111,9 +111,9 @@ export default meta;
 type Story = StoryObj<typeof DsBreadcrumb>;
 
 const defaultItems: DsBreadcrumbItem[] = [
-	{ type: 'link', label: 'Home', href: '/' },
-	{ type: 'link', label: 'Inventory', href: '/inventory' },
-	{ type: 'link', label: 'Catalog', href: '/inventory/catalog' },
+	{ type: 'link', label: 'Home', href: '/', icon: 'home' },
+	{ type: 'link', label: 'Inventory', href: '/inventory', icon: 'settings' },
+	{ type: 'link', label: 'Catalog', href: '/inventory/catalog', icon: 'newspaper' },
 ];
 
 const dropdownItems: DsBreadcrumbItem[] = [

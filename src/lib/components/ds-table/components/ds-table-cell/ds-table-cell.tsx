@@ -42,7 +42,7 @@ export const DsTableCell = <TData, TValue>({
 								aria-label={action.label}
 								aria-disabled={isDisabled}
 							>
-								<DsIcon icon={action.icon} />
+								<DsIcon icon={action.icon} size="tiny" />
 							</button>
 						);
 					})}
@@ -59,13 +59,13 @@ export const DsTableCell = <TData, TValue>({
 							side="bottom"
 						>
 							<span
-								className={styles.rowActionIcon}
+								className={classnames(styles.rowActionIcon, styles.secondaryActionsTrigger)}
 								title="More actions"
 								tabIndex={0}
 								role="button"
 								aria-label="More actions"
 							>
-								<DsIcon icon="more_vert" />
+								<DsIcon icon="more_vert" size="tiny" />
 							</span>
 						</DsDropdownMenu>
 					)}
