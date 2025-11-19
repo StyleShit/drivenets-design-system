@@ -44,7 +44,9 @@ export interface CheckboxFilterAdapterConfig<TData, TValue> {
 
 /**
  * Factory function to create a checkbox filter adapter
- * Handles multi-select checkbox filtering
+ * Handles multi-select checkbox filtering with inclusion model
+ * - Empty selection = show all data (no filter active)
+ * - Selected items = show only those items
  */
 export function createCheckboxFilterAdapter<TData, TValue = string>(
 	config: CheckboxFilterAdapterConfig<TData, TValue>,
@@ -62,9 +64,15 @@ export function createCheckboxFilterAdapter<TData, TValue = string>(
 	return {
 		id,
 		label,
-		initialValue: items,
+		initialValue: [], // Start with nothing selected (show all)
 
 		columnFilterFn: (row, columnId, filterValue) => {
+			// Empty selection = no filter = show all
+			if (filterValue.length === 0) {
+				return true;
+			}
+
+			// Otherwise, show only selected items
 			const rowValue = getRowValue(row);
 			return filterValue.some((item) => item.value === rowValue);
 		},
@@ -72,11 +80,7 @@ export function createCheckboxFilterAdapter<TData, TValue = string>(
 		cellRenderer,
 
 		toChips: (selectedItems) => {
-			// Only show chips if not all items are selected
-			if (selectedItems.length === items.length) {
-				return [];
-			}
-
+			// Generate chips for all selected items
 			return selectedItems.map((item) => ({
 				id: `${id}_${item.value}`,
 				label: chipLabelTemplate(item),
@@ -92,14 +96,16 @@ export function createCheckboxFilterAdapter<TData, TValue = string>(
 		},
 
 		getActiveCount: (selectedItems) => {
-			return selectedItems.length < items.length ? selectedItems.length : 0;
+			// Count = number of selected items
+			return selectedItems.length;
 		},
 
 		hasActiveFilters: (selectedItems) => {
-			return selectedItems.length < items.length;
+			// Filter is active when items are selected
+			return selectedItems.length > 0;
 		},
 
-		reset: () => items,
+		reset: () => [], // Reset to empty (show all)
 
 		renderFilter: (value, onChange) => {
 			return (
