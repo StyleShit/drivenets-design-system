@@ -160,7 +160,7 @@ const DsSelect = ({
 							return (
 								<Select.Item key={collection.getItemValue(item)} item={item} className={styles.item}>
 									{multiple && <DsCheckbox checked={checked} />}
-									{item.icon && <DsIcon className={styles.itemIcon} icon={item.icon} />}
+									{item.icon && <DsIcon className={styles.itemIcon} icon={item.icon} aria-hidden={true} />}
 									<Select.ItemText>{item.label}</Select.ItemText>
 								</Select.Item>
 							);

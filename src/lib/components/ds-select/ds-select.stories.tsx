@@ -86,38 +86,40 @@ const sanityCheck = async (canvasElement: HTMLElement) => {
 	// Open the select dropdown
 	await userEvent.click(trigger);
 
-	// Verify that 'Option 1' is not selected initially
-	const option1 = screen.getByRole('option', { name: 'Option 1' });
+	// Verify that the first item is not selected initially
+	const option1 = screen.getByRole('option', { name: mockOptions[0].label });
 	await expect(option1).not.toHaveAttribute('data-state', 'checked');
 
-	// Select 'Option 1'
+	// Select the first item
 	await userEvent.click(option1);
-	await expect(trigger).toHaveTextContent('Option 1');
+	await expect(trigger).toHaveTextContent(mockOptions[0].label);
 
 	// Open the select dropdown again
 	await userEvent.click(trigger);
 
-	// Select 'Option 2'
-	const option2 = screen.getByRole('option', { name: 'Option 2' });
+	// Select the second item
+	const option2 = screen.getByRole('option', { name: mockOptions[1].label });
 	await userEvent.click(option2);
-	await expect(trigger).toHaveTextContent('Option 2');
+	await expect(trigger).toHaveTextContent(mockOptions[1].label);
 
 	// Open the select dropdown again to verify selection states
 	await userEvent.click(trigger);
 
-	// Verify that 'Option 1' is no longer selected
-	const updatedOption1 = screen.getByRole('option', { name: 'Option 1' });
+	// Verify that the first item is no longer selected
+	const updatedOption1 = screen.getByRole('option', { name: mockOptions[0].label });
 	await expect(updatedOption1).not.toHaveAttribute('data-state', 'checked');
 
-	// Verify that 'Option 2' is now selected
-	const updatedOption2 = screen.getByRole('option', { name: 'Option 2' });
+	// Verify that the second item is now selected
+	const updatedOption2 = screen.getByRole('option', { name: mockOptions[1].label });
 	await expect(updatedOption2).toHaveAttribute('data-state', 'checked');
 
 	// Close the dropdown first by pressing Escape
 	await userEvent.keyboard('{Escape}');
 
 	// Test close button functionality
-	// Find and click the close button (it should be visible when an option is selected)
+	// Find and click the close button (it should be visible on hover when an option is selected)
+	await userEvent.hover(trigger);
+
 	const closeButton = canvas.getByRole('button', { name: 'Clear value' });
 	await userEvent.click(closeButton);
 
@@ -147,6 +149,7 @@ export const Default: Story = {
 		style: {
 			width: '250px',
 		},
+		clearable: true,
 	},
 	play: async ({ canvasElement }) => {
 		await sanityCheck(canvasElement);
@@ -156,14 +159,14 @@ export const Default: Story = {
 export const WithIcons: Story = {
 	render: (args) => <ControlledSelectWrapper {...args} />,
 	args: {
-		options: [
-			{ label: 'Option 1', value: 'option1', icon: 'download' },
-			{ label: 'Option 2', value: 'option2', icon: 'save' },
-			{ label: 'Option 3', value: 'option3', icon: 'description' },
-		],
+		options: mockOptions.slice(0, 3).map((item) => ({
+			...item,
+			icon: 'nutrition',
+		})),
 		style: {
 			width: '200px',
 		},
+		clearable: true,
 	},
 	play: async ({ canvasElement }) => {
 		await sanityCheck(canvasElement);
