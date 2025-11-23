@@ -56,6 +56,10 @@ const DsSelect = ({
 		multiple,
 		value: normalizedValue,
 
+		// Override Ark's auto-generated trigger id if an id provided by the user.
+		// See: https://github.com/chakra-ui/zag/blob/f6e079095/packages/machines/select/src/select.dom.ts#L5
+		ids: { trigger: id },
+
 		onOpenChange: () => {
 			setSearchTerm('');
 			setShowAllItems(false);
