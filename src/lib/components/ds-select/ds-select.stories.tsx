@@ -116,10 +116,7 @@ const sanityCheck = async (canvasElement: HTMLElement) => {
 	// Close the dropdown first by pressing Escape
 	await userEvent.keyboard('{Escape}');
 
-	// Test close button functionality
-	// Find and click the close button (it should be visible on hover when an option is selected)
-	await userEvent.hover(trigger);
-
+	// Test clear value button functionality
 	const closeButton = canvas.getByRole('button', { name: 'Clear value' });
 	await userEvent.click(closeButton);
 

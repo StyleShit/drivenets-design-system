@@ -93,7 +93,6 @@ const DsSelect = ({
 			<Select.Control
 				className={classNames(styles.control, size === 'small' && styles.small, className)}
 				style={style}
-				id={id}
 				onKeyDown={(e) => {
 					if (select.open) {
 						return;
@@ -107,7 +106,14 @@ const DsSelect = ({
 					}
 				}}
 			>
-				<Select.Trigger className={styles.trigger}>
+				<Select.Trigger
+					id={id}
+					className={styles.trigger}
+					// Ark expects a `Select.Label` component to exist and automatically label the trigger
+					// with it. We're using the `DsFormControl` label handling instead, so we disable the
+					// automatic labelling here.
+					aria-labelledby={null as never}
+				>
 					<Select.ValueText className={styles.valueText} placeholder={placeholder} />
 
 					<Select.Indicator className={styles.triggerIcon}>
@@ -168,7 +174,12 @@ const DsSelect = ({
 					</Select.Content>
 				</Select.Positioner>
 			</Portal>
-			<Select.HiddenSelect />
+
+			{/*
+				This element isn't properly hidden by Zag, so we hide it manually.
+			 	For more information, see: https://github.com/chakra-ui/zag/issues/2865
+			*/}
+			<Select.HiddenSelect style={{ display: 'none' }} />
 		</Select.RootProvider>
 	);
 };
