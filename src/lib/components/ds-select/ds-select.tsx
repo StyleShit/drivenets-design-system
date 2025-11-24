@@ -204,7 +204,7 @@ function getItemCheckedState({
 	const isRegularItem = item.value !== SELECT_ALL_SYMBOL;
 
 	if (isRegularItem) {
-		return select.selectedItems.includes(item);
+		return select.getItemState({ item }).selected;
 	}
 
 	const allSelected = select.selectedItems.length === options.length - 1;
