@@ -1,7 +1,13 @@
 import { ReactNode, useState } from 'react';
 import { CellContext, ColumnDef } from '@tanstack/react-table';
 import { ChipItem } from '@design-system/ui';
-import { ColumnFilterState, FilterAdapter, FilterNavItem, FilterState } from '../types/filter-adapter.types';
+import {
+	AnyAdapter,
+	ColumnFilterState,
+	FilterAdapter,
+	FilterNavItem,
+	FilterState,
+} from '../types/filter-adapter.types';
 
 export interface UseTableFiltersResult<TData, TValue> {
 	/**
@@ -68,8 +74,8 @@ export interface UseTableFiltersResult<TData, TValue> {
  * @param baseColumns Base column definitions (optional)
  * @returns Complete filter management system
  */
-export function useTableFilters<TData, TValue>(
-	filterAdapters: FilterAdapter<TData, TValue>[],
+export function useTableFilters<TData, TValue, TCellValue>(
+	filterAdapters: FilterAdapter<TData, TValue, TCellValue>[] | AnyAdapter[],
 	baseColumns?: ColumnDef<TData>[],
 ): UseTableFiltersResult<TData, TValue> {
 	// Initialize filter state from adapters
@@ -101,7 +107,7 @@ export function useTableFilters<TData, TValue>(
 						...col,
 						filterFn: adapter.columnFilterFn,
 						...(cellRenderer && {
-							cell: (info: CellContext<TData, TValue>) => cellRenderer(info.getValue()),
+							cell: (info: CellContext<TData, TCellValue>) => cellRenderer(info.getValue()),
 						}),
 					};
 				}
