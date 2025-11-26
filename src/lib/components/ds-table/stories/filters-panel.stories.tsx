@@ -76,7 +76,7 @@ const defaultData: Workflow[] = [
 		version: '000.0003',
 		lastEdited: {
 			editor: sampleUsers[0].name,
-			timestamp: '23-05-2024 04:47 PM',
+			timestamp: '2025-11-26T16:47:00',
 			colorIndex: sampleUsers[0].colorIndex,
 		},
 	},
@@ -89,7 +89,7 @@ const defaultData: Workflow[] = [
 		version: '000.0002',
 		lastEdited: {
 			editor: sampleUsers[1].name,
-			timestamp: '23-05-2024 03:32 PM',
+			timestamp: '2025-11-26T15:32:00',
 			colorIndex: sampleUsers[1].colorIndex,
 		},
 	},
@@ -102,7 +102,7 @@ const defaultData: Workflow[] = [
 		version: '000.0033',
 		lastEdited: {
 			editor: sampleUsers[2].name,
-			timestamp: '22-05-2024 11:15 AM',
+			timestamp: '2025-11-25T11:15:00',
 			colorIndex: sampleUsers[2].colorIndex,
 		},
 	},
@@ -115,7 +115,7 @@ const defaultData: Workflow[] = [
 		version: '000.0001',
 		lastEdited: {
 			editor: sampleUsers[3].name,
-			timestamp: '23-05-2024 02:20 PM',
+			timestamp: '2025-11-24T14:20:00',
 			colorIndex: sampleUsers[3].colorIndex,
 		},
 	},
@@ -128,7 +128,7 @@ const defaultData: Workflow[] = [
 		version: '000.0022',
 		lastEdited: {
 			editor: sampleUsers[4].name,
-			timestamp: '23-05-2024 01:05 PM',
+			timestamp: '2025-11-23T13:05:00',
 			colorIndex: sampleUsers[4].colorIndex,
 		},
 	},
@@ -141,7 +141,7 @@ const defaultData: Workflow[] = [
 		version: '000.0001',
 		lastEdited: {
 			editor: sampleUsers[5].name,
-			timestamp: '21-05-2024 09:30 AM',
+			timestamp: '2025-11-20T09:30:00',
 			colorIndex: sampleUsers[5].colorIndex,
 		},
 	},
@@ -154,7 +154,7 @@ const defaultData: Workflow[] = [
 		version: '000.0012',
 		lastEdited: {
 			editor: sampleUsers[0].name,
-			timestamp: '23-05-2024 12:45 PM',
+			timestamp: '2025-11-18T12:45:00',
 			colorIndex: sampleUsers[0].colorIndex,
 		},
 	},
@@ -167,7 +167,7 @@ const defaultData: Workflow[] = [
 		version: '000.0010',
 		lastEdited: {
 			editor: sampleUsers[1].name,
-			timestamp: '22-05-2024 05:10 PM',
+			timestamp: '2025-11-15T17:10:00',
 			colorIndex: sampleUsers[1].colorIndex,
 		},
 	},
@@ -180,7 +180,7 @@ const defaultData: Workflow[] = [
 		version: '000.0001',
 		lastEdited: {
 			editor: sampleUsers[2].name,
-			timestamp: '23-05-2024 10:22 AM',
+			timestamp: '2025-11-10T10:22:00',
 			colorIndex: sampleUsers[2].colorIndex,
 		},
 	},
@@ -193,7 +193,7 @@ const defaultData: Workflow[] = [
 		version: '000.0001',
 		lastEdited: {
 			editor: sampleUsers[3].name,
-			timestamp: '20-05-2024 03:15 PM',
+			timestamp: '2025-11-05T15:15:00',
 			colorIndex: sampleUsers[3].colorIndex,
 		},
 	},
@@ -206,7 +206,7 @@ const defaultData: Workflow[] = [
 		version: '000.0001',
 		lastEdited: {
 			editor: sampleUsers[4].name,
-			timestamp: '19-05-2024 08:40 AM',
+			timestamp: '2025-10-28T08:40:00',
 			colorIndex: sampleUsers[4].colorIndex,
 		},
 	},
@@ -219,7 +219,7 @@ const defaultData: Workflow[] = [
 		version: '000.0001',
 		lastEdited: {
 			editor: sampleUsers[5].name,
-			timestamp: '03-05-2024 04:47 PM',
+			timestamp: '2025-10-15T16:47:00',
 			colorIndex: sampleUsers[5].colorIndex,
 		},
 	},

@@ -85,27 +85,23 @@ export const statusItems: CheckboxFilterItem<DsStatus>[] = [
 ];
 
 /**
+ * Status to icon mapping
+ */
+const statusIconMap: Record<DsStatus, IconType> = {
+	active: 'check_circle',
+	running: 'change_circle',
+	pending: 'pause_circle',
+	draft: 'stylus_note',
+	inactive: 'stop_circle',
+	warning: 'warning',
+	failed: 'cancel',
+};
+
+/**
  * Get icon for status
  */
 export const getStatusIcon = (status: DsStatus): IconType => {
-	switch (status) {
-		case 'active':
-			return 'check_circle';
-		case 'running':
-			return 'change_circle';
-		case 'pending':
-			return 'pause_circle';
-		case 'draft':
-			return 'stylus_note';
-		case 'inactive':
-			return 'stop_circle';
-		case 'warning':
-			return 'warning';
-		case 'failed':
-			return 'cancel';
-		default:
-			return 'check_circle';
-	}
+	return statusIconMap[status] ?? 'check_circle';
 };
 
 /**
@@ -220,21 +216,10 @@ const calculateDateRange = (
 
 /**
  * Helper: Parse timestamp string to Date
+ * Supports ISO strings and standard JavaScript date formats
  */
 const parseTimestamp = (timestamp: string): Date => {
-	// Format: "23-05-2024 04:47 PM"
-	const [datePart, timePart, period] = timestamp.split(' ');
-	const [day, month, year] = datePart.split('-');
-	const [hours, minutes] = timePart.split(':');
-
-	let hour = parseInt(hours, 10);
-	if (period === 'PM' && hour !== 12) {
-		hour += 12;
-	} else if (period === 'AM' && hour === 12) {
-		hour = 0;
-	}
-
-	return new Date(parseInt(year), parseInt(month) - 1, parseInt(day), hour, parseInt(minutes));
+	return new Date(timestamp);
 };
 
 /**
