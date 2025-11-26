@@ -272,7 +272,6 @@ $textarea-height-default: 120px;
 	background-color: var(--color-background);
 	cursor: pointer;
 	height: $input-text-height-default;
-	min-width: 200px;
 	@include select-trigger-states;
 
 	&.small {

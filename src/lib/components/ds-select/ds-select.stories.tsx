@@ -144,9 +144,6 @@ export const Default: Story = {
 	render: (args) => <ControlledSelectWrapper {...args} />,
 	args: {
 		options: mockOptions,
-		style: {
-			width: '250px',
-		},
 		clearable: true,
 	},
 	play: async ({ canvasElement }) => {
@@ -181,9 +178,6 @@ export const WithSearch: Story = {
 				label: 'Nectarine',
 			},
 		],
-		style: {
-			width: '250px',
-		},
 		clearable: true,
 	},
 };
