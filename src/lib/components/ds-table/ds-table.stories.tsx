@@ -240,7 +240,12 @@ const meta: Meta<typeof DsTable<Person, unknown>> = {
 		fullWidth: true,
 		highlightOnHover: true,
 		expandable: false,
-		emptyState: <div>No data available</div>,
+		emptyState: (
+			<div className={styles.emptyStateContainer}>
+				<DsIcon icon="info" size="large" />
+				<p className={styles.emptyStateContainer__text}>No matching records found.</p>
+			</div>
+		),
 		onRowClick: (row) => console.log('Row clicked:', row),
 	},
 	decorators: [
@@ -315,12 +320,13 @@ export const Expandable: Story = {
 export const EmptyState: Story = {
 	args: {
 		data: [], // Provide empty data array
-		emptyState: (
-			<div className={styles.emptyStateContainer}>
-				<DsIcon icon="info" size="large" />
-				<p className={styles.emptyStateContainer__text}>No matching records found.</p>
-			</div>
-		),
+	},
+};
+
+export const EmptyStateVirtualized: Story = {
+	args: {
+		virtualized: true,
+		data: [], // Provide empty data array
 	},
 };
 
