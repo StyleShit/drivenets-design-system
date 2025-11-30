@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 
 export const textInputSizes = ['small', 'default'] as const;
 export type TextInputSize = (typeof textInputSizes)[number];
@@ -81,12 +81,25 @@ export interface DsTextInputProps {
 	 * Whether the input is disabled
 	 */
 	disabled?: boolean;
+
 	/**
-	 * Adornment to display at the start of the input
+	 * The tabIndex of the input
 	 */
-	startAdornment?: React.ReactNode;
-	/**
-	 * Adornment to display at the end of the input
-	 */
-	endAdornment?: React.ReactNode;
+	tabIndex?: number;
+
+	slots?: {
+		/**
+		 * Custom component to wrap the input element
+		 */
+		inputWrapper?: ComponentType<{ children: React.ReactNode }>;
+
+		/**
+		 * Adornment to display at the start of the input
+		 */
+		startAdornment?: React.ReactNode;
+		/**
+		 * Adornment to display at the end of the input
+		 */
+		endAdornment?: React.ReactNode;
+	};
 }

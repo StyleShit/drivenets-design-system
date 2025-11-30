@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, Fragment } from 'react';
 import classNames from 'classnames';
 import styles from './ds-text-input.module.scss';
 import { DsTextInputProps } from './ds-text-input.types';
@@ -22,9 +22,11 @@ const DsTextInput: FC<DsTextInputProps> = ({
 	maxLength,
 	placeholder,
 	disabled = false,
-	startAdornment,
-	endAdornment,
+	tabIndex,
+	slots,
 }) => {
+	const InputWrapper = slots?.inputWrapper ?? Fragment;
+
 	const containerClass = classNames(
 		styles.textInputContainer,
 		{
@@ -42,25 +44,28 @@ const DsTextInput: FC<DsTextInputProps> = ({
 
 	return (
 		<div className={containerClass} style={style}>
-			{startAdornment && <div className={classNames(styles.adornment, styles.start)}>{startAdornment}</div>}
-			<input
-				id={id}
-				ref={ref}
-				name={name}
-				className={classNames(styles.input)}
-				type={type}
-				value={value}
-				defaultValue={defaultValue}
-				min={min}
-				max={max}
-				minLength={minLength}
-				maxLength={maxLength}
-				placeholder={placeholder}
-				disabled={disabled}
-				onBlur={onBlur}
-				onChange={handleChange}
-			/>
-			{endAdornment && <div className={classNames(styles.adornment, styles.end)}>{endAdornment}</div>}
+			{slots?.startAdornment && <div className={styles.adornment}>{slots.startAdornment}</div>}
+			<InputWrapper>
+				<input
+					id={id}
+					ref={ref}
+					name={name}
+					className={classNames(styles.input)}
+					type={type}
+					value={value}
+					defaultValue={defaultValue}
+					min={min}
+					max={max}
+					minLength={minLength}
+					maxLength={maxLength}
+					placeholder={placeholder}
+					disabled={disabled}
+					onBlur={onBlur}
+					onChange={handleChange}
+					tabIndex={tabIndex}
+				/>
+			</InputWrapper>
+			{slots?.endAdornment && <div className={styles.adornment}>{slots.endAdornment}</div>}
 		</div>
 	);
 };

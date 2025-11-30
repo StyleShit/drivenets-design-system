@@ -11,6 +11,7 @@ import { DsTableApi, ScrollParams } from './ds-table.types';
 import { DsSpinner } from '../ds-spinner';
 import { generatePersonData, simulateApiCall } from './utils/story-data-generator';
 import styles from './ds-table.stories.module.scss';
+import { StatusItem } from './stories/components/status-item/status-item';
 
 export enum Status {
 	Relationship = 'relationship',
@@ -239,7 +240,12 @@ const meta: Meta<typeof DsTable<Person, unknown>> = {
 		fullWidth: true,
 		highlightOnHover: true,
 		expandable: false,
-		emptyState: <div>No data available</div>,
+		emptyState: (
+			<div className={styles.emptyStateContainer}>
+				<DsIcon icon="info" size="large" />
+				<p className={styles.emptyStateContainer__text}>No matching records found.</p>
+			</div>
+		),
 		onRowClick: (row) => console.log('Row clicked:', row),
 	},
 	decorators: [
@@ -314,12 +320,13 @@ export const Expandable: Story = {
 export const EmptyState: Story = {
 	args: {
 		data: [], // Provide empty data array
-		emptyState: (
-			<div className={styles.emptyStateContainer}>
-				<DsIcon icon="info" size="large" />
-				<p className={styles.emptyStateContainer__text}>No matching records found.</p>
-			</div>
-		),
+	},
+};
+
+export const EmptyStateVirtualized: Story = {
+	args: {
+		virtualized: true,
+		data: [], // Provide empty data array
 	},
 };
 
@@ -417,12 +424,15 @@ export const Reorderable: Story = {
 
 export const WithRowActions: Story = {
 	args: {
+		onRowClick: (data) => {
+			console.log('Row clicked', data);
+		},
 		primaryRowActions: [
 			{
 				icon: 'edit',
 				label: 'Edit',
 				onClick: (data) => {
-					alert(`Row clicked ${JSON.stringify(data)}`);
+					alert(`Row edit ${JSON.stringify(data)}`);
 				},
 			},
 			{
@@ -432,8 +442,8 @@ export const WithRowActions: Story = {
 					return data.firstName === 'Tanner'; // Example condition to disable action
 				},
 				onClick: (data) => {
-					console.log('Row clicked', data);
-					alert(`Row clicked ${JSON.stringify(data)}`);
+					console.log('Open in New Window', data);
+					alert(`Open in New Window ${JSON.stringify(data)}`);
 				},
 			},
 		],
@@ -583,12 +593,7 @@ export const TabFilters: Story = {
 			cell: (info) => {
 				const status = info.getValue() as Status;
 				const icon = getStatusIcon(status);
-				return (
-					<div className={styles.customTabRow}>
-						<DsIcon icon={icon} size="small" />
-						<span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
-					</div>
-				);
+				return <StatusItem icon={icon} label={status} />;
 			},
 		};
 
