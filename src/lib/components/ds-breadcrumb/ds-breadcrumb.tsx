@@ -24,6 +24,11 @@ const DsBreadcrumb: React.FC<DsBreadcrumbProps> = ({ items, onSelect, className 
 							? item.options.find((option) => option.href === location.pathname)
 							: null;
 
+					const filteredOptions =
+						item.type === 'dropdown'
+							? item.options.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase()))
+							: [];
+
 					return (
 						<li key={index} className={styles.breadcrumbItem}>
 							{item.type === 'link' ? (
@@ -55,22 +60,20 @@ const DsBreadcrumb: React.FC<DsBreadcrumbProps> = ({ items, onSelect, className 
 												}}
 											/>
 										</DsDropdownMenu.Search>
-										{item.options
-											.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase()))
-											.map((opt) => {
-												const selected = selectedOption?.href === opt.href;
-												return (
-													<DsDropdownMenu.Item
-														key={opt.href}
-														selected={selected}
-														onClick={() => onSelect?.(opt.href)}
-													>
-														<DsTypography className={styles.itemLabel} variant="body-sm-reg">
-															{opt.label}
-														</DsTypography>
-													</DsDropdownMenu.Item>
-												);
-											})}
+										{filteredOptions.map((opt) => {
+											const selected = selectedOption?.href === opt.href;
+											return (
+												<DsDropdownMenu.Item
+													key={opt.href}
+													selected={selected}
+													onClick={() => onSelect?.(opt.href)}
+												>
+													<DsTypography className={styles.itemLabel} variant="body-sm-reg">
+														{opt.label}
+													</DsTypography>
+												</DsDropdownMenu.Item>
+											);
+										})}
 									</DsDropdownMenu.Content>
 								</DsDropdownMenu.Root>
 							)}

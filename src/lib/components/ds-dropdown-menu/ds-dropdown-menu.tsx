@@ -80,19 +80,17 @@ const Content: React.FC<DsDropdownMenuContentProps> = ({
 	className,
 	style,
 }) => {
-	const content = (
-		<Menu.Positioner>
-			<Menu.Content className={classNames(styles.content, className)} style={style}>
-				{children}
-			</Menu.Content>
-		</Menu.Positioner>
+	const Wrapper = disablePortal ? Fragment : Portal;
+
+	return (
+		<Wrapper>
+			<Menu.Positioner>
+				<Menu.Content className={classNames(styles.content, className)} style={style}>
+					{children}
+				</Menu.Content>
+			</Menu.Positioner>
+		</Wrapper>
 	);
-
-	if (disablePortal) {
-		return content;
-	}
-
-	return <Portal>{content}</Portal>;
 };
 
 /**
@@ -110,12 +108,6 @@ const Item: React.FC<DsDropdownMenuItemProps> = ({
 }) => {
 	const generatedId = useId();
 	const itemValue = value ?? generatedId;
-
-	const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-		if (onClick) {
-			onClick(e);
-		}
-	};
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
 		if ((e.key === 'Enter' || e.key === ' ') && onClick) {
@@ -137,7 +129,7 @@ const Item: React.FC<DsDropdownMenuItemProps> = ({
 			)}
 			style={style}
 			value={itemValue}
-			onClick={handleClick}
+			onClick={onClick}
 			onKeyDown={handleKeyDown}
 		>
 			{children}
