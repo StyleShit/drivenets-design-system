@@ -35,32 +35,46 @@ const meta: Meta<typeof DsSelect> = {
 			control: 'object',
 			description: 'Additional styles to apply to the select container',
 		},
+		multiple: {
+			control: 'boolean',
+			description: 'Whether multiple selections are allowed',
+		},
+		clearable: {
+			control: 'boolean',
+			description: 'Whether the selection can be cleared',
+		},
 	},
 };
 
 export default meta;
 type Story = StoryObj<typeof DsSelect>;
 
-const ControlledSelectWrapper = ({ options, style, size, placeholder }: DsSelectProps) => {
-	const [value, setValue] = useState<string>('');
+const ControlledSelectWrapper = ({
+	options,
+	style,
+	size,
+	placeholder,
+	clearable,
+	multiple,
+	disabled,
+}: DsSelectProps) => {
+	const [value, setValue] = useState<string | string[]>('');
 
-	const handleValueChange = (newValue: string) => {
+	const handleValueChange = (newValue: string | string[]) => {
 		setValue(newValue);
-	};
-
-	const handleClearSelection = () => {
-		setValue('');
 	};
 
 	return (
 		<DsSelect
 			options={options}
-			value={value}
-			onClear={handleClearSelection}
-			onValueChange={handleValueChange}
+			value={value as never}
+			onValueChange={handleValueChange as never}
 			style={style}
 			size={size}
 			placeholder={placeholder}
+			disabled={disabled}
+			multiple={multiple as never}
+			clearable={clearable as never}
 		/>
 	);
 };
@@ -72,38 +86,37 @@ const sanityCheck = async (canvasElement: HTMLElement) => {
 	// Open the select dropdown
 	await userEvent.click(trigger);
 
-	// Verify that 'Option 1' is not selected initially
-	const option1 = screen.getByRole('option', { name: 'Option 1' });
+	// Verify that the first item is not selected initially
+	const option1 = screen.getByRole('option', { name: mockOptions[0].label });
 	await expect(option1).not.toHaveAttribute('data-state', 'checked');
 
-	// Select 'Option 1'
+	// Select the first item
 	await userEvent.click(option1);
-	await expect(trigger).toHaveTextContent('Option 1');
+	await expect(trigger).toHaveTextContent(mockOptions[0].label);
 
 	// Open the select dropdown again
 	await userEvent.click(trigger);
 
-	// Select 'Option 2'
-	const option2 = screen.getByRole('option', { name: 'Option 2' });
+	// Select the second item
+	const option2 = screen.getByRole('option', { name: mockOptions[1].label });
 	await userEvent.click(option2);
-	await expect(trigger).toHaveTextContent('Option 2');
+	await expect(trigger).toHaveTextContent(mockOptions[1].label);
 
 	// Open the select dropdown again to verify selection states
 	await userEvent.click(trigger);
 
-	// Verify that 'Option 1' is no longer selected
-	const updatedOption1 = screen.getByRole('option', { name: 'Option 1' });
+	// Verify that the first item is no longer selected
+	const updatedOption1 = screen.getByRole('option', { name: mockOptions[0].label });
 	await expect(updatedOption1).not.toHaveAttribute('data-state', 'checked');
 
-	// Verify that 'Option 2' is now selected
-	const updatedOption2 = screen.getByRole('option', { name: 'Option 2' });
+	// Verify that the second item is now selected
+	const updatedOption2 = screen.getByRole('option', { name: mockOptions[1].label });
 	await expect(updatedOption2).toHaveAttribute('data-state', 'checked');
 
 	// Close the dropdown first by pressing Escape
 	await userEvent.keyboard('{Escape}');
 
-	// Test close button functionality
-	// Find and click the close button (it should be visible when an option is selected)
+	// Test clear value button functionality
 	const closeButton = canvas.getByRole('button', { name: 'Clear value' });
 	await userEvent.click(closeButton);
 
@@ -111,17 +124,30 @@ const sanityCheck = async (canvasElement: HTMLElement) => {
 	await expect(trigger).toHaveTextContent('Click to select a value');
 };
 
+const mockOptions = [
+	{ value: 'apple', label: 'Apple' },
+	{ value: 'banana', label: 'Banana' },
+	{ value: 'cherry', label: 'Cherry' },
+	{ value: 'date', label: 'Date' },
+	{ value: 'elderberry', label: 'Elderberry' },
+	{ value: 'fig', label: 'Fig' },
+	{ value: 'grape', label: 'Grape' },
+	{ value: 'honeydew', label: 'Honeydew' },
+	{ value: 'indian-fig', label: 'Indian fig' },
+	{ value: 'jackfruit', label: 'Jackfruit' },
+	{ value: 'kiwi', label: 'Kiwi' },
+	{ value: 'lemon', label: 'Lemon' },
+	{ value: 'melon', label: 'Melon' },
+];
+
 export const Default: Story = {
 	render: (args) => <ControlledSelectWrapper {...args} />,
 	args: {
-		options: Array.from({ length: 14 }, (_, i) => ({
-			label: `Option ${i + 1}`,
-			value: `option${i + 1}`,
-		})),
+		options: mockOptions,
+		clearable: true,
 		style: {
 			width: '200px',
 		},
-		size: 'small',
 	},
 	play: async ({ canvasElement }) => {
 		await sanityCheck(canvasElement);
@@ -131,16 +157,63 @@ export const Default: Story = {
 export const WithIcons: Story = {
 	render: (args) => <ControlledSelectWrapper {...args} />,
 	args: {
+		options: mockOptions.slice(0, 3).map((item) => ({
+			...item,
+			icon: 'nutrition',
+		})),
+		style: {
+			width: '200px',
+		},
+		clearable: true,
+	},
+	play: async ({ canvasElement }) => {
+		await sanityCheck(canvasElement);
+	},
+};
+
+export const WithSearch: Story = {
+	render: (args) => <ControlledSelectWrapper {...args} />,
+	args: {
 		options: [
-			{ label: 'Option 1', value: 'option1', icon: 'download' },
-			{ label: 'Option 2', value: 'option2', icon: 'save' },
-			{ label: 'Option 3', value: 'option3', icon: 'description' },
+			...mockOptions,
+			{
+				value: 'nectarine',
+				label: 'Nectarine',
+			},
 		],
+		clearable: true,
 		style: {
 			width: '200px',
 		},
 	},
-	play: async ({ canvasElement }) => {
-		await sanityCheck(canvasElement);
+};
+
+export const MultiSelect: Story = {
+	render: (args) => <ControlledSelectWrapper {...args} />,
+	args: {
+		options: mockOptions,
+		style: {
+			width: '250px',
+		},
+		multiple: true,
+		clearable: true,
+	},
+};
+
+export const MultiSelectWithSearch: Story = {
+	render: (args) => <ControlledSelectWrapper {...args} />,
+	args: {
+		options: [
+			...mockOptions,
+			{
+				value: 'nectarine',
+				label: 'Nectarine',
+			},
+		],
+		style: {
+			width: '250px',
+		},
+		multiple: true,
+		clearable: true,
 	},
 };

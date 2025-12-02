@@ -56,7 +56,18 @@ type Story = StoryObj<typeof DsFormControl>;
 
 const sanityCheck = async (canvasElement: HTMLElement) => {
 	const canvas = within(canvasElement);
-	const selectTrigger = canvas.getByLabelText('Input');
+	const selectTrigger = canvas.getByRole('combobox', { name: 'Input' });
+
+	// Testing-Library can't trigger a CSS hover event, which is needed to show the clear button,
+	// so we're "hacking" it and showing the clear button by toggling the dropdown.
+	const clearSelection = async () => {
+		await userEvent.click(selectTrigger);
+
+		const clearButton = canvas.getByRole('button', { name: 'Clear value' });
+		await userEvent.click(clearButton);
+
+		await userEvent.click(selectTrigger);
+	};
 
 	// Test initial state - should show placeholder
 	await expect(selectTrigger).toHaveTextContent('Select an option');
@@ -65,18 +76,13 @@ const sanityCheck = async (canvasElement: HTMLElement) => {
 	await userEvent.click(selectTrigger);
 
 	// Wait for dropdown to appear and check options
-	await waitFor(async () => {
-		const option1 = screen.getByRole('option', { name: 'Option 1' });
-		const option2 = screen.getByRole('option', { name: 'Option 2' });
-		const option3 = screen.getByRole('option', { name: 'Option 3' });
+	const option1 = screen.getByRole('option', { name: 'Option 1' });
 
-		await expect(option1).toBeInTheDocument();
-		await expect(option2).toBeInTheDocument();
-		await expect(option3).toBeInTheDocument();
-	});
+	await expect(option1).toBeInTheDocument();
+	await expect(screen.getByRole('option', { name: 'Option 2' })).toBeInTheDocument();
+	await expect(screen.getByRole('option', { name: 'Option 3' })).toBeInTheDocument();
 
 	// Test selecting an option
-	const option1 = screen.getByRole('option', { name: 'Option 1' });
 	await userEvent.click(option1);
 
 	// Verify the selected value is displayed
@@ -85,8 +91,7 @@ const sanityCheck = async (canvasElement: HTMLElement) => {
 	});
 
 	// Test clearing the selection
-	const clearButton = canvas.getByRole('button', { name: /clear value/i });
-	await userEvent.click(clearButton);
+	await clearSelection();
 
 	// Verify placeholder is shown again
 	await waitFor(async () => {
@@ -98,19 +103,14 @@ const sanityCheck = async (canvasElement: HTMLElement) => {
 	const option2 = screen.getByRole('option', { name: 'Option 2' });
 	await userEvent.click(option2);
 
-	await waitFor(async () => {
-		await expect(selectTrigger).toHaveTextContent('Option 2');
-	});
+	await expect(selectTrigger).toHaveTextContent('Option 2');
 
 	// Reset and verify clear button disappears - get fresh reference
-	const clearButtonAfterSelection = canvas.getByRole('button', { name: /clear value/i });
-	await userEvent.click(clearButtonAfterSelection);
-	await waitFor(async () => {
-		await expect(selectTrigger).toHaveTextContent('Select an option');
-		// Verify clear button is no longer present when no value is selected
-		const clearButtonAfterReset = canvas.queryByRole('button', { name: /clear value/i });
-		await expect(clearButtonAfterReset).not.toBeInTheDocument();
-	});
+	await clearSelection();
+	await expect(selectTrigger).toHaveTextContent('Select an option');
+
+	// Verify clear button is no longer in the document
+	await expect(canvas.queryByRole('button', { name: 'Clear value' })).not.toBeInTheDocument();
 };
 
 const checkDisabled = async (canvasElement: HTMLElement) => {
@@ -124,10 +124,7 @@ const checkDisabled = async (canvasElement: HTMLElement) => {
 	await userEvent.click(selectTrigger);
 
 	// Verify that no dropdown appears (disabled state)
-	await waitFor(async () => {
-		const option1 = canvas.queryByText('Option 1');
-		await expect(option1).not.toBeInTheDocument();
-	});
+	await expect(canvas.queryByText('Option 1')).not.toBeVisible();
 };
 
 export const Default: Story = {
@@ -140,7 +137,7 @@ export const Default: Story = {
 					placeholder="Select an option"
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ label: 'Option 1', value: 'option1', icon: 'download' },
 						{ label: 'Option 2', value: 'option2', icon: 'save' },
@@ -165,7 +162,7 @@ export const WithCustomWidth: Story = {
 					placeholder="Select an option"
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ label: 'Option 1', value: 'option1', icon: 'download' },
 						{ label: 'Option 2', value: 'option2', icon: 'save' },
@@ -200,7 +197,7 @@ export const WithCustomStyles: Story = {
 					placeholder="Select an option"
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ label: 'Option 1', value: 'option1', icon: 'download' },
 						{ label: 'Option 2', value: 'option2', icon: 'save' },
@@ -228,7 +225,7 @@ export const WithDescription: Story = {
 					placeholder="Select an option"
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ label: 'Option 1', value: 'option1', icon: 'download' },
 						{ label: 'Option 2', value: 'option2', icon: 'save' },
@@ -270,7 +267,7 @@ export const WithHelpIcon: Story = {
 				<DsFormControl.Select
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ value: 'option1', label: 'Option 1' },
 						{ value: 'option2', label: 'Option 2' },
@@ -304,7 +301,7 @@ export const Success: Story = {
 					placeholder="Select an option"
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ label: 'Option 1', value: 'option1', icon: 'download' },
 						{ label: 'Option 2', value: 'option2', icon: 'save' },
@@ -337,7 +334,7 @@ export const Error: Story = {
 					placeholder="Select an option"
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ label: 'Option 1', value: 'option1', icon: 'download' },
 						{ label: 'Option 2', value: 'option2', icon: 'save' },
@@ -370,7 +367,7 @@ export const Warning: Story = {
 					placeholder="Select an option"
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ label: 'Option 1', value: 'option1', icon: 'download' },
 						{ label: 'Option 2', value: 'option2', icon: 'save' },
@@ -398,7 +395,7 @@ export const Disabled: Story = {
 					placeholder="Select an option"
 					value={value}
 					onValueChange={setValue}
-					onClear={() => setValue('')}
+					clearable
 					options={[
 						{ label: 'Option 1', value: 'option1', icon: 'download' },
 						{ label: 'Option 2', value: 'option2', icon: 'save' },

@@ -1,100 +1,148 @@
-import { FC, useState } from 'react';
-import * as Select from '@radix-ui/react-select';
+import { useState } from 'react';
+import { Select, createListCollection, useSelect, UseSelectReturn } from '@ark-ui/react/select';
+import { Portal } from '@ark-ui/react/portal';
 import classNames from 'classnames';
 import styles from './ds-select.module.scss';
-import { DsSelectProps } from './ds-select.types';
+import { DsSelectOption, DsSelectProps } from './ds-select.types';
 import { DsIcon } from '../ds-icon';
+import { DsCheckbox, DsCheckboxProps } from '../ds-checkbox';
+import { SelectItemsChips } from './select-items-chips';
+import { DsTypography } from '../ds-typography';
 
 const SEARCH_THRESHOLD = 13;
+const SELECT_ALL_VALUE = '__INTERNAL_SELECT_ALL_VALUE__';
 
-const DsSelect: FC<DsSelectProps> = ({
+const SELECT_ALL: DsSelectOption = {
+	label: 'All',
+	value: SELECT_ALL_VALUE,
+};
+
+const DsSelect = ({
 	id,
-	options,
+	options: userOptions,
 	value,
 	style,
 	size,
+	clearable,
 	onClear,
-	className,
-	onValueChange,
 	onBlur,
+	className,
 	placeholder = 'Click to select a value',
-	...props
-}) => {
-	const [open, setOpen] = useState(false);
+	disabled,
+	...multiselectProps
+}: DsSelectProps) => {
 	const [searchTerm, setSearchTerm] = useState('');
+	const [showAllItems, setShowAllItems] = useState(false);
 
-	const filteredOptions = options.filter((option) =>
+	const internalOptions = multiselectProps.multiple ? [SELECT_ALL, ...userOptions] : userOptions;
+
+	const collection = createListCollection({
+		items: internalOptions,
+		itemToValue: (item) => item.value,
+	});
+
+	const filteredOptions = internalOptions.filter((option) =>
 		option.label.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
 
-	const handleOpenChange = (isOpen: boolean) => {
-		setOpen(isOpen);
-		if (!isOpen) {
-			setSearchTerm('');
-		}
-	};
+	const normalizedValue = Array.isArray(value) ? value : [value].filter((value) => !!value);
 
-	const selectedOption = options.find((option) => option.value === value);
+	const select = useSelect({
+		collection,
+		disabled,
+		multiple: multiselectProps.multiple,
+		value: normalizedValue,
+
+		// Override Ark's auto-generated trigger id if an id provided by the user.
+		// See: https://github.com/chakra-ui/zag/blob/f6e079095/packages/machines/select/src/select.dom.ts#L5
+		ids: { trigger: id },
+
+		onOpenChange: () => {
+			setSearchTerm('');
+			setShowAllItems(false);
+		},
+
+		onValueChange: (details) => {
+			// Single select mode.
+			if (!multiselectProps.multiple) {
+				multiselectProps.onValueChange?.(details.value[0]);
+				return;
+			}
+
+			console.log(details.value);
+			// "Select All" clicked in multi select mode.
+			const isSelectAllClicked = details.value.includes(SELECT_ALL_VALUE);
+
+			if (isSelectAllClicked) {
+				const areAllOptionsSelected = select.selectedItems.length === userOptions.length;
+
+				const newValues = areAllOptionsSelected ? [] : userOptions.map((opt) => opt.value);
+
+				multiselectProps.onValueChange?.(newValues);
+
+				return;
+			}
+
+			// "Regular" multi select mode.
+			const newValueWithoutSelectAll = details.value.filter((val) => val !== SELECT_ALL_VALUE);
+
+			multiselectProps.onValueChange?.(newValueWithoutSelectAll);
+		},
+	});
 
 	return (
-		<div className={`${styles.container} ${className}`} style={style}>
-			<Select.Root
-				value={value}
-				onValueChange={onValueChange}
-				open={open}
-				onOpenChange={handleOpenChange}
-				{...props}
+		<Select.RootProvider value={select}>
+			<Select.Control
+				className={classNames(styles.control, size === 'small' && styles.small, className)}
+				style={style}
+				onBlur={onBlur}
+				onKeyDown={(e) => {
+					if (!clearable) {
+						return;
+					}
+
+					if (select.open) {
+						return;
+					}
+
+					if (e.key === 'Backspace' || e.key === 'Delete') {
+						if (multiselectProps.multiple) {
+							multiselectProps.onValueChange?.([]);
+						} else {
+							multiselectProps.onValueChange?.('');
+						}
+
+						onClear?.();
+					}
+				}}
 			>
 				<Select.Trigger
 					id={id}
-					className={classNames(styles.trigger, { [styles.small]: size === 'small' })}
-					onBlur={onBlur}
+					className={styles.trigger}
+					// Ark expects a `Select.Label` component to exist and automatically label the trigger
+					// with it. We're using the `DsFormControl` label handling instead, so we disable the
+					// automatic labelling here.
+					aria-labelledby={null as never}
 				>
-					<div className={styles.itemValue}>
-						<Select.Value className={styles.itemValueText} placeholder={placeholder} />
-					</div>
-					<div className={styles.triggerIcons}>
-						{selectedOption && (
-							/*
-							 * Using a div instead of a button because:
-							 *
-							 * 1. The Trigger itself is a button so we can't render nested buttons
-							 * 2. The Trigger listens for `keyDown` event which overrides the clear behavior
-							 */
-							<div
-								role="button"
-								tabIndex={0}
-								onPointerDown={(e) => e.stopPropagation()}
-								onClick={(event) => {
-									event.preventDefault();
-									onClear?.();
-								}}
-								onKeyDown={(e) => {
-									if (e.key === 'Enter' || e.key === ' ') {
-										e.stopPropagation();
-										onClear?.();
-									}
-								}}
-								className={styles.clearIcon}
-								aria-label="Clear value"
-							>
-								<DsIcon icon="close" />
-							</div>
-						)}
-						<Select.Icon className={styles.triggerIcon}>
-							<DsIcon
-								icon="keyboard_arrow_down"
-								className={classNames({
-									[styles.iconRotated]: open,
-								})}
-							/>
-						</Select.Icon>
-					</div>
+					<DsTypography className={styles.valueText} variant="body-sm-reg" asChild>
+						<Select.ValueText placeholder={placeholder} />
+					</DsTypography>
+
+					<Select.Indicator className={styles.triggerIcon}>
+						<DsIcon icon="keyboard_arrow_down" size={size === 'small' ? 'small' : 'medium'} />
+					</Select.Indicator>
 				</Select.Trigger>
 
-				<Select.Portal>
-					<Select.Content className={styles.content} position="popper" sideOffset={4}>
-						{options.length > SEARCH_THRESHOLD && (
+				{clearable && (
+					<Select.ClearTrigger className={styles.clearIcon} onClick={onClear}>
+						<DsIcon icon="close" size={size === 'small' ? 'small' : 'medium'} />
+					</Select.ClearTrigger>
+				)}
+			</Select.Control>
+			<Portal>
+				<Select.Positioner className={styles.viewport}>
+					<Select.Content className={styles.content}>
+						{userOptions.length > SEARCH_THRESHOLD && (
 							<div className={styles.searchInput}>
 								<DsIcon className={styles.searchIcon} icon="search" size="tiny" />
 								<input
@@ -106,21 +154,73 @@ const DsSelect: FC<DsSelectProps> = ({
 								/>
 							</div>
 						)}
-						<Select.Viewport className={styles.viewport}>
-							{filteredOptions.map((option) => (
-								<Select.Item key={option.value} className={styles.item} value={option.value}>
-									<div className={styles.itemValue}>
-										{option.icon && <DsIcon className={styles.itemIcon} icon={option.icon} />}
-										<Select.ItemText>{option.label}</Select.ItemText>
-									</div>
-								</Select.Item>
-							))}
-						</Select.Viewport>
+
+						{multiselectProps.multiple && (
+							<SelectItemsChips
+								onValueChange={multiselectProps.onValueChange}
+								showAll={showAllItems}
+								onShowAll={() => setShowAllItems(true)}
+								// TODO: Find a way to calculate this based on the size of the select.
+								count={6}
+							/>
+						)}
+
+						{filteredOptions.map((item) => {
+							const checked = getItemCheckedState({ item, select, options: internalOptions });
+
+							return (
+								<DsTypography
+									variant="body-sm-reg"
+									asChild
+									key={collection.getItemValue(item)}
+									className={styles.item}
+								>
+									<Select.Item item={item}>
+										{multiselectProps.multiple && <DsCheckbox checked={checked} />}
+										{item.icon && <DsIcon className={styles.itemIcon} icon={item.icon} aria-hidden="true" />}
+										<Select.ItemText>{item.label}</Select.ItemText>
+									</Select.Item>
+								</DsTypography>
+							);
+						})}
 					</Select.Content>
-				</Select.Portal>
-			</Select.Root>
-		</div>
+				</Select.Positioner>
+			</Portal>
+
+			{/*
+				This element isn't properly hidden by Zag, so we hide it manually.
+			 	For more information, see: https://github.com/chakra-ui/zag/issues/2865
+			*/}
+			<Select.HiddenSelect style={{ display: 'none' }} />
+		</Select.RootProvider>
 	);
 };
+
+function getItemCheckedState({
+	item,
+	select,
+	options,
+}: {
+	item: DsSelectOption;
+	select: UseSelectReturn<DsSelectOption>;
+	options: DsSelectOption[];
+}): DsCheckboxProps['checked'] {
+	const isRegularItem = item.value !== SELECT_ALL_VALUE;
+
+	if (isRegularItem) {
+		return select.getItemState({ item }).selected;
+	}
+
+	// Doing -1 since it contains the "Select All" option itself.
+	const allSelected = select.selectedItems.length === options.length - 1;
+
+	if (allSelected) {
+		return true;
+	}
+
+	const someSelected = select.hasSelectedItems;
+
+	return someSelected ? 'indeterminate' : false;
+}
 
 export default DsSelect;
