@@ -192,6 +192,25 @@ export interface DsDataTableProps<TData, TValue> {
 	onRowDoubleClick?: (row: TData) => void;
 
 	/**
+	 * ID of the currently active row (useful for showing drawer/panel associations)
+	 * When set, the row with this ID will be visually highlighted with a persistent active state
+	 * @example
+	 * ```tsx
+	 * const [activeRowId, setActiveRowId] = useState<string | null>(null);
+	 * const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	 *
+	 * <DsTable
+	 *   activeRowId={isDrawerOpen ? activeRowId : null}
+	 *   onRowClick={(row) => {
+	 *     setActiveRowId(row.id);
+	 *     setIsDrawerOpen(true);
+	 *   }}
+	 * />
+	 * ```
+	 */
+	activeRowId?: string | null;
+
+	/**
 	 * Empty state of the table
 	 */
 	emptyState?: React.ReactNode;

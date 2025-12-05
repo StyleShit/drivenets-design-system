@@ -21,6 +21,10 @@ export interface DsTableContextType<TData, TValue> extends Partial<DsDataTablePr
 	 * @default 'medium'
 	 */
 	rowSize: DsTableRowSize;
+	/**
+	 * ID of the currently active row
+	 */
+	activeRowId?: string | null;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

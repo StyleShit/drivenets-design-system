@@ -63,6 +63,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 	onColumnFiltersChange,
 	columnVisibility: externalColumnVisibility,
 	onColumnVisibilityChange,
+	activeRowId,
 }: DsDataTableProps<TData, TValue>) => {
 	const [data, setData] = React.useState(tableData);
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -235,6 +236,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 		virtualized,
 		expandedRows,
 		toggleRowExpanded,
+		activeRowId,
 	};
 
 	return (

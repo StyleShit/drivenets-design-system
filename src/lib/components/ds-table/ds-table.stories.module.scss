@@ -271,3 +271,82 @@
 	font-size: 14px;
 	color: #666;
 }
+
+// Drawer story styles
+.drawerContent {
+	padding: var(--spacing-lg);
+}
+
+.drawerHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--spacing-lg);
+}
+
+.drawerTitle {
+	margin: 0;
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-semi-bold);
+}
+
+.drawerCloseButton {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: var(--spacing-xs);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	transition: background-color 0.2s ease;
+
+	&:hover {
+		background-color: var(--color-background-action-hover-weak);
+	}
+}
+
+.drawerDetails {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-4);
+}
+
+.drawerDetailItem {
+	display: flex;
+	flex-direction: column;
+}
+
+.drawerDetailLabel {
+	color: var(--color-font-secondary);
+	font-weight: var(--font-weight-medium);
+	font-size: var(--font-size-sm);
+	margin-bottom: var(--spacing-1);
+}
+
+.drawerDetailValue {
+	margin: 0;
+	font-size: var(--font-size-md);
+	color: var(--color-font-main);
+}
+
+.drawerDetailValueCapitalized {
+	text-transform: capitalize;
+}
+
+.drawerProgressContainer {
+	margin-top: var(--spacing-xs);
+}
+
+.drawerNote {
+	margin-top: var(--spacing-lg);
+	padding: var(--spacing-4);
+	background: var(--color-background-info);
+	border-radius: 4px;
+
+	p {
+		margin: 0;
+		font-size: var(--font-size-sm);
+		color: var(--color-font-secondary);
+	}
+}

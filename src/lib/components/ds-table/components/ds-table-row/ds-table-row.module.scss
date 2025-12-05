@@ -60,6 +60,10 @@
 		background-color: var(--action-hover-light);
 	}
 
+	&[data-state='active'] {
+		background-color: var(--color-background-selected-weak);
+	}
+
 	&.clickableRow {
 		cursor: pointer;
 	}

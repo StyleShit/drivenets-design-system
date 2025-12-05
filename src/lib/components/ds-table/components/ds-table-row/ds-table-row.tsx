@@ -54,9 +54,11 @@ const DsTableRow = <TData, TValue>({ ref, row, virtualRow }: DsTableRowProps<TDa
 		toggleRowExpanded,
 		primaryRowActions,
 		secondaryRowActions,
+		activeRowId,
 	} = useDsTableContext<TData, TValue>();
 	const isExpanded = expandedRows[row.id];
 	const isExpandable = typeof expandable === 'function' ? expandable(row.original) : expandable;
+	const isActive = activeRowId === row.id;
 
 	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
 		id: row.id,
@@ -87,7 +89,7 @@ const DsTableRow = <TData, TValue>({ ref, row, virtualRow }: DsTableRowProps<TDa
 		<React.Fragment key={row.id}>
 			<TableRow
 				ref={mergeRefs(reorderable ? setNodeRef : null, ref)}
-				data-state={row.getIsSelected() && 'selected'}
+				data-state={isActive ? 'active' : row.getIsSelected() ? 'selected' : undefined}
 				className={classnames(
 					styles.tableRow,
 					{
