@@ -70,7 +70,6 @@ const DsSelect = ({
 				return;
 			}
 
-			console.log(details.value);
 			// "Select All" clicked in multi select mode.
 			const isSelectAllClicked = details.value.includes(SELECT_ALL_VALUE);
 
@@ -141,7 +140,19 @@ const DsSelect = ({
 				)}
 			</Select.Control>
 			<Portal>
-				<Select.Positioner className={styles.viewport}>
+				<Select.Positioner
+					className={styles.viewport}
+					ref={(node) => {
+						// When rendering the Select inside a Modal, it has an `aria-hidden="true"` attribute
+						// which causes screen readers to ignore it.
+						//
+						// See: https://github.com/chakra-ui/ark/issues/3728
+						if (select.open) {
+							node?.removeAttribute('aria-hidden');
+							node?.removeAttribute('data-aria-hidden');
+						}
+					}}
+				>
 					<Select.Content className={styles.content}>
 						{userOptions.length > SEARCH_THRESHOLD && (
 							<div className={styles.searchInput}>
