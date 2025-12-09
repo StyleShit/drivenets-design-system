@@ -1,5 +1,11 @@
 import React from 'react';
-import type { ColumnDef, ColumnFiltersState, SortingState, Table } from '@tanstack/react-table';
+import type {
+	ColumnDef,
+	ColumnFiltersState,
+	SortingState,
+	Table,
+	VisibilityState,
+} from '@tanstack/react-table';
 import { IconType } from '../ds-icon';
 import { RowAction, SecondaryRowAction } from './components/ds-table-cell';
 
@@ -327,4 +333,26 @@ export interface DsDataTableProps<TData, TValue> {
 	 * Callback when column filters change
 	 */
 	onColumnFiltersChange?: (filters: ColumnFiltersState) => void;
+
+	/**
+	 * External column visibility state
+	 * @example
+	 * ```tsx
+	 * const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+	 *   age: false, // hide age column
+	 *   status: true, // show status column
+	 * });
+	 *
+	 * <DsTable
+	 *   columnVisibility={columnVisibility}
+	 *   onColumnVisibilityChange={setColumnVisibility}
+	 * />
+	 * ```
+	 */
+	columnVisibility?: VisibilityState;
+
+	/**
+	 * Callback when column visibility changes
+	 */
+	onColumnVisibilityChange?: (visibility: VisibilityState) => void;
 }
