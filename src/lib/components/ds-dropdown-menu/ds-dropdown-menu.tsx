@@ -311,9 +311,9 @@ export const DsDropdownMenuLegacy: React.FC<DsDropdownMenuLegacyProps> = ({
 							onKeyDown={(e) => e.stopPropagation()}
 						/>
 					)}
-					{filteredOptions.map((option) => (
+					{filteredOptions.map((option, i) => (
 						<DropdownMenu.Item
-							key={option.label}
+							key={i}
 							disabled={option.disabled}
 							className={classNames(
 								styles.itemLegacy,

@@ -106,17 +106,17 @@
 }
 
 /** Legacy classes */
-.content-legacy {
+.contentLegacy {
 	@include dropdown.dropdown-content;
 	min-width: 200px;
 	width: var(--radix-select-trigger-width);
 }
 
-.viewport-legacy {
+.viewportLegacy {
 	@include dropdown.dropdown-viewport;
 }
 
-.item-legacy {
+.itemLegacy {
 	@include dropdown.dropdown-item;
 	@include typography.p-special;
 	@include typography.ellipsis;
