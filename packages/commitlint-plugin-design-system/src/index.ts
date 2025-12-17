@@ -1,7 +1,7 @@
 import { type Plugin } from '@commitlint/types';
 import { requireJiraTicket } from './rules/require-jira-ticket';
 
-export const commitlintPluginDesignSystem = {
+export default {
 	rules: {
 		'design-system/require-jira-ticket': requireJiraTicket,
 	},

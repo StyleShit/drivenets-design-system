@@ -1,0 +1,4 @@
+packages:
+  - 'packages/*'
+
+minimumReleaseAge: 60 # 1 hour in minutes

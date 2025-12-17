@@ -14,11 +14,12 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: 'blob:none'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -29,11 +30,19 @@ jobs:
       - name: Install Dependencies
         run: pnpm i
 
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-lint-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-lint-
+
       - name: Run Lint
-        run: npm run lint
+        run: pnpm lint --affected
 
       - name: Run Format Check
-        run: npm run format:check
+        run: pnpm format:check
 
   test:
     name: Test
@@ -41,11 +50,12 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: 'blob:none'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -58,8 +68,16 @@ jobs:
           pnpm i
           pnpm exec playwright install
 
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-test-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-test-
+
       - name: Run Tests
-        run: pnpm test
+        run: pnpm test --affected
 
   build:
     name: Build
@@ -67,11 +85,12 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: 'blob:none'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -82,5 +101,13 @@ jobs:
       - name: Install Dependencies
         run: pnpm i
 
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-build-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-build-
+
       - name: Run Build
-        run: pnpm build
+        run: pnpm build --affected
