@@ -26,6 +26,10 @@
 		"./src",
 		"!**/__tests__"
 	],
+	"repository": {
+		"url": "https://github.com/drivenets/design-system",
+		"directory": "/packages/eslint-plugin"
+	},
 	"scripts": {
 		"lint": "eslint --max-warnings=0 .",
 		"typecheck": "tsc",

@@ -31,6 +31,10 @@
 		"!**/stories",
 		"!**/*.stories.*"
 	],
+	"repository": {
+		"url": "https://github.com/drivenets/design-system",
+		"directory": "/packages/design-system"
+	},
 	"scripts": {
 		"lint": "eslint --max-warnings=0 .",
 		"typecheck": "tsc",
