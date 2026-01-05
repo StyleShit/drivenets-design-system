@@ -20,7 +20,7 @@
 		"build:lint": "turbo run build:lint",
 		"changelog": "changeset",
 		"release": "pnpm build && changeset publish",
-		"prepare": "husky",
+		"prepare": "test -n \"$CI\" || husky",
 		"pre-commit": "lint-staged"
 	},
 	"devDependencies": {
