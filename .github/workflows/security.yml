@@ -6,7 +6,7 @@ on:
 
 jobs:
   CodeQL:
-    name: CodeQL (${{ matrix.language }})
+    name: CodeQL (${{ matrix.label }})
     runs-on: ubuntu-latest
     permissions:
       # required for all workflows
@@ -19,8 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - language: actions
-          - language: javascript-typescript
+          - label: 'GitHub Actions'
+            language: actions
+
+          - label: 'TypeScript'
+            language: javascript-typescript
 
     steps:
       - name: Checkout repository
