@@ -38,8 +38,8 @@ jobs:
           node-version-file: .nvmrc
           cache: 'pnpm'
 
-      - name: Ensure latest npm
-        run: npm install -g npm@latest # npm >= 11.5.1 is required for trusted publishing
+      - name: Ensure updated npm
+        run: npm install -g npm@11.7.0 # npm >= 11.5.1 is required for trusted publishing
 
       - name: Install Dependencies
         run: pnpm i

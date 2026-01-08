@@ -21,6 +21,9 @@ jobs:
     name: CodeQL Security (${{ matrix.label }})
     runs-on: ubuntu-latest
     permissions:
+      contents: read
+      actions: read
+
       # required for all workflows
       security-events: write
 
