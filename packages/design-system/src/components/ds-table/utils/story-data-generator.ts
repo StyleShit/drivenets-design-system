@@ -58,8 +58,8 @@ export const generatePersonData = (
 
 	// Apply sorting if provided
 	const sortedData = [...allData];
-	if (sorting.length) {
-		const sort = sorting[0];
+	const sort = sorting[0];
+	if (sort) {
 		const { id, desc } = sort;
 		sortedData.sort((a, b) => {
 			const aValue = a[id as keyof Person];
