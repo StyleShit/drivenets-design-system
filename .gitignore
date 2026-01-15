@@ -7,3 +7,4 @@ storybook-static
 .idea
 .turbo
 .DS_Store
+.changeset-status.json
