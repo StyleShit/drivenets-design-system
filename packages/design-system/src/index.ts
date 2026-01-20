@@ -1,4 +1,6 @@
 export * from './components/ds-alert-banner';
+export * from './components/ds-avatar';
+export * from './components/ds-avatar-group';
 export * from './components/ds-breadcrumb';
 export * from './components/ds-button';
 export * from './components/ds-checkbox';
@@ -29,6 +31,8 @@ export * from './components/ds-status-badge';
 export * from './components/ds-stepper';
 export * from './components/ds-system-status';
 export * from './components/ds-table';
+export * from './components/ds-tag';
+export * from './components/ds-tag-filter';
 export * from './components/ds-text-input';
 export * from './components/ds-textarea';
 export * from './components/ds-toast';
