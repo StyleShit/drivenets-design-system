@@ -5,11 +5,13 @@
 	bottom: 20px;
 	left: 50%;
 	transform: translateX(-50%);
-	background-color: var(--color-background);
+	background-color: var(--white);
 	border-radius: 8px;
-	box-shadow: 0 3.5px 14px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0 4px 12px #0445cc66;
 	z-index: 1000;
 	display: flex;
+	align-items: center;
+	border-radius: 8px;
 	overflow: hidden;
 	animation-duration: 0.3s;
 	animation-timing-function: ease-out;
@@ -32,19 +34,19 @@
 }
 
 .selectedCountContainer {
-	background-color: var(--color-background-selected);
+	background-color: var(--action-cta1);
 	display: flex;
 	align-items: center;
 	padding: 6px 22px;
 }
 
 .selectedCountBadge {
-	color: var(--color-font-on-action);
-	text-align: center;
+	color: var(--white);
+	margin: 0;
 }
 
 .bulkActionsInfo {
-	color: var(--color-font-secondary);
+	color: var(--neutral-2);
 	text-wrap: nowrap;
 	padding-left: 8px;
 	padding-right: 56px;
@@ -53,15 +55,10 @@
 .bulkActionsActions {
 	display: flex;
 	align-items: center;
-	color: var(--color-font-action-secondary);
+	gap: 8px;
 
 	> .actionButton {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2px;
-		margin: 8px 0;
-		border-right: 1px solid var(--color-border);
+		border-right: 1px solid var(--neutral-6);
 		width: 68px;
 		height: 48px;
 		border-radius: 0;
@@ -76,7 +73,7 @@
 	}
 
 	> .actionButton:first-child {
-		border-left: 1px solid var(--color-border);
+		border-left: 1px solid var(--neutral-6);
 	}
 }
 
@@ -85,10 +82,14 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	color: var(--color-font-main);
+	color: var(--neutral-2);
 	gap: 2px !important;
 	width: 36px;
 	padding-left: 4px;
+
+	&:hover {
+		color: var(--neutral-4);
+	}
 }
 
 @keyframes slideUpFadeIn {

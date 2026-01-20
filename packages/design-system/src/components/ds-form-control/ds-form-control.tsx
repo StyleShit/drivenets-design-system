@@ -7,19 +7,9 @@ import { DsTextInput } from '../ds-text-input';
 import { DsTextarea } from '../ds-textarea';
 import { DsNumberInput } from '../ds-number-input';
 import { DsPasswordInput } from '../ds-password-input';
-import type {
-	ControlStatus,
-	DsFormControlDescriptionProps,
-	DsFormControlProps,
-} from './ds-form-control.types';
+import type { DsFormControlDescriptionProps, DsFormControlProps } from './ds-form-control.types';
 import styles from './ds-form-control.module.scss';
 import { DsDateInput } from '../ds-date-input';
-
-const statusClasses: Partial<Record<ControlStatus, string>> = {
-	success: styles.success,
-	warning: styles.warning,
-	error: styles.error,
-};
 
 const FormControlContext = createContext<{ controlId: string } | null>(null);
 
@@ -67,7 +57,14 @@ const DsFormControl = ({
 	return (
 		<FormControlContext.Provider value={{ controlId }}>
 			<div
-				className={classNames(styles.container, status && message && statusClasses[status], className)}
+				className={classNames(
+					styles.container,
+					className,
+
+					// @ts-expect-error: `info` doesn't have its own classname
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+					status && message && styles[status],
+				)}
 				style={style}
 			>
 				<div className={styles.labelContainer}>

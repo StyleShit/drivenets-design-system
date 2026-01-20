@@ -2,29 +2,8 @@ import classNames from 'classnames';
 import type React from 'react';
 import { Children, isValidElement } from 'react';
 import styles from './ds-button-new.module.scss';
-import type { ButtonSize, ButtonType, ButtonVariant, DsButtonProps } from './ds-button-new.types';
+import type { DsButtonProps } from './ds-button-new.types';
 import DsIcon from '../../../ds-icon/ds-icon';
-
-const typeVariantClasses: Partial<Record<`${ButtonType}-${ButtonVariant}`, string>> = {
-	'primary-filled': styles['primary-filled'],
-	'primary-danger': styles['primary-danger'],
-	'primary-dark': styles['primary-dark'],
-	'secondary-filled': styles['secondary-filled'],
-	'secondary-ghost': styles['secondary-ghost'],
-	'secondary-danger': styles['secondary-danger'],
-	'secondary-dark': styles['secondary-dark'],
-	'secondary-light-dark': styles['secondary-light-dark'],
-	'tertiary-filled': styles['tertiary-filled'],
-	'tertiary-ghost': styles['tertiary-ghost'],
-	'tertiary-danger': styles['tertiary-danger'],
-	'tertiary-dark': styles['tertiary-dark'],
-};
-
-const sizeClasses: Record<ButtonSize, string | undefined> = {
-	small: styles.small,
-	medium: styles.medium,
-	large: styles.large,
-};
 
 const isIconOnly = (children: React.ReactNode) => {
 	if (Children.count(children) !== 1) {
@@ -54,9 +33,12 @@ const DsButton: React.FC<DsButtonProps> = ({
 	const buttonClass = classNames(
 		styles.button,
 		isIconOnly(children) && styles.iconButton,
-		typeVariantClasses[`${type}-${variant}`],
-		sizeClasses[size],
+		styles[size],
 		className,
+
+		// @ts-expect-error: we don't have all variations of classnames defined
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		styles[`${type}-${variant}`],
 	);
 
 	return (

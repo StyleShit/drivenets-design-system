@@ -47,12 +47,8 @@ export const dateValuesToStrings = (
 ): string | [string, string] | undefined => {
 	const values = dates.map((date) => date.toString());
 
-	if (range) {
-		const start = values[0];
-		const end = values[1];
-		if (start && end) {
-			return [start, end];
-		}
+	if (range && values[0] && values[1]) {
+		return [values[0], values[1]];
 	}
 
 	return values[0];
@@ -92,7 +88,7 @@ const parseDateString = (dateStr: string): DateValue | null => {
 
 	// Try MM/DD/YYYY format
 	const match = dateStr.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-	if (!match || match.length < 4) {
+	if (!match) {
 		return null;
 	}
 
@@ -145,6 +141,7 @@ const parseRangeInput = (text: string): ParsedDateRange => {
 	}
 
 	const [startStr, endStr] = parts;
+
 	if (!startStr || !endStr) {
 		return { start: null, end: null, isValid: false };
 	}

@@ -42,8 +42,10 @@ const DsModal = ({
 						style={style}
 						className={classNames(
 							styles.modal,
-							styles[`cols-${String(columns)}` as keyof typeof styles],
 							className,
+
+							// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+							styles[`cols-${columns}`],
 						)}
 					>
 						<div className={classNames(styles.content)}>{children}</div>
