@@ -32,7 +32,7 @@ const DsButton: React.FC<DsButtonProps> = ({
 	const type = buttonType ?? (variant === 'ghost' ? 'secondary' : 'primary');
 	const buttonClass = classNames(
 		styles.button,
-		isIconOnly(children) && styles.iconButton,
+		{ [styles.iconButton]: isIconOnly(children) },
 		styles[size],
 		className,
 

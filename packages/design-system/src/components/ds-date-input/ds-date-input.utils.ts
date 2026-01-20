@@ -47,8 +47,8 @@ export const dateValuesToStrings = (
 ): string | [string, string] | undefined => {
 	const values = dates.map((date) => date.toString());
 
-	if (range && values[0] && values[1]) {
-		return [values[0], values[1]];
+	if (range) {
+		return values[0] && values[1] ? [values[0], values[1]] : undefined;
 	}
 
 	return values[0];
