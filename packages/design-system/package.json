@@ -36,7 +36,7 @@
 		"directory": "/packages/design-system"
 	},
 	"scripts": {
-		"lint": "eslint --max-warnings=0 .",
+		"lint": "pnpm generate-scss-dts; eslint --max-warnings=0 .",
 		"typecheck": "pnpm generate-scss-dts; tsc",
 		"generate-scss-dts": "typed-scss-modules ./src -o ./.scss-dts --nameFormat all --exportType default > /dev/null 2>&1",
 		"storybook": "storybook dev -p 6006",
