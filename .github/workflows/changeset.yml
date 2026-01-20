@@ -90,5 +90,5 @@ jobs:
           pnpm changeset status --since origin/main --output=./.changeset-status.json &> /dev/null || true
 
           if [ -f ./.changeset-status.json ]; then
-            echo 1
+            node .github/scripts/check-major-version.ts ./.changeset-status.json
           fi
