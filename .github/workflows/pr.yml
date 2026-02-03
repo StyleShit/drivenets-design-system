@@ -296,8 +296,9 @@ jobs:
           persist-credentials: false
 
       - name: Install Action Lint
+        id: install_actionlint
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Run Action Lint
-        run: actionlint -color
+        run: ${{ steps.install_actionlint.outputs.executable } -color
