@@ -301,4 +301,4 @@ jobs:
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Run Action Lint
-        run: ${{ steps.install_actionlint.outputs.executable } -color
+        run: ${{ steps.install_actionlint.outputs.executable }} -color
