@@ -43,6 +43,7 @@
 		"test": "vitest",
 		"test:coverage": "vitest --coverage",
 		"build": "tsdown",
+		"build:watch": "pnpm build --watch",
 		"build:storybook": "storybook build",
 		"build:lint": "publint && attw --pack"
 	},
