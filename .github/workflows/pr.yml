@@ -154,6 +154,9 @@ jobs:
           pnpm build --affected
           pnpm build:lint --affected
 
+      - name: Run Tests With Build
+        run: pnpm test:requires-build --affected
+
   packages-versions:
     name: Check Packages Versions
     runs-on: ubuntu-latest
