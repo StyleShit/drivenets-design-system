@@ -7,6 +7,15 @@ updates:
       interval: 'weekly'
     commit-message:
       prefix: 'chore'
+    groups:
+      development:
+        dependency-type: 'development'
+        patterns:
+          - '**'
+      production:
+        dependency-type: 'production'
+        patterns:
+          - '**'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
