@@ -36,6 +36,10 @@ const changeset: Changeset = {
 await writeChangeset(changeset, rootDir);
 
 await git.add('-A', rootDir);
+
+console.log(JSON.stringify(changeset, null, 2));
+console.log(await execAsync('git status'));
+
 await git.commit('chore: update changeset', rootDir);
 
 await execAsync('git push', { cwd: rootDir });
