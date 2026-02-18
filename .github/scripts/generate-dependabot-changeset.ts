@@ -37,11 +37,11 @@ await writeChangeset(changeset, rootDir);
 
 await git.add('-A', rootDir);
 
-const committed = await git.commit('chore: update changeset', rootDir);
+// const committed = await git.commit('chore: update changeset', rootDir);
 
-if (!committed) {
-	throw new Error('Failed to commit changeset');
-}
+const commit = await execAsync('git commit -m "chore: update changeset"', { cwd: rootDir });
+
+console.log({ commit });
 
 const { stderr, stdout } = await execAsync('git push', { cwd: rootDir });
 
