@@ -46,7 +46,7 @@ async function getExistingChangeset() {
 		ref: baseBranch,
 	});
 
-	return changedFiles.find((file) => file.includes('.changeset/'));
+	return changedFiles.find((file) => file.startsWith('.changeset/'));
 }
 
 // Inspired by:
