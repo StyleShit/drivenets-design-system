@@ -15,7 +15,7 @@ jobs:
     # IMPORTANT:
     #   NEVER REMOVE THIS CONDITION!
     #   We're using `pull_request_target` in order to have write access to the repository and commit the changeset file.
-    #   Removing this condition could give privileged access to a potentially attacker.
+    #   Removing this condition could give privileged access to a potential attacker.
     if: github.event.pull_request.user.login == 'dependabot[bot]'
 
     runs-on: ubuntu-latest
