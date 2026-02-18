@@ -16,8 +16,6 @@ const changedPackages = await getVersionableChangedPackages();
 
 const existingChangeset = await getExistingChangeset();
 
-console.log({ existingChangeset });
-
 if (existingChangeset) {
 	await fs.rm(existingChangeset);
 }
@@ -35,8 +33,6 @@ const changeset: Changeset = {
 	})),
 };
 
-console.log({ changeset });
-
 await writeChangeset(changeset, rootDir);
 
 await git.add('-A', rootDir);
@@ -53,7 +49,7 @@ async function getExistingChangeset() {
 	return changedFiles.find((file) => file.includes('.changeset/'));
 }
 
-// Stolen from:
+// Inspired by:
 // https://github.com/changesets/changesets/blob/d23e19e2d/packages/cli/src/utils/versionablePackages.ts
 async function getVersionableChangedPackages() {
 	const changedPackages = await git.getChangedPackagesSinceRef({
