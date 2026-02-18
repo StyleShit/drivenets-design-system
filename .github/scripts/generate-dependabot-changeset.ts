@@ -37,9 +37,15 @@ await writeChangeset(changeset, rootDir);
 
 await git.add('-A', rootDir);
 
-await git.commit('chore: update changeset', rootDir);
+const committed = await git.commit('chore: update changeset', rootDir);
 
-await execAsync('git push', { cwd: rootDir });
+if (!committed) {
+	throw new Error('Failed to commit changeset');
+}
+
+const { stderr, stdout } = await execAsync('git push', { cwd: rootDir });
+
+console.log({ stderr, stdout });
 
 async function getExistingChangeset() {
 	const changedFiles = await git.getChangedFilesSince({
