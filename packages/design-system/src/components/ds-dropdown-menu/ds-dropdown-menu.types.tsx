@@ -10,7 +10,10 @@ type BasePositioning = NonNullable<Menu.RootProps['positioning']>;
 /**
  * Positioning options for dropdown menu
  */
-export type DsDropdownMenuPositioning = Pick<BasePositioning, 'placement' | 'gutter' | 'sameWidth'>;
+export type DsDropdownMenuPositioning = Pick<
+	BasePositioning,
+	'placement' | 'gutter' | 'sameWidth' | 'getAnchorRect'
+>;
 
 /**
  * DEPRECATED: Legacy dropdown menu option configuration
@@ -260,3 +263,8 @@ export interface DsDropdownMenuItemGroupContentProps {
  * Props for the DsDropdownMenu Separator component
  */
 export type DsDropdownMenuSeparatorProps = Menu.SeparatorProps;
+
+/**
+ * Props for the DsDropdownMenu TriggerItem component (for nested submenus)
+ */
+export type DsDropdownMenuTriggerItemProps = Menu.TriggerItemProps;

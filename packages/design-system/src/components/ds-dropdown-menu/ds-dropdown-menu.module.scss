@@ -29,9 +29,12 @@
 
 .item {
 	@include dropdown.dropdown-item;
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-xs);
+
+	.triggerItem {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xs);
+	}
 
 	&.selected {
 		.indicator {
@@ -103,6 +106,10 @@
 		transform: rotate(180deg);
 		transition: transform 0.2s ease-in-out;
 	}
+}
+
+.triggerItemIcon {
+	margin-left: auto;
 }
 
 /** Legacy classes */

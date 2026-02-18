@@ -4,6 +4,7 @@
 	"useGitignore": true,
 	"words": [
 		"attw",
+		"autoboot",
 		"autodocs",
 		"borderless",
 		"clickability",
@@ -12,10 +13,14 @@
 		"evenodd",
 		"findlast",
 		"fromentries",
+		"gnmi",
 		"Linsley",
 		"matchall",
+		"netgen",
 		"nolyfill",
+		"onwarn",
 		"overscan",
+		"Oxfmt",
 		"reorderable",
 		"retryable",
 		"stylesheet",
@@ -28,6 +33,7 @@
 		"Vitest"
 	],
 	"ignorePaths": [
+		".cursor",
 		".git",
 		".github",
 		".idea",

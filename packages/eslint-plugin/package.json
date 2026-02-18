@@ -1,6 +1,6 @@
 {
 	"name": "@drivenets/eslint-plugin-design-system",
-	"version": "0.0.3",
+	"version": "0.0.9",
 	"license": "Apache-2.0",
 	"type": "module",
 	"types": "./dist/index.d.cts",
@@ -26,24 +26,30 @@
 		"./src",
 		"!**/__tests__"
 	],
+	"repository": {
+		"url": "https://github.com/drivenets/design-system",
+		"directory": "/packages/eslint-plugin"
+	},
 	"scripts": {
 		"lint": "eslint --max-warnings=0 .",
 		"typecheck": "tsc",
 		"test": "vitest",
+		"test:coverage": "pnpm test --coverage",
 		"build": "tsdown",
 		"build:lint": "publint && attw --pack"
 	},
 	"dependencies": {
-		"@eslint/core": "^1.0.0",
-		"eslint-no-restricted": "^0.0.9"
+		"@eslint/core": "^1.1.0",
+		"eslint-no-restricted": "^0.0.10"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "^0.18.2",
+		"@vitest/coverage-v8": "^4.0.18",
 		"eslint": "^9.39.2",
-		"publint": "^0.3.16",
-		"tsdown": "^0.18.0",
+		"publint": "^0.3.17",
+		"tsdown": "^0.20.3",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.16"
+		"vitest": "^4.0.18"
 	},
 	"peerDependencies": {
 		"@typescript-eslint/parser": "^8.50.0",

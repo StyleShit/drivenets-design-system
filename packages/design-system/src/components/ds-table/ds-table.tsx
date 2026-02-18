@@ -44,7 +44,6 @@ const DsTable = <TData extends { id: string }, TValue>({
 	stickyHeader = true,
 	bordered = true,
 	fullWidth = true,
-	highlightOnHover = true,
 	rowSize = 'medium',
 	expandable = false,
 	renderExpandedRow,
@@ -130,9 +129,9 @@ const DsTable = <TData extends { id: string }, TValue>({
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: handleSortingChange,
 		getSortedRowModel: getSortedRowModel(),
-		onColumnFiltersChange: handleColumnFiltersChange,
+		onColumnFiltersChange: handleColumnFiltersChange, // TODO: looks like this is not used, since filters are handled from the outside
 		getFilteredRowModel: getFilteredRowModel(),
-		onColumnVisibilityChange: handleColumnVisibilityChange,
+		onColumnVisibilityChange: handleColumnVisibilityChange, // TODO: looks like this is not used, since visibility is handled from the outside
 		onRowSelectionChange: handleRowSelectionChange,
 		getRowId: (row) => row.id,
 		state: {
@@ -215,16 +214,13 @@ const DsTable = <TData extends { id: string }, TValue>({
 
 	const selectedRows = Object.entries(rowSelection)
 		.filter(([, selected]) => selected)
-		// This is not necessarily a redundant condition. It depends on `noUncheckedIndexedAccess`.
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		.map(([key]) => rowsById[key]?.original)
-		.filter(Boolean);
+		.filter((v) => !!v);
 
 	const contextValue: DsTableContextType<TData, TValue> = {
 		stickyHeader,
 		bordered,
 		fullWidth,
-		highlightOnHover,
 		rowSize,
 		expandable,
 		selectable,
@@ -279,6 +275,11 @@ const DsTable = <TData extends { id: string }, TValue>({
 								rowVirtualizer.getVirtualItems().length ? (
 									rowVirtualizer.getVirtualItems().map((virtualRow: VirtualItem) => {
 										const row = rows[virtualRow.index];
+
+										if (!row) {
+											return null;
+										}
+
 										return <DsTableRow key={row.id} row={row} virtualRow={virtualRow} />;
 									})
 								) : (

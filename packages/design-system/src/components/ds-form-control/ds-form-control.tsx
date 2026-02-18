@@ -9,6 +9,7 @@ import { DsNumberInput } from '../ds-number-input';
 import { DsPasswordInput } from '../ds-password-input';
 import type { DsFormControlDescriptionProps, DsFormControlProps } from './ds-form-control.types';
 import styles from './ds-form-control.module.scss';
+import { DsDateInput } from '../ds-date-input';
 
 const FormControlContext = createContext<{ controlId: string } | null>(null);
 
@@ -56,7 +57,14 @@ const DsFormControl = ({
 	return (
 		<FormControlContext.Provider value={{ controlId }}>
 			<div
-				className={classNames(styles.container, status && message && styles[status], className)}
+				className={classNames(
+					styles.container,
+					className,
+
+					// @ts-expect-error: `info` doesn't have its own classname
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+					status && message && styles[status],
+				)}
 				style={style}
 			>
 				<div className={styles.labelContainer}>
@@ -76,7 +84,7 @@ const DsFormControl = ({
 				{message && (
 					<div className={styles.message}>
 						<DsIcon icon={messageIcon} size="tiny" filled />
-						<span className={styles.messageText}>{message}</span>
+						<span>{message}</span>
 					</div>
 				)}
 			</div>
@@ -87,6 +95,7 @@ const DsFormControl = ({
 DsFormControl.TextInput = controlify(DsTextInput);
 DsFormControl.NumberInput = controlify(DsNumberInput);
 DsFormControl.PasswordInput = controlify(DsPasswordInput);
+DsFormControl.DateInput = controlify(DsDateInput);
 DsFormControl.Textarea = controlify(DsTextarea);
 DsFormControl.Select = controlify(DsSelect);
 DsFormControl.Description = DsFormControlDescription;

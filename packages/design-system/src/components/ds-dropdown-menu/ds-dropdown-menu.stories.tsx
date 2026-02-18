@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, fn, screen, userEvent, within } from 'storybook/test';
 import { DsDropdownMenu } from './ds-dropdown-menu';
 import { DsIcon } from '../ds-icon';
 import { DsTextInput } from '../ds-text-input';
@@ -254,6 +255,118 @@ export const CheckboxList: Story = {
 			</DsDropdownMenu.Root>
 		);
 	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const trigger = canvas.getByRole('button', { name: /Multi Select/i });
+
+		await userEvent.click(trigger);
+
+		const groupLabelText = await screen.findByText('Group Name');
+		await expect(groupLabelText).toBeInTheDocument();
+
+		const groupLabel = groupLabelText.closest('button') as HTMLElement;
+		await expect(groupLabel).toBeInTheDocument();
+
+		const collapseIcon = await screen.findByText('keyboard_arrow_down');
+		await expect(collapseIcon).toBeInTheDocument();
+
+		const groupItem = screen.getByText('Menu text 3');
+		await expect(groupItem).toBeVisible();
+
+		await userEvent.click(groupLabel);
+
+		await expect(screen.queryByText('Menu text 3')).not.toBeInTheDocument();
+		await expect(screen.queryByText('Menu text 4')).not.toBeInTheDocument();
+
+		await userEvent.click(groupLabel);
+
+		await expect(screen.getByText('Menu text 3')).toBeVisible();
+		await expect(screen.getByText('Menu text 4')).toBeVisible();
+	},
+};
+
+type CollapsibleGroupControlledArgs = {
+	onCollapsedChange?: (collapsed: boolean) => void;
+};
+
+export const CollapsibleGroupControlled: StoryObj<CollapsibleGroupControlledArgs> = {
+	name: 'Collapsible Group (Controlled)',
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'The collapsed state is controlled externally via props, and the onCollapsedChange callback is triggered when the user clicks the group label.',
+			},
+		},
+	},
+	render: function Render(args) {
+		const [collapsed, setCollapsed] = useState(false);
+
+		const handleCollapsedChange = (newCollapsed: boolean) => {
+			setCollapsed(newCollapsed);
+			args.onCollapsedChange?.(newCollapsed);
+		};
+
+		return (
+			<DsDropdownMenu.Root positioning={{ sameWidth: true }}>
+				<DsDropdownMenu.Trigger className="trigger fixedWidth">
+					<span>Controlled Group</span>
+					<DsIcon icon="arrow_drop_down" />
+				</DsDropdownMenu.Trigger>
+				<DsDropdownMenu.Content>
+					<DsDropdownMenu.ItemGroup collapsed={collapsed} onCollapsedChange={handleCollapsedChange}>
+						<DsDropdownMenu.ItemGroupLabel>Settings</DsDropdownMenu.ItemGroupLabel>
+						<DsDropdownMenu.ItemGroupContent>
+							<DsDropdownMenu.Item value="profile">
+								<DsIcon icon="person" />
+								<span>Profile</span>
+							</DsDropdownMenu.Item>
+							<DsDropdownMenu.Item value="preferences">
+								<DsIcon icon="settings" />
+								<span>Preferences</span>
+							</DsDropdownMenu.Item>
+							<DsDropdownMenu.Item value="notifications">
+								<DsIcon icon="notifications" />
+								<span>Notifications</span>
+							</DsDropdownMenu.Item>
+						</DsDropdownMenu.ItemGroupContent>
+					</DsDropdownMenu.ItemGroup>
+				</DsDropdownMenu.Content>
+			</DsDropdownMenu.Root>
+		);
+	},
+	args: {
+		onCollapsedChange: fn(),
+	},
+	play: async ({ canvasElement, args }) => {
+		const canvas = within(canvasElement);
+
+		const trigger = canvas.getByRole('button', { name: /Controlled Group/i });
+		await userEvent.click(trigger);
+
+		const groupLabelText = await screen.findByText('Settings');
+		await expect(groupLabelText).toBeInTheDocument();
+
+		const groupLabel = groupLabelText.closest('button') as HTMLElement;
+		await expect(groupLabel).toBeInTheDocument();
+
+		const profileItem = await screen.findByText('Profile');
+		await expect(profileItem).toBeInTheDocument();
+
+		await userEvent.click(groupLabel);
+
+		await expect(args.onCollapsedChange).toHaveBeenCalledWith(true);
+		await expect(args.onCollapsedChange).toHaveBeenCalledTimes(1);
+
+		await expect(screen.queryByText('Profile')).not.toBeInTheDocument();
+
+		await userEvent.click(groupLabel);
+
+		await expect(args.onCollapsedChange).toHaveBeenCalledWith(false);
+		await expect(args.onCollapsedChange).toHaveBeenCalledTimes(2);
+
+		await expect(await screen.findByText('Profile')).toBeVisible();
+	},
 };
 
 export const RadioList: Story = {
@@ -352,6 +465,70 @@ export const RadioList: Story = {
 							Apply
 						</DsButton>
 					</DsDropdownMenu.Actions>
+				</DsDropdownMenu.Content>
+			</DsDropdownMenu.Root>
+		);
+	},
+};
+
+export const ActionMenu: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Action Menu pattern from Figma design system demonstrating nested submenus. Features both full-size button and icon button variants. Menu items can trigger submenus using TriggerItem with right arrow indicators. Includes separators and danger-styled items for risky actions.',
+			},
+		},
+	},
+	render: () => {
+		const handleEdit = () => console.log('Edit clicked');
+		const handleDuplicate = () => console.log('Duplicate clicked');
+		const handleShareEmail = () => console.log('Share via Email clicked');
+		const handleShareLink = () => console.log('Copy Link clicked');
+		const handleShareSocial = () => console.log('Share to Social Media clicked');
+		const handleDelete = () => console.log('Delete item clicked');
+
+		return (
+			<DsDropdownMenu.Root>
+				<DsDropdownMenu.Trigger asChild>
+					<DsButton design="v1.2" buttonType="secondary">
+						<DsIcon icon="more_vert" />
+					</DsButton>
+				</DsDropdownMenu.Trigger>
+				<DsDropdownMenu.Content>
+					<DsDropdownMenu.Item value="edit" onSelect={handleEdit}>
+						<DsIcon icon="edit" />
+						<span>Edit</span>
+					</DsDropdownMenu.Item>
+					<DsDropdownMenu.Item value="duplicate" onSelect={handleDuplicate}>
+						<DsIcon icon="content_copy" />
+						<span>Duplicate</span>
+					</DsDropdownMenu.Item>
+					<DsDropdownMenu.Root positioning={{ placement: 'right-start' }}>
+						<DsDropdownMenu.TriggerItem className="action-menu-item">
+							<DsIcon icon="share" />
+							<span>Share</span>
+						</DsDropdownMenu.TriggerItem>
+						<DsDropdownMenu.Content>
+							<DsDropdownMenu.Item value="share-email" onSelect={handleShareEmail}>
+								<DsIcon icon="mail" />
+								<span>Email</span>
+							</DsDropdownMenu.Item>
+							<DsDropdownMenu.Item value="share-link" onSelect={handleShareLink}>
+								<DsIcon icon="link" />
+								<span>Copy Link</span>
+							</DsDropdownMenu.Item>
+							<DsDropdownMenu.Item value="share-social" onSelect={handleShareSocial}>
+								<DsIcon icon="public" />
+								<span>Social Media</span>
+							</DsDropdownMenu.Item>
+						</DsDropdownMenu.Content>
+					</DsDropdownMenu.Root>
+					<DsDropdownMenu.Separator />
+					<DsDropdownMenu.Item value="delete" onSelect={handleDelete} className="danger">
+						<DsIcon icon="delete" />
+						<span>Delete item</span>
+					</DsDropdownMenu.Item>
 				</DsDropdownMenu.Content>
 			</DsDropdownMenu.Root>
 		);

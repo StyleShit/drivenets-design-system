@@ -1,0 +1,57 @@
+.loaderContainer {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.loader {
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.pulsingIcon {
+	--loader-pulsing-color: #5452f6;
+
+	color: var(--loader-pulsing-color);
+}
+
+.pulsingOuter {
+	fill: currentcolor;
+	opacity: 0.3;
+	transform-origin: center;
+	animation: pulse 1.4s ease-in-out infinite;
+}
+
+.pulsingInner {
+	fill: currentcolor;
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		transform: scale(0.7);
+		opacity: 0.3;
+	}
+
+	50% {
+		transform: scale(1.1);
+		opacity: 0.15;
+	}
+}
+
+.spinnerGradient {
+	--loader-spinner-color: #4192f6;
+
+	background: conic-gradient(from 90deg, var(--loader-spinner-color) 0deg, transparent 360deg);
+	height: 100%;
+	width: 100%;
+}

@@ -6,32 +6,30 @@ on:
     branches:
       - main
 
+permissions: {}
+
 concurrency:
-  group: '${{ github.workflow }} @ ${{ github.head_ref || github.ref }}'
-  cancel-in-progress: true
+  group: '${{ github.workflow }} @ ${{ github.ref }}'
+  cancel-in-progress: false # Ensure that previous runs aren't cancelled and leave the deployment in a broken state.
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
 
+    if: github.repository_owner == 'drivenets'
+
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
-
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       - name: Build Storybook
         run: |
@@ -40,7 +38,7 @@ jobs:
 
           LAST_COMMIT=$(git rev-parse --short HEAD)
 
-          echo "LAST_COMMIT=$LAST_COMMIT" >> $GITHUB_ENV
+          echo "LAST_COMMIT=$LAST_COMMIT" >> "$GITHUB_ENV"
 
       - name: Setup Git User
         run: |
@@ -56,3 +54,8 @@ jobs:
           git add .
           git commit -m "build: deploy storybook ($LAST_COMMIT)"
           git push
+
+      # The `gh-pages` branch doesn't have the `.github/actions/install` directory, so we need to switch
+      # back to the previous branch so the automatic "Post Install Dependencies" cleanup step will work.
+      - name: Reset Branch
+        run: git checkout -

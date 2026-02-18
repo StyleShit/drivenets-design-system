@@ -4,7 +4,6 @@
 		"module": "preserve",
 		"moduleResolution": "bundler",
 		"target": "esnext",
-		"types": [],
 
 		// Other Outputs
 		"sourceMap": true,
@@ -21,7 +20,12 @@
 		"moduleDetection": "force",
 		"skipLibCheck": true,
 
+		// Stricter Options
+		"noUncheckedIndexedAccess": true,
+
 		// Linting
-		"erasableSyntaxOnly": true
-	}
+		"erasableSyntaxOnly": true,
+		"checkJs": true
+	},
+	"exclude": ["**/dist", "**/coverage", "**/storybook-static"]
 }

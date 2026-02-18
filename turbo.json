@@ -19,6 +19,12 @@
 		"test": {
 			"dependsOn": []
 		},
+		"test:coverage": {
+			"dependsOn": []
+		},
+		"test:requires-build": {
+			"dependsOn": ["build"]
+		},
 		"build": {
 			"outputs": ["dist/**"],
 			"dependsOn": ["^build"]

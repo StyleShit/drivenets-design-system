@@ -2,8 +2,12 @@ node_modules
 dist
 
 *.log
-storybook-static
 
 .idea
 .turbo
 .DS_Store
+.changeset-status.json
+
+actionlint
+
+coverage/

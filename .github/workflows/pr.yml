@@ -2,9 +2,11 @@ name: PR
 
 on: [pull_request]
 
+permissions: {}
+
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
-  group: '${{ github.workflow }} @ ${{ github.head_ref || github.ref }}'
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.number }}'
   cancel-in-progress: true
 
 env:
@@ -15,27 +17,23 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@v4
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-lint-${{ github.sha }}
@@ -48,27 +46,23 @@ jobs:
   typecheck:
     name: Type Check
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@v4
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-typecheck-${{ github.sha }}
@@ -81,21 +75,18 @@ jobs:
   check-format:
     name: Check Format
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       - name: Run Format Check
         run: pnpm format:check
@@ -103,29 +94,26 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: |
-          pnpm i
-          pnpm exec playwright install chromium --with-deps
+        uses: ./.github/actions/install
+
+      - name: Install Playwright
+        run: pnpm exec playwright install chromium --with-deps
 
       - name: Cache turbo
-        uses: actions/cache@v4
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-test-${{ github.sha }}
@@ -133,32 +121,28 @@ jobs:
             ${{ runner.os }}-turbo-test-
 
       - name: Run Tests
-        run: pnpm test --affected
+        run: pnpm test:coverage --affected
 
   build:
     name: Build
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@v4
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-build-${{ github.sha }}
@@ -170,24 +154,24 @@ jobs:
           pnpm build --affected
           pnpm build:lint --affected
 
+      - name: Run Tests With Build
+        run: pnpm test:requires-build --affected
+
   packages-versions:
     name: Check Packages Versions
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       - name: Run Packages Versions Check
         run: pnpm lint:versions
@@ -195,43 +179,61 @@ jobs:
   spell-check:
     name: Spell Check
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       - name: Run Spell Check
         run: pnpm lint:spell
 
-  unused:
-    name: Check Unused Code
+  unused-dedupe:
+    name: Check Unused Code and Dependencies
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       - name: Run Unused Code Check
         run: pnpm lint:unused
+
+      - name: Run Dependencies Deduplication Check
+        run: pnpm lint:dedupe
+
+  action-lint:
+    name: GitHub Actions Lint
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Action Lint
+        id: install_actionlint
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+
+      - name: Run Action Lint
+        run: ${{ steps.install_actionlint.outputs.executable }} -color

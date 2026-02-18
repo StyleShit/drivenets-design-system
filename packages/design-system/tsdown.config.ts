@@ -5,6 +5,8 @@ import sass from 'rollup-plugin-sass';
 import * as sassEmbedded from 'sass-embedded';
 import postcss from 'postcss';
 import postcssModules from 'postcss-modules';
+import babel from '@rollup/plugin-babel';
+import babelPluginReactCompiler from 'babel-plugin-react-compiler';
 
 export default defineConfig({
 	entry: ['./src/index.ts'],
@@ -13,11 +15,20 @@ export default defineConfig({
 	dts: true,
 	sourcemap: false,
 	clean: true,
-	unbundle: true,
 	skipNodeModulesBundle: true,
 	outDir: 'dist',
 	outExtensions: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),
 	plugins: [
+		babel({
+			babelHelpers: 'bundled',
+			parserOpts: {
+				sourceType: 'module',
+				plugins: ['jsx', 'typescript'],
+			},
+			plugins: [babelPluginReactCompiler],
+			extensions: ['.js', '.jsx', '.ts', '.tsx'],
+		}),
+
 		sass({
 			api: 'modern',
 			output: './dist/index.min.css',

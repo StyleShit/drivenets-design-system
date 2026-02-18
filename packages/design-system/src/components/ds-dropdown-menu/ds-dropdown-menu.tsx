@@ -21,6 +21,7 @@ import type {
 	DsDropdownMenuPositioning,
 	DsDropdownMenuRootProps,
 	DsDropdownMenuSeparatorProps,
+	DsDropdownMenuTriggerItemProps,
 	DsDropdownMenuTriggerProps,
 } from './ds-dropdown-menu.types';
 
@@ -195,7 +196,7 @@ const ItemGroup: React.FC<DsDropdownMenuItemGroupProps> = ({
 
 	return (
 		<GroupContext.Provider value={{ collapsed, toggle }}>
-			<Menu.ItemGroup className={classNames(styles.group, className)} style={style}>
+			<Menu.ItemGroup className={className} style={style}>
 				{children}
 			</Menu.ItemGroup>
 		</GroupContext.Provider>
@@ -265,10 +266,25 @@ const Separator: React.FC<DsDropdownMenuSeparatorProps> = ({ className, style })
 };
 
 /**
+ * TriggerItem component - triggers a nested submenu
+ */
+const TriggerItem: React.FC<DsDropdownMenuTriggerItemProps> = ({ className, style, children, ...props }) => {
+	return (
+		<Menu.TriggerItem className={styles.item} {...props}>
+			<div className={classNames(styles.triggerItem, className)} style={style}>
+				{children}
+			</div>
+			<DsIcon className={styles.triggerItemIcon} icon="keyboard_arrow_right" />
+		</Menu.TriggerItem>
+	);
+};
+
+/**
  * DEPRECATED: Legacy DsDropdownMenu component with options array
  * Use compound component pattern instead
  * @deprecated
  */
+/* c8 ignore start */
 export const DsDropdownMenuLegacy: React.FC<DsDropdownMenuLegacyProps> = ({
 	options,
 	children,
@@ -350,6 +366,7 @@ export const DsDropdownMenuLegacy: React.FC<DsDropdownMenuLegacyProps> = ({
 		</DropdownMenu.Root>
 	);
 };
+/* c8 ignore stop */
 
 /**
  * Design system  DsDropdownMenu component
@@ -387,6 +404,7 @@ export const DsDropdownMenu = {
 	Content,
 	Item,
 	ItemIndicator,
+	TriggerItem,
 	Header,
 	Actions,
 	ItemGroup,

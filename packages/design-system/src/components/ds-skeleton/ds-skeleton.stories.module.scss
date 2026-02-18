@@ -1,0 +1,90 @@
+.verticalStack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xl);
+}
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-standard);
+}
+
+.sectionSmall {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+}
+
+.sizesRow {
+	display: flex;
+	gap: var(--spacing-standard);
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.shapeRow {
+	display: flex;
+	gap: var(--spacing-standard);
+	align-items: center;
+}
+
+.sizeItem {
+	text-align: center;
+}
+
+.label {
+	margin-top: var(--spacing-sm);
+	font-size: 12px;
+	color: var(--color-font-secondary);
+}
+
+.sectionLabel {
+	margin-bottom: var(--spacing-sm);
+}
+
+.cardContainer {
+	border: 1px solid var(--color-border-main);
+	border-radius: 8px;
+	padding: var(--spacing-xl);
+	max-width: 400px;
+}
+
+.cardHeader {
+	display: flex;
+	gap: var(--spacing-standard);
+	margin-bottom: var(--spacing-standard);
+}
+
+.cardHeaderContent {
+	flex: 1;
+}
+
+.cardHeaderSubtitle {
+	margin-top: var(--spacing-sm);
+}
+
+.cardActions {
+	margin-top: var(--spacing-standard);
+	display: flex;
+	gap: var(--spacing-sm);
+}
+
+.loadingContent {
+	padding: var(--spacing-standard);
+	border: 1px solid var(--color-border-main);
+	border-radius: 8px;
+}
+
+.tableContainer {
+	border: 1px solid var(--color-border-main);
+	border-radius: 8px;
+	overflow: hidden;
+	max-width: 600px;
+}
+
+.tableNameCell {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+}

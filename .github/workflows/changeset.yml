@@ -12,8 +12,10 @@ on:
     branches:
       - main
 
+permissions: {}
+
 concurrency:
-  group: '${{ github.workflow }} - Changeset @ ${{ github.head_ref || github.ref }}'
+  group: '${{ github.workflow }} - Changeset @ ${{ github.event.pull_request.number }}'
   cancel-in-progress: true
 
 jobs:
@@ -21,28 +23,56 @@ jobs:
     name: Require Changeset
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     # Skip opted out PRs, and release PRs
     if: |
-      ! contains(github.event.pull_request.labels.*.name, 'skip changelog')
+      ! contains(github.event.pull_request.labels.*.name, 'skip changelog') &&
+      ! (github.event.pull_request.title == 'chore(release): publish' && github.event.pull_request.user.login == 'github-actions[bot]') &&
+      ! (github.event.pull_request.user.login == 'dependabot[bot]')
+
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: 'pnpm'
+          persist-credentials: false
 
       - name: Install Dependencies
-        run: pnpm i
+        uses: ./.github/actions/install
 
       # Returns exit code 1 when there are changes without changesets attached to them.
       # See: https://github.com/changesets/changesets/blob/main/docs/automating-changesets.md#blocking
       - name: Run Changesets
         run: pnpm changeset status --since origin/main
+
+  disallow-major-release:
+    name: Disallow Major Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    # Skip release & dependabot PRs
+    if: |
+      ! (github.event.pull_request.title == 'chore(release): publish' && github.event.pull_request.user.login == 'github-actions[bot]') &&
+      ! (github.event.pull_request.user.login == 'dependabot[bot]')
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install Dependencies
+        uses: ./.github/actions/install
+
+      - name: Check for Major Changeset
+        run: |
+          pnpm changeset status --since origin/main --output=./.changeset-status.json &> /dev/null || true
+
+          if [ -f ./.changeset-status.json ]; then
+            node .github/scripts/check-major-version.ts ./.changeset-status.json
+          fi

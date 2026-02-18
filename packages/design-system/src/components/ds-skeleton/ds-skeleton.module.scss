@@ -1,0 +1,72 @@
+.skeleton {
+	animation: shimmer 2s linear infinite;
+}
+
+.gray {
+	--skeleton-gray-base: #f3f5fa;
+	--skeleton-gray-accent: #e3e3e3;
+
+	background: linear-gradient(
+		90deg,
+		var(--skeleton-gray-base) 0%,
+		var(--skeleton-gray-base) 33%,
+		var(--skeleton-gray-accent) 50%,
+		var(--skeleton-gray-base) 66%,
+		var(--skeleton-gray-base) 100%
+	);
+	background-size: 300% 100%;
+}
+
+.blue {
+	--skeleton-blue-accent: #759cec;
+	--skeleton-blue-base: #dfe9ff;
+
+	background: linear-gradient(
+		90deg,
+		var(--skeleton-blue-base) 0%,
+		var(--skeleton-blue-base) 33%,
+		var(--skeleton-blue-accent) 50%,
+		var(--skeleton-blue-base) 66%,
+		var(--skeleton-blue-base) 100%
+	);
+	background-size: 300% 100%;
+}
+
+.text {
+	display: block;
+	margin-bottom: var(--spacing-xs);
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.circle {
+	display: inline-block;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.rectangle {
+	display: inline-block;
+	flex-shrink: 0;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: 100% 0;
+	}
+
+	60% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 0 0;
+	}
+}

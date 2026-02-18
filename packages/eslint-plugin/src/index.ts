@@ -2,7 +2,7 @@ import { JSXAttribute, JSXElement } from './selectors';
 import { createPlugin } from './create-plugin';
 
 const eslintPlugin = createPlugin(
-	'drivenets-design-system',
+	'@drivenets/design-system',
 	{
 		name: 'no-deprecated-ds-button-legacy-design',
 		selector: [
@@ -16,6 +16,12 @@ const eslintPlugin = createPlugin(
 		name: 'no-deprecated-ds-dialog',
 		selector: JSXElement('DsDialog'),
 		message: `DsDialog is deprecated. Use DsModal or DsConfirmation instead.`,
+	},
+
+	{
+		name: 'no-deprecated-ds-confirmation',
+		selector: JSXElement('DsConfirmation'),
+		message: `DsConfirmation is deprecated. Use DsModal instead.`,
 	},
 
 	{
@@ -34,6 +40,18 @@ const eslintPlugin = createPlugin(
 		name: 'no-deprecated-ds-radio-group-legacy',
 		selector: JSXElement('DsRadioGroupLegacy'),
 		message: `DsRadioGroupLegacy is deprecated. Use DsRadioGroup instead.`,
+	},
+
+	{
+		name: 'no-deprecated-ds-chip',
+		selector: JSXElement('DsChip'),
+		message: `DsChip is deprecated. Use DsTag instead.`,
+	},
+
+	{
+		name: 'no-deprecated-ds-chip-group',
+		selector: JSXElement('DsChipGroup'),
+		message: `DsChipGroup is deprecated. Use DsTagFilter instead.`,
 	},
 
 	{

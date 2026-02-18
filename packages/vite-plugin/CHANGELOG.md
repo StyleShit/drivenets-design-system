@@ -1,5 +1,23 @@
 # @drivenets/vite-plugin-design-system
 
+## 0.0.6
+
+### Patch Changes
+
+- 9491d59: Fix common js build
+
+## 0.0.5
+
+### Patch Changes
+
+- f485640: Updates dependencies
+
+## 0.0.4
+
+### Patch Changes
+
+- 3a2973f: Add readme
+
 ## 0.0.3
 
 ### Patch Changes

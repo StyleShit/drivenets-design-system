@@ -1,5 +1,42 @@
 # @drivenets/eslint-plugin-design-system
 
+## 0.0.9
+
+### Patch Changes
+
+- 9491d59: Fix common js build
+
+## 0.0.8
+
+### Patch Changes
+
+- f485640: Updates dependencies
+
+## 0.0.7
+
+### Patch Changes
+
+- f924d2f: - Add deprecation rules for `DsConfirmation` to the eslint plugin
+
+## 0.0.6
+
+### Patch Changes
+
+- 1881953: - Add deprecation rule for `DsChip`
+  - Add deprecation rule for `DsChipGroup`
+
+## 0.0.5
+
+### Patch Changes
+
+- 3a2973f: Add readme
+
+## 0.0.4
+
+### Patch Changes
+
+- 8390bfc: Rename plugin
+
 ## 0.0.3
 
 ### Patch Changes
