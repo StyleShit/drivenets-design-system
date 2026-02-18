@@ -1,6 +1,6 @@
 name: Dependabot
 
-on: pull_request_target
+on: pull_request
 
 permissions: {}
 
@@ -40,8 +40,8 @@ jobs:
 
       - name: Configure git user
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
       - name: Generate changeset
         run: node .github/scripts/generate-dependabot-changeset.ts
