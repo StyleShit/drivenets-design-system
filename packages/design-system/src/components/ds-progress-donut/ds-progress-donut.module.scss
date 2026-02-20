@@ -38,7 +38,7 @@ $transition-duration: 0.2s;
 	stroke: var(--color-background-success-strong);
 }
 
-.failed .range {
+.error .range {
 	stroke: var(--color-background-danger-strong);
 }
 
@@ -54,14 +54,14 @@ $transition-duration: 0.2s;
 	color: var(--color-icon-success);
 }
 
-.iconFailed {
+.iconError {
 	color: var(--color-icon-danger);
 }
 
-$icon-custom-size: 44px;
+$icon-medium-size: 44px;
 
 .iconMediumSize.iconMediumSize {
-	font-size: $icon-custom-size;
+	font-size: $icon-medium-size;
 	width: 1em;
 	height: 1em;
 }
