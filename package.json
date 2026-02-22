@@ -81,7 +81,7 @@
 			"eslint": "$eslint"
 		},
 		"patchedDependencies": {
-			"eslint-plugin-react": "patches/eslint-plugin-react--eslint-10-compatibility.patch"
+			"eslint-plugin-react": "patches/eslint-plugin-react.patch"
 		}
 	}
 }

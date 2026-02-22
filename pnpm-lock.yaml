@@ -28,8 +28,8 @@ overrides:
 
 patchedDependencies:
   eslint-plugin-react:
-    hash: 3ed83d16e30e025c6dbd3d138cc6e87dab3c65ebeab43351427f5a0df63d6843
-    path: patches/eslint-plugin-react--eslint-10-compatibility.patch
+    hash: 268b9205208e96299f2818b0f2047ae63bd4b3614592b63332b8659faa4fc262
+    path: patches/eslint-plugin-react.patch
 
 importers:
 
@@ -267,7 +267,7 @@ importers:
         version: 6.10.2(eslint@10.0.1(jiti@2.6.1))
       eslint-plugin-react:
         specifier: ^7.37.5
-        version: 7.37.5(patch_hash=3ed83d16e30e025c6dbd3d138cc6e87dab3c65ebeab43351427f5a0df63d6843)(eslint@10.0.1(jiti@2.6.1))
+        version: 7.37.5(patch_hash=268b9205208e96299f2818b0f2047ae63bd4b3614592b63332b8659faa4fc262)(eslint@10.0.1(jiti@2.6.1))
       eslint-plugin-react-hooks:
         specifier: ^7.0.1
         version: 7.0.1(eslint@10.0.1(jiti@2.6.1))
@@ -9553,7 +9553,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-react@7.37.5(patch_hash=3ed83d16e30e025c6dbd3d138cc6e87dab3c65ebeab43351427f5a0df63d6843)(eslint@10.0.1(jiti@2.6.1)):
+  eslint-plugin-react@7.37.5(patch_hash=268b9205208e96299f2818b0f2047ae63bd4b3614592b63332b8659faa4fc262)(eslint@10.0.1(jiti@2.6.1)):
     dependencies:
       array-includes: '@nolyfill/array-includes@1.0.44'
       array.prototype.findlast: '@nolyfill/array.prototype.findlast@1.0.44'
