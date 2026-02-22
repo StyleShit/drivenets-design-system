@@ -30,19 +30,5 @@
 		"Turborepo",
 		"unhover"
 	],
-	"ignorePaths": [
-		".cursor",
-		".git",
-		".github",
-		".idea",
-		".vscode",
-		".cspell",
-		".turbo",
-		".DS_Store",
-		"**/dist/**",
-		"**/coverage/**",
-		"**/storybook-static/**",
-		"**/node_modules/**",
-		"pnpm-lock.yaml"
-	]
+	"ignorePaths": [".cursor", ".git", ".github", ".vscode", ".cspell", "pnpm-lock.yaml"]
 }
