@@ -29,7 +29,7 @@ overrides:
 patchedDependencies:
   eslint-plugin-react:
     hash: 268b9205208e96299f2818b0f2047ae63bd4b3614592b63332b8659faa4fc262
-    path: patches/eslint-plugin-react.patch
+    path: .pnpm-patches/eslint-plugin-react.patch
 
 importers:
 

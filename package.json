@@ -81,7 +81,7 @@
 			"eslint": "^10.0.1"
 		},
 		"patchedDependencies": {
-			"eslint-plugin-react": "patches/eslint-plugin-react.patch"
+			"eslint-plugin-react": ".pnpm-patches/eslint-plugin-react.patch"
 		}
 	}
 }
