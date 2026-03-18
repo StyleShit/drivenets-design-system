@@ -65,9 +65,9 @@ importers:
       '@cspell/dict-mime-types':
         specifier: ^1.0.1
         version: 1.0.1
-      '@drivenets/commitlint-plugin-design-system':
+      '@drivenets/commitlint-plugin-internal':
         specifier: workspace:*
-        version: link:packages/commitlint-plugin
+        version: link:packages/commitlint-plugin-internal
       '@eslint/core':
         specifier: ^1.1.1
         version: 1.1.1
@@ -123,7 +123,7 @@ importers:
         specifier: ^8.56.1
         version: 8.57.0(eslint@10.0.3(jiti@2.6.1))(typescript@5.9.3)
 
-  packages/commitlint-plugin:
+  packages/commitlint-plugin-internal:
     dependencies:
       '@commitlint/lint':
         specifier: ^20.2.0
