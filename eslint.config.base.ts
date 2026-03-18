@@ -190,7 +190,7 @@ function collectGitignores() {
 	const gitignores = ['.gitignore'];
 
 	// `.gitignore` relative to the repo root, in case cwd is a package.
-	if (__dirname !== process.cwd()) {
+	if (process.cwd() !== __dirname) {
 		gitignores.push(path.resolve(__dirname, '.gitignore'));
 	}
 
