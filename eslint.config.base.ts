@@ -11,7 +11,10 @@ import globals from 'globals';
 import gitignore from 'eslint-config-flat-gitignore';
 
 export default defineConfig(
-	gitignore({ files: collectGitignores() }),
+	gitignore({
+		files: collectGitignores(),
+		strict: false,
+	}),
 
 	// Base rules.
 	eslint.configs.recommended,
