@@ -148,9 +148,9 @@ export default defineConfig(
 	},
 
 	{
-		files: ['**/*.test.[tj]s?(x)'],
 		...vitest.configs.recommended,
 		name: 'base/tests-overrides',
+		files: ['**/*.test.[tj]s?(x)'],
 		rules: {
 			...vitest.configs.recommended.rules,
 			'vitest/prefer-vi-mocked': 'error',
