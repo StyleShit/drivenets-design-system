@@ -20,8 +20,8 @@ export default defineConfig(
 	eslint.configs.recommended,
 	tseslint.configs.strictTypeChecked,
 
-	// Overrides.
 	{
+		name: 'base/general-overrides',
 		linterOptions: {
 			reportUnusedDisableDirectives: 'error',
 			reportUnusedInlineConfigs: 'error',
@@ -131,8 +131,8 @@ export default defineConfig(
 		},
 	},
 
-	// Production files.
 	{
+		name: 'base/source-overrides',
 		files: ['**/src/**/*.[tj]s?(x)'],
 		ignores: ['**/*.test.[tj]s?(x)', '**/*.stories?(.*).[tj]s?(x)', '**/stories/**'],
 		rules: {
@@ -147,10 +147,10 @@ export default defineConfig(
 		},
 	},
 
-	// Test rules.
 	{
-		files: ['**/*.@(test|spec).[tj]s?(x)'],
+		files: ['**/*.test.[tj]s?(x)'],
 		...vitest.configs.recommended,
+		name: 'base/tests-overrides',
 		rules: {
 			...vitest.configs.recommended.rules,
 			'vitest/prefer-vi-mocked': 'error',

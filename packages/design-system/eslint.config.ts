@@ -14,25 +14,28 @@ const react = fixupPluginRules(_react);
 export default defineConfig(
 	...baseConfig,
 
-	// React rules.
 	{
+		name: 'react/recommended',
 		..._react.configs.flat.recommended,
 		plugins: { react },
 	},
 	{
+		name: 'react/jsx-runtime',
 		..._react.configs.flat['jsx-runtime'],
 		plugins: { react },
 	},
 
-	reactHooks.configs.flat.recommended,
+	{
+		name: 'react-hooks/recommended',
+		...reactHooks.configs.flat.recommended,
+	},
 
 	jsxA11y.flatConfigs.recommended as Config,
 
-	// Storybook rules.
 	storybook.configs['flat/recommended'] as Config,
 
-	// Overrides.
 	{
+		name: 'design-system/general-overrides',
 		settings: {
 			react: {
 				version: 'detect',
@@ -59,8 +62,8 @@ export default defineConfig(
 		},
 	},
 
-	// Production code overrides.
 	{
+		name: 'design-system/source-overrides',
 		files: ['**/*.?(m)[tj]s?(x)'],
 		ignores: ['**/*.stories.ts?(x)'],
 		rules: {
@@ -70,6 +73,5 @@ export default defineConfig(
 		},
 	},
 
-	// Internal rules.
 	internal.configs.recommended,
 );
