@@ -12,7 +12,7 @@ const config: StorybookConfig = {
 		}
 
 		viteConfig.plugins.push(vitePluginDesignSystem());
-		viteConfig.plugins.push(reactCompilerRolldownPlugin());
+		viteConfig.plugins.unshift(reactCompilerRolldownPlugin()); // Must be first.
 
 		return viteConfig;
 	},

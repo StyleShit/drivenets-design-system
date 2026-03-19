@@ -53,7 +53,11 @@ export default defineConfig({
 			},
 			{
 				extends: true,
-				plugins: [react(), vitePluginDesignSystem(), reactCompilerRolldownPlugin()],
+				plugins: [
+					reactCompilerRolldownPlugin(), // Must be first.
+					react(),
+					vitePluginDesignSystem(),
+				],
 				test: {
 					name: 'browser',
 					include: [testPattern('browser')],
