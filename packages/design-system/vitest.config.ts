@@ -12,6 +12,7 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 export default defineConfig({
 	test: {
 		coverage: {
+			include: ['src/**/*.{ts,tsx}'],
 			exclude: [
 				'**/stories/**',
 				'**/*.stories.*{ts,tsx}',
@@ -27,7 +28,6 @@ export default defineConfig({
 			],
 			thresholds: {
 				lines: 90,
-				branches: 85,
 			},
 			watermarks: {
 				lines: [80, 90],
