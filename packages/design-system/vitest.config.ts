@@ -1,11 +1,11 @@
 import { defineConfig } from 'vitest/config';
-import babel from '@rolldown/plugin-babel';
-import react, { reactCompilerPreset } from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
 import { vitePluginDesignSystem } from '@drivenets/vite-plugin-design-system';
+import { reactCompilerRolldownPlugin } from './rolldown/react-compiler-rolldown-plugin';
 
 const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -53,7 +53,7 @@ export default defineConfig({
 			},
 			{
 				extends: true,
-				plugins: [react(), vitePluginDesignSystem(), babel({ presets: [reactCompilerPreset()] })],
+				plugins: [react(), vitePluginDesignSystem(), reactCompilerRolldownPlugin()],
 				test: {
 					name: 'browser',
 					include: [testPattern('browser')],

@@ -4,8 +4,7 @@ import sass from 'rollup-plugin-sass';
 import * as sassEmbedded from 'sass-embedded';
 import postcss from 'postcss';
 import postcssModules from 'postcss-modules';
-import babel from '@rolldown/plugin-babel';
-import { reactCompilerPreset } from '@vitejs/plugin-react';
+import { reactCompilerRolldownPlugin } from './rolldown/react-compiler-rolldown-plugin.ts';
 
 export default defineConfig({
 	entry: ['./src/index.ts'],
@@ -18,9 +17,7 @@ export default defineConfig({
 	outDir: 'dist',
 	outExtensions: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),
 	plugins: [
-		babel({
-			presets: [reactCompilerPreset()],
-		}),
+		reactCompilerRolldownPlugin(),
 
 		sass({
 			api: 'modern',
