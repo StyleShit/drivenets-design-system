@@ -125,10 +125,15 @@ export default defineConfig(
 			],
 
 			// Import rules.
-			'import-x/no-cycle': 'error',
-			'import-x/no-unresolved': 'error',
 			'import-x/no-extraneous-dependencies': 'error',
 			'import-x/no-duplicates': ['error', { 'prefer-inline': true }],
+
+			'import-x/no-cycle': [
+				'error',
+				{
+					ignoreExternal: true,
+				},
+			],
 		},
 	},
 
