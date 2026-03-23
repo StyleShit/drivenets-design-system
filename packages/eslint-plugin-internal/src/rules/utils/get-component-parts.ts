@@ -50,8 +50,8 @@ export function getComponentParts(
 	// 	1. Namespace - i.e., `DsMenu.Root` (`DsMenu` is a plain object)
 	// 	2. Sub-component - i.e., `DsFormControl.TextInput` (`DsFormControl` is a component)
 	//
-	// For namespaced components, we only need to return the namespace.
-	// For sub-components, we need to return the sub-component name.
+	// For namespaced components, the actual component name is the namespace (e.g., `DsMenu`).
+	// For sub-components, the actual component name is the sub-component (e.g., `TextInput`).
 	const isNamespaced = type.getCallSignatures().length === 0;
 
 	if (isNamespaced) {

@@ -3,8 +3,8 @@ import * as tsutils from 'ts-api-utils';
 import { type ParserServicesWithTypeInformation, type TSESTree } from '@typescript-eslint/utils';
 
 /**
- * Fast and naive way to check if a Node is deprecated.
- * It checks the Node's symbol directly for a `@ deprecated` tag, without checking cases
+ * Simple and naive way to check if a Node is deprecated.
+ * It checks the Node's-related symbols directly for a `@ deprecated` tag, without checking cases
  * like `export { @ deprecated foo };`.
  *
  * A better & full solution would be something like typescript-eslint's implementation:
