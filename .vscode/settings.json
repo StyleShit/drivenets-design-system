@@ -5,6 +5,10 @@
 	"oxc.fmt.configPath": ".oxfmtrc.json",
 	"editor.defaultFormatter": "oxc.oxc-vscode",
 
+	"[html]": {
+		"editor.defaultFormatter": "oxc.oxc-vscode"
+	},
+
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"typescript.experimental.useTsgo": true
 }

@@ -1,12 +1,10 @@
-import type { Plugin } from 'vite';
 import * as fs from 'node:fs/promises';
-import { defineConfig } from 'tsdown';
+import { defineConfig, type Rolldown } from 'tsdown';
 import sass from 'rollup-plugin-sass';
 import * as sassEmbedded from 'sass-embedded';
 import postcss from 'postcss';
 import postcssModules from 'postcss-modules';
-import babel from '@rollup/plugin-babel';
-import babelPluginReactCompiler from 'babel-plugin-react-compiler';
+import { reactCompilerRolldownPlugin } from './rolldown/react-compiler-rolldown-plugin.ts';
 
 export default defineConfig({
 	entry: ['./src/index.ts'],
@@ -19,15 +17,7 @@ export default defineConfig({
 	outDir: 'dist',
 	outExtensions: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),
 	plugins: [
-		babel({
-			babelHelpers: 'bundled',
-			parserOpts: {
-				sourceType: 'module',
-				plugins: ['jsx', 'typescript'],
-			},
-			plugins: [babelPluginReactCompiler],
-			extensions: ['.js', '.jsx', '.ts', '.tsx'],
-		}),
+		reactCompilerRolldownPlugin(), // Must be first.
 
 		sass({
 			api: 'modern',
@@ -58,7 +48,7 @@ export default defineConfig({
 	],
 });
 
-function appendRootStyles(): Plugin {
+function appendRootStyles(): Rolldown.Plugin {
 	return {
 		name: 'append-root-styles',
 		async generateBundle({ format }) {

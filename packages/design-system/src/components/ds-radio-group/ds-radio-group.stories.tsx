@@ -6,10 +6,10 @@ import styles from './ds-radio-group.stories.module.scss';
 
 const meta: Meta = {
 	title: 'Design System/RadioGroup',
+	component: DsRadioGroup.Root,
 	parameters: {
 		layout: 'centered',
 	},
-	tags: ['autodocs'],
 };
 
 export default meta;

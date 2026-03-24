@@ -2,12 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import styles from './colors.stories.module.scss';
 
+// eslint-disable-next-line @drivenets/ds-internal/require-story-params -- component prop is not required here.
 const meta: Meta = {
 	title: 'Design System/Colors',
 	parameters: {
 		layout: 'padded',
 	},
-	tags: ['autodocs'],
 };
 
 export default meta;

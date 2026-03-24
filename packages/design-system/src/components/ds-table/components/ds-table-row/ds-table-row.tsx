@@ -10,7 +10,7 @@ import { DsTableRowExpandableCell } from '../ds-table-row-expandable-cell';
 import type { DsTableRowProps } from './ds-table-row.types';
 import styles from './ds-table-row.module.scss';
 import { useDsTableContext } from '../../context/ds-table-context';
-import { mergeRefs } from '../../utils/merge-refs';
+import { mergeRefs } from '../../../../utils/merge-refs';
 import { getColumnSizeStyle } from '../../utils/column-size';
 
 interface DsRowDragHandleProps {
@@ -38,7 +38,7 @@ const DsRowDragHandle = ({ isDragging, attributes, listeners }: DsRowDragHandleP
 	);
 };
 
-const DsTableRow = <TData,>({ ref, row }: DsTableRowProps<TData>) => {
+const DsTableRow = <TData,>({ ref, row, isSelected }: DsTableRowProps<TData>) => {
 	const {
 		expandable,
 		selectable,
@@ -80,7 +80,7 @@ const DsTableRow = <TData,>({ ref, row }: DsTableRowProps<TData>) => {
 		<>
 			<TableRow
 				ref={mergeRefs(reorderable ? setNodeRef : null, ref)}
-				data-state={isActive ? 'active' : row.getIsSelected() ? 'selected' : undefined}
+				data-state={isActive ? 'active' : isSelected ? 'selected' : undefined}
 				className={classnames(
 					styles.tableRow,
 					{
@@ -96,7 +96,9 @@ const DsTableRow = <TData,>({ ref, row }: DsTableRowProps<TData>) => {
 				onClick={() => onRowClick?.(row.original)}
 				onDoubleClick={() => onRowDoubleClick?.(row.original)}
 			>
-				{selectable && <DsTableRowSelectableCell row={row} className={styles.selectableCell} />}
+				{selectable && (
+					<DsTableRowSelectableCell row={row} isSelected={isSelected} className={styles.selectableCell} />
+				)}
 				{expandable && (
 					<DsTableRowExpandableCell
 						row={row}

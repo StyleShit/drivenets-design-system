@@ -13,7 +13,7 @@ interface TabItem {
 }
 
 const meta: Meta<typeof DsVerticalTabs> = {
-	title: 'Design System/Vertical Tabs',
+	title: 'Design System/VerticalTabs',
 	component: DsVerticalTabs,
 	parameters: {
 		layout: 'centered',
@@ -41,7 +41,6 @@ DsVerticalTabs is a compound component for creating flexible vertical tab naviga
 			},
 		},
 	},
-	tags: ['autodocs'],
 	argTypes: {
 		value: {
 			control: 'text',

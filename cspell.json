@@ -16,12 +16,16 @@
 		"fromentries",
 		"gnmi",
 		"matchall",
+		"netural",
 		"netgen",
+		"ondark",
+		"noninteractive",
 		"onwarn",
 		"reorderable",
 		"retryable",
 		"subcomponents",
 		"tosorted",
+		"TSESTree",
 		"unhover"
 	],
 	"ignorePaths": [".cursor", ".git", ".github", ".vscode", ".cspell", "pnpm-lock.yaml"]

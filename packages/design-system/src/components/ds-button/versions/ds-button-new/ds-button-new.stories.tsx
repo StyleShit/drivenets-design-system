@@ -2,20 +2,19 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import classNames from 'classnames';
 import { DsIcon } from '../../../ds-icon';
-import DsSpinner from '../../../ds-spinner/ds-spinner';
+import { DsSpinner } from '../../../ds-spinner';
 import DsButtonNew from './ds-button-new';
 import { buttonSizes, buttonTypes, buttonVariants } from './ds-button-new.types';
 import styles from './ds-button-new.stories.module.scss';
 
 const meta: Meta<typeof DsButtonNew> = {
+	// eslint-disable-next-line @drivenets/ds-internal/consistent-story-titles -- We want to show user something different than code.
 	title: 'Design System/Button',
 	component: DsButtonNew,
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
 		layout: 'centered',
 	},
-	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-	tags: ['autodocs'],
 	// More on argTypes: https://storybook.js.org/docs/api/argtypes
 	argTypes: {
 		buttonType: {
@@ -133,8 +132,8 @@ export const Showcase: Story = {
 			{ label: 'Icon Tertiary Dark', buttonType: 'tertiary', icon: true, variant: 'dark' },
 		];
 
-		const variants = ['filled', 'ghost', 'danger', 'dark'];
-		const sizes = ['small', 'medium', 'large'];
+		const variants = buttonVariants;
+		const sizes = buttonSizes;
 		const states = [false, true]; // false = default, true = disabled
 
 		return (
@@ -191,8 +190,8 @@ export const Showcase: Story = {
 														<div className={styles.showcaseCellInline}>
 															<DsButtonNew
 																buttonType={row.buttonType as (typeof buttonTypes)[number]}
-																variant={variant as (typeof buttonVariants)[number]}
-																size={size as (typeof buttonSizes)[number]}
+																variant={variant}
+																size={size}
 																disabled={disabled}
 															>
 																{row.icon ? iconButtonChildren : defaultButtonChildren}

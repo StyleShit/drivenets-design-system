@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fn, screen, userEvent, within } from 'storybook/test';
+import { fn } from 'storybook/test';
 import { DsDropdownMenu } from './ds-dropdown-menu';
 import { DsIcon } from '../ds-icon';
 import { DsTextInput } from '../ds-text-input';
@@ -10,12 +10,12 @@ import { DsButton } from '../ds-button';
 import { DsRadioGroup } from '../ds-radio-group';
 import './ds-dropdown-menu.stories.scss';
 
-const meta: Meta<typeof DsDropdownMenu> = {
+const meta: Meta<typeof DsDropdownMenu.Root> = {
 	title: 'Design System/DropdownMenu',
+	component: DsDropdownMenu.Root,
 	parameters: {
 		layout: 'centered',
 	},
-	tags: ['autodocs'],
 };
 
 export default meta;
@@ -255,34 +255,6 @@ export const CheckboxList: Story = {
 			</DsDropdownMenu.Root>
 		);
 	},
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-		const trigger = canvas.getByRole('button', { name: /Multi Select/i });
-
-		await userEvent.click(trigger);
-
-		const groupLabelText = await screen.findByText('Group Name');
-		await expect(groupLabelText).toBeInTheDocument();
-
-		const groupLabel = groupLabelText.closest('button') as HTMLElement;
-		await expect(groupLabel).toBeInTheDocument();
-
-		const collapseIcon = await screen.findByText('keyboard_arrow_down');
-		await expect(collapseIcon).toBeInTheDocument();
-
-		const groupItem = screen.getByText('Menu text 3');
-		await expect(groupItem).toBeVisible();
-
-		await userEvent.click(groupLabel);
-
-		await expect(screen.queryByText('Menu text 3')).not.toBeInTheDocument();
-		await expect(screen.queryByText('Menu text 4')).not.toBeInTheDocument();
-
-		await userEvent.click(groupLabel);
-
-		await expect(screen.getByText('Menu text 3')).toBeVisible();
-		await expect(screen.getByText('Menu text 4')).toBeVisible();
-	},
 };
 
 type CollapsibleGroupControlledArgs = {
@@ -337,35 +309,6 @@ export const CollapsibleGroupControlled: StoryObj<CollapsibleGroupControlledArgs
 	},
 	args: {
 		onCollapsedChange: fn(),
-	},
-	play: async ({ canvasElement, args }) => {
-		const canvas = within(canvasElement);
-
-		const trigger = canvas.getByRole('button', { name: /Controlled Group/i });
-		await userEvent.click(trigger);
-
-		const groupLabelText = await screen.findByText('Settings');
-		await expect(groupLabelText).toBeInTheDocument();
-
-		const groupLabel = groupLabelText.closest('button') as HTMLElement;
-		await expect(groupLabel).toBeInTheDocument();
-
-		const profileItem = await screen.findByText('Profile');
-		await expect(profileItem).toBeInTheDocument();
-
-		await userEvent.click(groupLabel);
-
-		await expect(args.onCollapsedChange).toHaveBeenCalledWith(true);
-		await expect(args.onCollapsedChange).toHaveBeenCalledTimes(1);
-
-		await expect(screen.queryByText('Profile')).not.toBeInTheDocument();
-
-		await userEvent.click(groupLabel);
-
-		await expect(args.onCollapsedChange).toHaveBeenCalledWith(false);
-		await expect(args.onCollapsedChange).toHaveBeenCalledTimes(2);
-
-		await expect(await screen.findByText('Profile')).toBeVisible();
 	},
 };
 

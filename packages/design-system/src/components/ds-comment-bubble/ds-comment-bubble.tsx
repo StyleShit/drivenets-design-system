@@ -9,7 +9,7 @@ import { DsIcon } from '../ds-icon';
 import { DsTag } from '../ds-tag';
 import { DsDropdownMenu } from '../ds-dropdown-menu';
 import { useClickOutside, useAutoResize } from './hooks';
-import { mergeRefs } from '../ds-table/utils/merge-refs';
+import { mergeRefs } from '../../utils/merge-refs';
 
 export const DsCommentBubble = ({
 	ref,
@@ -125,14 +125,7 @@ export const DsCommentBubble = ({
 						<div className={styles.headerActions}>
 							<DsDropdownMenu.Root>
 								<DsDropdownMenu.Trigger asChild>
-									<DsButton
-										design="v1.2"
-										buttonType="tertiary"
-										size="small"
-										aria-label="More actions"
-										className={styles.headerActionButton}
-										contentClassName={styles.iconButtonContent}
-									>
+									<DsButton design="v1.2" buttonType="tertiary" size="tiny" aria-label="More actions">
 										<DsIcon icon="more_vert" size="tiny" />
 									</DsButton>
 								</DsDropdownMenu.Trigger>
@@ -159,11 +152,9 @@ export const DsCommentBubble = ({
 								<DsButton
 									design="v1.2"
 									buttonType="tertiary"
-									size="small"
+									size="tiny"
 									onClick={() => onResolve()}
 									aria-label="Resolve"
-									className={styles.headerActionButton}
-									contentClassName={styles.iconButtonContent}
 								>
 									<DsIcon icon="check_circle" size="tiny" />
 								</DsButton>
@@ -174,10 +165,8 @@ export const DsCommentBubble = ({
 							<DsButton
 								design="v1.2"
 								buttonType="tertiary"
-								size="small"
+								size="tiny"
 								onClick={() => onClose()}
-								className={styles.headerActionButton}
-								contentClassName={styles.iconButtonContent}
 								aria-label="Close"
 							>
 								<DsIcon icon="close" size="tiny" />
@@ -214,7 +203,14 @@ export const DsCommentBubble = ({
 				</div>
 
 				{(isInitialMode || hasThread) && (
-					<DsButton design="v1.2" size="small" disabled={!hasContent} onClick={handleSend} aria-label="Send">
+					<DsButton
+						design="v1.2"
+						buttonType="tertiary"
+						size="tiny"
+						disabled={!hasContent}
+						onClick={handleSend}
+						aria-label="Send"
+					>
 						<DsIcon icon="send" size="tiny" />
 					</DsButton>
 				)}
@@ -223,15 +219,20 @@ export const DsCommentBubble = ({
 			{showFooter && (
 				<div className={styles.footer}>
 					<DsCheckbox
+						variant="warning"
 						label="Action required"
 						checked={actionRequired}
 						onCheckedChange={(checked) => onActionRequiredChange?.(checked === true)}
-						className={classNames(styles.actionRequiredCheckbox, {
-							[styles.checked]: actionRequired,
-						})}
 					/>
 
-					<DsButton design="v1.2" size="small" disabled={!hasContent} onClick={handleSend} aria-label="Send">
+					<DsButton
+						design="v1.2"
+						buttonType="tertiary"
+						size="tiny"
+						disabled={!hasContent}
+						onClick={handleSend}
+						aria-label="Send"
+					>
 						<DsIcon icon="send" size="tiny" />
 					</DsButton>
 				</div>

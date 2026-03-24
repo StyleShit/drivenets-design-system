@@ -8,32 +8,12 @@ $input-min-height-initial: 20px;
 $input-min-height-typing: 40px;
 $input-min-height-thread: 28px;
 $input-max-height: 480px;
-$icon-button-size: 16px;
 $scrollbar-width-textarea: 4px;
 $scrollbar-border-radius-pill: 100px;
 $dropdown-min-width: 160px;
 $border-width: 1px;
-$checkbox-border-radius: 2px;
 
 $transition-duration: 0.2s;
-
-@mixin icon-button-size {
-	&#{&} {
-		width: $icon-button-size;
-		height: $icon-button-size;
-		min-width: $icon-button-size;
-		min-height: $icon-button-size;
-		padding: 0;
-		border: none;
-	}
-}
-
-.iconButtonContent {
-	height: $icon-button-size !important;
-	min-height: $icon-button-size !important;
-	padding: 0 !important;
-	border: none !important;
-}
 
 .bubble {
 	display: flex;
@@ -180,11 +160,6 @@ $transition-duration: 0.2s;
 	}
 }
 
-.headerActionButton {
-	@include icon-button-size;
-	opacity: 1;
-}
-
 .inputArea {
 	display: flex;
 	align-items: center;
@@ -250,20 +225,6 @@ $transition-duration: 0.2s;
 	align-items: center;
 	justify-content: space-between;
 	padding: var(--spacing-xs) 0;
-}
-
-.actionRequiredCheckbox {
-	&.checked {
-		[data-state='checked'] {
-			background: var(--color-background-warning-strong);
-			border-color: var(--color-border-warning);
-			border-radius: $checkbox-border-radius;
-		}
-
-		label {
-			color: var(--color-font-warning);
-		}
-	}
 }
 
 .sendButton {

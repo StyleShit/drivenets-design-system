@@ -1,10 +1,11 @@
 import baseConfig from '../../eslint.config.base';
-import { defineConfig, globalIgnores, type Config } from 'eslint/config';
+import { defineConfig, type Config } from 'eslint/config';
 import { fixupPluginRules } from '@eslint/compat';
 import _react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import storybook from 'eslint-plugin-storybook';
+import internal from '@drivenets/eslint-plugin-internal';
 
 // Fix `eslint-plugin-react` to be compatible with ESLint 10.
 // Waiting until https://github.com/jsx-eslint/eslint-plugin-react/pull/3979 is merged.
@@ -13,25 +14,28 @@ const react = fixupPluginRules(_react);
 export default defineConfig(
 	...baseConfig,
 
-	// React rules.
 	{
+		name: 'react/recommended',
 		..._react.configs.flat.recommended,
 		plugins: { react },
 	},
 	{
+		name: 'react/jsx-runtime',
 		..._react.configs.flat['jsx-runtime'],
 		plugins: { react },
 	},
 
-	reactHooks.configs.flat.recommended,
+	{
+		name: 'react-hooks/recommended',
+		...reactHooks.configs.flat.recommended,
+	},
 
 	jsxA11y.flatConfigs.recommended as Config,
 
-	// Storybook rules.
 	storybook.configs['flat/recommended'] as Config,
 
-	// Overrides.
 	{
+		name: 'design-system/general-overrides',
 		settings: {
 			react: {
 				version: 'detect',
@@ -58,8 +62,8 @@ export default defineConfig(
 		},
 	},
 
-	// Production code overrides.
 	{
+		name: 'design-system/source-overrides',
 		files: ['**/*.?(m)[tj]s?(x)'],
 		ignores: ['**/*.stories.ts?(x)'],
 		rules: {
@@ -69,5 +73,5 @@ export default defineConfig(
 		},
 	},
 
-	globalIgnores(['storybook-static', '!.storybook', '.scss-dts']),
+	internal.configs.recommended,
 );

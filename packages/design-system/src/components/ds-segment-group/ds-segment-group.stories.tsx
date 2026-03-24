@@ -7,10 +7,10 @@ import styles from './ds-segment-group.stories.module.scss';
 
 const meta: Meta = {
 	title: 'Design System/SegmentGroup',
+	component: DsSegmentGroup.Root,
 	parameters: {
 		layout: 'centered',
 	},
-	tags: ['autodocs'],
 };
 
 export default meta;
