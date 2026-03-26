@@ -131,7 +131,6 @@ export default meta;
 type Story = StoryObj<typeof DsCommentBubble>;
 
 export const Initial: Story = {
-	args: {},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const textarea = canvas.getByRole('textbox', { name: /add a comment/i });
