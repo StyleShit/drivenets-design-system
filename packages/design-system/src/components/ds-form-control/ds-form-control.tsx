@@ -63,9 +63,8 @@ const DsFormControl = ({
 					styles.container,
 					className,
 
-					// @ts-expect-error: `info` doesn't have its own classname
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-					status && message && styles[status],
+					// Casting because `info` doesn't have its own classname
+					status && message && styles[status as keyof typeof styles],
 				)}
 				style={style}
 			>
@@ -97,6 +96,7 @@ const DsFormControl = ({
 DsFormControl.TextInput = controlify(DsTextInput);
 DsFormControl.NumberInput = controlify(DsNumberInput);
 DsFormControl.PasswordInput = controlify(DsPasswordInput);
+/** @deprecated DsDateInput is deprecated. Use DsDatePicker or DsDateRangePicker instead. */
 DsFormControl.DateInput = controlify(DsDateInput);
 DsFormControl.DatePicker = controlify(DsDatePicker);
 DsFormControl.TimePicker = controlify(DsTimePicker);
