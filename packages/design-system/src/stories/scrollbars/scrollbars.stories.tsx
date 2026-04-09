@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import classNames from 'classnames';
 import styles from './scrollbars.stories.module.scss';
 
-// eslint-disable-next-line @drivenets/ds-internal/require-story-params -- component prop is not required here.
+// eslint-disable-next-line @drivenets/ds-internal/require-story-meta-annotations -- component prop is not required here.
 const meta: Meta = {
 	title: 'Design System/Scrollbars',
 	parameters: {
@@ -20,7 +20,7 @@ You can add a \`.scrollbar-thin\` class to the element in order to make its scro
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 // Helper to generate content
 const generateContent = (count: number, direction: 'vertical' | 'horizontal') => {
