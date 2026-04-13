@@ -87,6 +87,28 @@ ruleTester.run('no-useless-story-annotations', noUselessStoryAnnotations, {
 			code: `export const Default = { storyName: 'Custom Name' };`,
 		},
 
+		// --- satisfies / as on property values ---
+		{
+			name: 'non-empty args with satisfies on value',
+			code: `export const Primary = { args: { label: 'Hello' } satisfies Args };`,
+		},
+		{
+			name: 'non-empty args with as assertion on value',
+			code: `export const Primary = { args: { label: 'Hello' } as Args };`,
+		},
+		{
+			name: 'non-empty tags with as assertion on value',
+			code: `export const Primary = { tags: ['deprecated'] as string[] };`,
+		},
+		{
+			name: 'non-empty parameters with satisfies on value',
+			code: `export const Primary = { parameters: { layout: 'centered' } satisfies Params };`,
+		},
+		{
+			name: 'non-empty play with satisfies on value',
+			code: `export const Primary = { play: (async () => { await click(); }) satisfies PlayFn };`,
+		},
+
 		// --- misc ---
 		{
 			name: 'story with no annotations',
@@ -549,7 +571,7 @@ ruleTester.run('no-useless-story-annotations', noUselessStoryAnnotations, {
 			],
 		},
 		{
-			name: 'empty tags value with as',
+			name: 'empty tags value with as assertion',
 			code: `export const Primary = { tags: [] as string[] };`,
 			output: `export const Primary = {  };`,
 			errors: [
