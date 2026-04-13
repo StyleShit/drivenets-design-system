@@ -24,14 +24,14 @@ export function getObjectProperty<T extends PropertyValue = PropertyValue>(
 ): ObjectPropertyResult<T> | null {
 	const { obj, name, predicate = () => true } = args;
 
-	const property = obj.properties.find((property) => {
+	const property = obj.properties.find((property): property is TSESTree.Property => {
 		return (
 			property.type === AST_NODE_TYPES.Property &&
 			property.key.type === AST_NODE_TYPES.Identifier &&
 			property.key.name === name &&
 			predicate(unwrapExpression(property.value))
 		);
-	}) as TSESTree.Property | null;
+	});
 
 	if (!property) {
 		return null;
@@ -39,6 +39,8 @@ export function getObjectProperty<T extends PropertyValue = PropertyValue>(
 
 	return {
 		node: property,
+
+		// At this point we know the unwrapped value is of type T because of the predicate.
 		value: unwrapExpression(property.value) as T,
 	};
 }
