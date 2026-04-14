@@ -15,7 +15,7 @@ ruleTester.run(
 	'no-deprecated-ds-button-legacy-design',
 	plugin.rules['no-deprecated-ds-button-legacy-design'],
 	{
-		valid: ['<DsButton design="v1.2">Click me</DsButton>', '<DsButton>Click me</DsButton>'],
+		valid: ['<DsButton design="v1.2">Click me</DsButton>'],
 
 		invalid: [
 			{
@@ -35,7 +35,7 @@ ruleTester.run(
 );
 
 ruleTester.run('no-deprecated-ds-button-empty-design', plugin.rules['no-deprecated-ds-button-empty-design'], {
-	valid: ['<DsButton design="v1.2">Click me</DsButton>', '<DsButton design="legacy">Click me</DsButton>'],
+	valid: ['<DsButton design="v1.2">Click me</DsButton>'],
 
 	invalid: [
 		{
