@@ -2,11 +2,5 @@ packages:
   - 'packages/*'
 
 minimumReleaseAge: 1440 # 1 day in minutes
-
-# Temporary
-minimumReleaseAgeExclude:
-  - '@eslint/*'
-  - 'eslint'
-
 trustPolicy: 'no-downgrade'
 blockExoticSubdeps: true
