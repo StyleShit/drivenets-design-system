@@ -9,11 +9,11 @@ It helps enforce best practices and migrating from deprecated components and pro
 First, install the package via your preferred package manager:
 
 ```bash
-npm install @drivenets/eslint-plugin
+npm install @drivenets/eslint-plugin-design-system
 # or
-pnpm install @drivenets/eslint-plugin
+pnpm install @drivenets/eslint-plugin-design-system
 # or
-yarn add @drivenets/eslint-plugin
+yarn add @drivenets/eslint-plugin-design-system
 ```
 
 ## Usage
