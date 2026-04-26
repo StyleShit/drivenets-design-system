@@ -39,11 +39,11 @@
 		"build:lint": "publint && attw --pack"
 	},
 	"dependencies": {
-		"@eslint/core": "catalog:",
 		"eslint-no-restricted": "^0.1.1"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "catalog:",
+		"@eslint/core": "catalog:",
 		"@typescript/native-preview": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
 		"eslint": "catalog:",

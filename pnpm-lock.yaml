@@ -374,9 +374,6 @@ importers:
 
   packages/eslint-plugin:
     dependencies:
-      '@eslint/core':
-        specifier: 'catalog:'
-        version: 1.2.1
       '@typescript-eslint/parser':
         specifier: ^8.50.0
         version: 8.58.2(eslint@10.2.0(jiti@2.6.1))(typescript@6.0.2)
@@ -387,6 +384,9 @@ importers:
       '@arethetypeswrong/cli':
         specifier: 'catalog:'
         version: 0.18.2
+      '@eslint/core':
+        specifier: 'catalog:'
+        version: 1.2.1
       '@typescript/native-preview':
         specifier: 'catalog:'
         version: 7.0.0-dev.20260331.1
