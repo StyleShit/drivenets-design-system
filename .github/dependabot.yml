@@ -8,7 +8,7 @@ updates:
     commit-message:
       prefix: 'chore'
     groups:
-      # Matching the pnpm catalog entries manually since Dependabot infers them as production.
+      # Matching the pnpm catalog entries manually since Dependabot matches them under the production group.
       # See: https://github.com/dependabot/dependabot-core/issues/14824
       pnpm-catalog:
         patterns:
@@ -26,6 +26,7 @@ updates:
         dependency-type: 'development'
         patterns:
           - '**'
+
       npm-production:
         dependency-type: 'production'
         patterns:
