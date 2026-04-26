@@ -9,6 +9,26 @@
 /pnpm-lock.yaml
 /README.md
 
+# Design System internal configurations
+/packages/design-system/.storybook/ @StyleShit @aroba-dn
+/packages/design-system/rolldown/ @StyleShit @aroba-dn
+/packages/design-system/vitest/ @StyleShit @aroba-dn
+/packages/design-system/* @StyleShit @aroba-dn
+
+# Excluded Design System files
+/packages/design-system/.gitignore @StyleShit @aroba-dn
+/packages/design-system/CHANGELOG.md @StyleShit @aroba-dn
+/packages/design-system/package.json @StyleShit @aroba-dn
+/packages/design-system/README.md @StyleShit @aroba-dn
+
+# ESLint plugin configurations
+/packages/eslint-plugin/* @StyleShit @aroba-dn
+
+# Excluded ESLint plugin files
+/packages/eslint-plugin/CHANGELOG.md
+/packages/eslint-plugin/README.md
+
+# Other packages
 /packages/commitlint-plugin-internal/ @StyleShit
 /packages/eslint-plugin-internal/ @StyleShit
 /packages/vite-plugin/ @StyleShit
