@@ -1,5 +1,7 @@
 import type { Plugin } from 'vite';
 
+//
+
 export function vitePluginDesignSystem(): Plugin {
 	return {
 		name: 'vite-plugin-design-system',

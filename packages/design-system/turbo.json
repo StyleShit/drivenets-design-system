@@ -12,7 +12,8 @@
 			"dependsOn": []
 		},
 		"build:storybook": {
-			"outputs": ["storybook-static/**"]
+			"outputs": ["storybook-static/**"],
+			"inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/vite-plugin/**"]
 		}
 	}
 }
