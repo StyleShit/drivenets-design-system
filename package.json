@@ -23,7 +23,6 @@
 		"build": "turbo run build",
 		"build:storybook": "turbo run build:storybook",
 		"changelog": "changeset",
-		"release": "pnpm build && changeset publish",
 		"prepare": "husky",
 		"pre-commit": "lint-staged"
 	},
