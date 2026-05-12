@@ -54,7 +54,7 @@ jobs:
         with:
           category: '/language:${{matrix.language}}'
 
-  zizmor:
+  Zizmor:
     name: Zizmor (GitHub Actions)
     runs-on: ubuntu-latest
 
