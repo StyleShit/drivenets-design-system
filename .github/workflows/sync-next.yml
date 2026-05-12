@@ -21,6 +21,7 @@ jobs:
           # Force push is only allowed for admins, and the default `GITHUB_TOKEN` doesn't have admin
           # permissions, and it can't be added to the bypass list, while a deploy key can.
           ssh-key: ${{ secrets.DEPLOY_KEY }}
+          persist-credentials: false
 
       - name: Rebase onto main
         run: |
