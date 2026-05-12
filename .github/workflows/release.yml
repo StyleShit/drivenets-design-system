@@ -25,7 +25,8 @@ jobs:
       should-publish: ${{ steps.changesets.outputs.hasChangesets == 'false' }}
 
     steps:
-      - name: Checkout source code
+      # changesets/action commits the release PR via git push, so it needs the persisted GITHUB_TOKEN.
+      - name: Checkout source code # zizmor: ignore[artipacked]
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
@@ -92,7 +93,7 @@ jobs:
       id-token: write # for npm trusted publishing
 
     steps:
-      - name: Checkout source code
+      - name: Checkout source code # zizmor: ignore[artipacked] Need persisted token to push tags.
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
