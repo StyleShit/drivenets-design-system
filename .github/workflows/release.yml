@@ -100,9 +100,6 @@ jobs:
         with:
           skip-install: true
 
-      - name: Ensure updated npm
-        run: npm install -g npm@11.7.0 # npm >= 11.5.1 is required for trusted publishing
-
       - name: Install changeset
         run: pnpm install -g @changesets/cli@^2.30.0
 

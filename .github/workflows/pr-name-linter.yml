@@ -31,7 +31,7 @@ jobs:
           persist-credentials: false
 
       - name: Install pnpm
-        uses: pnpm/action-setup@91ab88e2619ed1f46221f0ba42d1492c02baf788 # v6.0.6
+        uses: pnpm/action-setup@3e835812ef01165f4f8ae08ade56da44427ed4e0 # v6.0.7
         with:
           cache: true
 
