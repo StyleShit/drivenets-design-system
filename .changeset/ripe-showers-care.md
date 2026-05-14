@@ -2,4 +2,4 @@
 '@drivenets/design-system': patch
 ---
 
-Add `DsWorkspace` component
+Fix `DsAutocomplete` placeholder color

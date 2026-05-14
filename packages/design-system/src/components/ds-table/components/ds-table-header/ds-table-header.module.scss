@@ -5,7 +5,7 @@
 	position: sticky;
 	top: 0;
 	z-index: 10;
-	background-color: var(--color-background);
+	background-color: var(--background);
 }
 
 .virtualizedHeader {
@@ -14,12 +14,7 @@
 
 .headerRow {
 	.headerCell {
-		border-bottom: 1px solid var(--neutral-6);
-
-		&.selectColumn {
-			width: vars.$select-column-width;
-			padding: 0;
-		}
+		border-bottom: 1px solid var(--color-dap-gray-400);
 	}
 
 	&.headerRowNoBorder {
@@ -38,16 +33,11 @@
 	width: vars.$reorder-column-width;
 }
 
-.expandColumn {
-	width: vars.$expand-column-width;
-	padding: 0;
-}
-
 .headerCell {
 	@include typography.body-sm-md;
-	color: var(--color-font-main);
+	color: var(--font-main);
 	text-align: left;
-	padding: 0 var(--spacing-standard);
+	padding: 0 var(--standard);
 	height: var(--ds-table-header-height);
 
 	&.sortableHeader {
@@ -63,10 +53,14 @@
 		height: 24px;
 
 		&.pageButtonIcon {
-			color: var(--neutral-4);
+			color: var(--color-dap-gray-500);
 			transition: transform 0.2s ease-in-out;
 		}
 	}
+}
+
+.selectHeaderCell {
+	padding: 0;
 }
 
 .headerSortContainer {

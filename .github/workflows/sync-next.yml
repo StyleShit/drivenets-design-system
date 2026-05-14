@@ -2,6 +2,9 @@ name: Sync next branch
 
 on:
   workflow_dispatch:
+  schedule:
+    # 00:00 Israel Time (UTC+3, IDT)
+    - cron: '0 21 * * *'
 
 permissions:
   contents: write
@@ -17,6 +20,7 @@ jobs:
           ref: next
           fetch-depth: 0
           ssh-key: ${{ secrets.DEPLOY_KEY }}
+          persist-credentials: false
 
       - name: Rebase onto main
         run: |
