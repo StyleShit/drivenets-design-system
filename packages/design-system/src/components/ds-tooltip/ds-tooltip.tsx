@@ -48,4 +48,6 @@ const DsTooltip: FC<DsTooltipProps> = ({
 	);
 };
 
+DsTooltip.displayName = 'DsTooltip';
+
 export default DsTooltip;
