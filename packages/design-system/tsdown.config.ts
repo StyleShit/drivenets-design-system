@@ -16,7 +16,7 @@ export default defineConfig({
 	entry: ['./src/index.ts'],
 	format: ['cjs', 'esm'],
 	platform: 'browser',
-	dts: { tsgo: true },
+	dts: { tsgo: { path: process.env.FAST ? 'tsc' : 'tsc6' } },
 	sourcemap: false,
 	clean: true,
 	outDir: 'dist',
