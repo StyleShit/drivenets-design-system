@@ -23,7 +23,7 @@ updates:
       pnpm-catalog:
         patterns:
           - '@arethetypeswrong/cli'
-          - '@typescript/native-preview'
+          - '@typescript/native'
           - 'publint'
           - 'tsdown'
           - 'typescript'
