@@ -38,6 +38,9 @@ const DsTreeRoot = <T extends DsTreeNode = DsTreeNode>({
 	checkedValue,
 	defaultCheckedValue,
 	onCheckedChange,
+	focusedValue,
+	defaultFocusedValue,
+	onFocusChange,
 	typeahead = true,
 	lazyMount = true,
 	unmountOnExit,
@@ -56,6 +59,9 @@ const DsTreeRoot = <T extends DsTreeNode = DsTreeNode>({
 		checkedValue={checkedValue}
 		defaultCheckedValue={defaultCheckedValue}
 		onCheckedChange={onCheckedChange}
+		focusedValue={focusedValue}
+		defaultFocusedValue={defaultFocusedValue}
+		onFocusChange={onFocusChange}
 		typeahead={typeahead}
 		lazyMount={lazyMount}
 		unmountOnExit={unmountOnExit}
@@ -152,6 +158,22 @@ const DsTreeItemAction = ({ className, style, children, onClick }: DsTreeItemAct
 		{children}
 	</button>
 );
+
+DsTreeRoot.displayName = 'DsTree.Root';
+DsTreeTree.displayName = 'DsTree.Tree';
+Object.defineProperty(TreeView.NodeProvider, 'displayName', { value: 'DsTree.NodeProvider' });
+Object.defineProperty(TreeView.NodeContext, 'displayName', { value: 'DsTree.NodeContext' });
+DsTreeBranch.displayName = 'DsTree.Branch';
+DsTreeBranchControl.displayName = 'DsTree.BranchControl';
+DsTreeBranchIndicator.displayName = 'DsTree.BranchIndicator';
+DsTreeBranchText.displayName = 'DsTree.BranchText';
+DsTreeBranchContent.displayName = 'DsTree.BranchContent';
+DsTreeBranchIndentGuide.displayName = 'DsTree.BranchIndentGuide';
+DsTreeItem.displayName = 'DsTree.Item';
+DsTreeItemText.displayName = 'DsTree.ItemText';
+DsTreeItemIndicator.displayName = 'DsTree.ItemIndicator';
+DsTreeItemAction.displayName = 'DsTree.ItemAction';
+DsTreeNodeCheckbox.displayName = 'DsTree.NodeCheckbox';
 
 export const DsTree = {
 	Root: DsTreeRoot,

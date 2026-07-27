@@ -229,6 +229,12 @@ export interface DsDataTableProps<TData, TValue> {
 	data: TData[];
 
 	/**
+	 * Optional content rendered in a pinned controls bar above the table header
+	 * (e.g. filters, action buttons). Layout is owned by the consumer.
+	 */
+	controls?: React.ReactNode;
+
+	/**
 	 * Whether the table is virtualized
 	 * @default false
 	 */
@@ -313,6 +319,13 @@ export interface DsDataTableProps<TData, TValue> {
 	 * @default 'medium'
 	 */
 	rowSize?: DsTableRowSize;
+
+	/**
+	 * When `true`, renders placeholder skeleton rows instead of the data. Column
+	 * headers stay intact and row interactions are disabled while loading.
+	 * @default false
+	 */
+	loading?: boolean;
 
 	/**
 	 * Whether the table is expandable or if an individual row should be expandable

@@ -1,6 +1,6 @@
 {
 	"name": "@drivenets/vite-plugin-design-system",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"license": "Apache-2.0",
 	"type": "module",
 	"types": "./src/index.ts",
@@ -38,7 +38,7 @@
 	"scripts": {
 		"lint": "eslint --max-warnings=0 .",
 		"lint:build": "TARBALL=$(pnpm pack | tail -n1) && publint $TARBALL && attw $TARBALL; rm -f $TARBALL",
-		"typecheck": "tsgo",
+		"typecheck": "tsc",
 		"build": "tsdown",
 		"test": "vitest",
 		"test:coverage": "pnpm test --coverage"
@@ -48,7 +48,7 @@
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "catalog:",
-		"@typescript/native-preview": "catalog:",
+		"@typescript/native": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
 		"eslint": "catalog:",
 		"publint": "catalog:",

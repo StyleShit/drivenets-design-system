@@ -1,5 +1,37 @@
 # @drivenets/design-system
 
+## 0.16.0
+
+### Minor Changes
+
+- 3f14f7f: Add `DsSiteNode` component
+- 2348729: add code connect for `DsDrawer`, `DsDropdownMenu`, `DsPanel`, `DsPopover`, `DsToast`, `DsTooltip`
+- c6f9521: Remove deprecated tokens
+- c8cba46: Add text ellipsis props (`truncate`, `tooltip`, `tooltipContent`) to `DsTypography`
+- 702c564: Migrate `DsTooltip` from Radix to Ark UI and add `placement`, `disabled`, and `getAnchorRect` props (with `TooltipPlacement` / `TooltipAnchorRect` types) for virtual anchor positioning
+
+### Patch Changes
+
+- a2f02db: fix `anchorRef` prop type in `DsDialog` component
+- 44e9a51: Add Code Connect to `DsDivider`, `DsAvatarGroup`, `DsAvatar`, `DsBreadcrumb`, `DsKeyValuePair`, `DsStepper`
+- 0aaa7db: Add `DsUserCard` — an avatar + name/subtitle identity header.
+  Add an `align` prop (`'end' | 'stretch'`) to `DsDropdownMenu.Actions` so one slot covers both the right-aligned button row and full-width footer actions like logout.
+- 5a0f7a5: re-export `createColumnHelper` and the `ColumnDef` type from `@tanstack/react-table`
+- d6c114b: sync tokens with Figma variables
+
+## 0.15.0
+
+### Minor Changes
+
+- b9bf892: Add an `onOpenAutoFocus` prop to `DsDrawer`. Call `event.preventDefault()` to stop the drawer from stealing focus on open, keeping the caret where it was (e.g. in a text input that triggered the drawer) for type-ahead / popover patterns.
+
+### Patch Changes
+
+- b9bf892: Fix `DsDrawer` intercepting pointer events while closed. A closed (or closing) drawer stays mounted and transformed; for inset/offset drawers this could land the invisible content over neighboring UI and swallow its clicks. Closed-state content is now `pointer-events: none`, so a closed drawer is fully click-through regardless of docked position, while open drawers (including during the open animation) stay interactive.
+- f672a7c: Add `DsProgressTaskBar` component
+- 99099bc: Add a `loading` prop to `DsTable`
+- c429032: Add `ColumnDef.editDisabled` to `DsTable` for locking individual editable cells.
+
 ## 0.14.0
 
 ### Minor Changes

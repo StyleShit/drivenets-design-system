@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
@@ -33,7 +33,7 @@ jobs:
         uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-lint-${{ github.sha }}
@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
@@ -62,7 +62,7 @@ jobs:
         uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-typecheck-${{ github.sha }}
@@ -81,7 +81,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -100,7 +100,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
@@ -110,7 +110,7 @@ jobs:
         uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-test-${{ github.sha }}
@@ -119,6 +119,35 @@ jobs:
 
       - name: Run Tests
         run: pnpm test:coverage --affected
+
+  docs-tests:
+    name: Storybook Docs Tests
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+          filter: 'blob:none'
+          persist-credentials: false
+
+      - name: Install Dependencies
+        uses: ./.github/actions/install
+
+      - name: Cache turbo
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-docs-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-docs-
+
+      - name: Run Storybook docs snippet tests
+        run: pnpm test:storybook-docs --affected
 
   build:
     name: Build
@@ -129,7 +158,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
@@ -139,7 +168,7 @@ jobs:
         uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-build-${{ github.sha }}
@@ -163,7 +192,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
@@ -173,7 +202,7 @@ jobs:
         uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-build-storybook-${{ github.sha }}
@@ -192,7 +221,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -211,7 +240,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -230,7 +259,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -252,7 +281,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -275,7 +304,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           filter: 'blob:none'
@@ -285,7 +314,7 @@ jobs:
         uses: ./.github/actions/install
 
       - name: Cache turbo
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-figma-lint-${{ github.sha }}
