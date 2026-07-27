@@ -18,7 +18,7 @@ const attrs = ['value="option"', 'label="Option"', state === 'disabled' ? 'disab
 
 export default {
 	example: figma.code`<DsRadioGroup.Item ${attrs} />`,
-	imports: ["import { DsRadioGroup } from '@drivenets/design-system'"],
+	imports: ["import { DsRadioGroup } from '@drivenets/design-system';"],
 	id: 'ds-radio-group-item',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

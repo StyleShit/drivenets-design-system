@@ -25,7 +25,7 @@ export default {
 	<DsTabs.List>${tabs}</DsTabs.List>
 	{/* Add a <DsTabs.Content value="..."> panel for each tab */}
 </DsTabs.Root>`,
-	imports: ["import { DsTabs } from '@drivenets/design-system'"],
+	imports: ["import { DsTabs } from '@drivenets/design-system';"],
 	id: 'ds-tabs-vertical',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

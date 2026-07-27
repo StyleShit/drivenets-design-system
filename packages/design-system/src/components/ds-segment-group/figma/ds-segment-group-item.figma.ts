@@ -19,7 +19,7 @@ const attrs = ['value="option"', 'label="Option"', state === 'disabled' ? 'disab
 
 export default {
 	example: figma.code`<DsSegmentGroup.Item ${attrs} />`,
-	imports: ["import { DsSegmentGroup } from '@drivenets/design-system'"],
+	imports: ["import { DsSegmentGroup } from '@drivenets/design-system';"],
 	id: 'ds-segment-group-item',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

@@ -34,7 +34,7 @@ const attrs = [
 
 export default {
 	example: figma.code`<DsCheckbox ${attrs} />`,
-	imports: ["import { DsCheckbox } from '@drivenets/design-system'"],
+	imports: ["import { DsCheckbox } from '@drivenets/design-system';"],
 	id: 'ds-checkbox-level-2',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

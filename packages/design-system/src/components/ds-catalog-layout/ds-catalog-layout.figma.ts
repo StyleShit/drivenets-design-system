@@ -45,7 +45,7 @@ export default {
 		</DsCatalogLayout.Content>
 	</DsCatalogLayout.Body>
 </DsCatalogLayout>`,
-	imports: ["import { DsCatalogLayout, DsTypography } from '@drivenets/design-system'"],
+	imports: ["import { DsCatalogLayout, DsTypography } from '@drivenets/design-system';"],
 	id: 'ds-catalog-layout',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

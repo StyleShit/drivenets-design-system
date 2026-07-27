@@ -13,7 +13,7 @@ if (button.type === 'INSTANCE') {
 
 export default {
 	example: figma.code`<DsDrawer.Footer><DsDrawer.Actions>${buttonCode}</DsDrawer.Actions></DsDrawer.Footer>`,
-	imports: ["import { DsDrawer } from '@drivenets/design-system'"],
+	imports: ["import { DsDrawer } from '@drivenets/design-system';"],
 	id: 'ds-drawer-footer',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

@@ -18,7 +18,7 @@ export default {
 	example: isExpandable
 		? figma.code`<DsExpandableTextInput icon="search" />`
 		: figma.code`<DsAutocomplete options={[]} showTrigger={false} />`,
-	imports: [`import { ${component} } from '@drivenets/design-system'`],
+	imports: [`import { ${component} } from '@drivenets/design-system';`],
 	id: 'ds-expandable-text-input',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

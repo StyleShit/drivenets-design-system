@@ -21,7 +21,7 @@ const size =
 
 export default {
 	example: figma.code`<DsAvatarGroup avatars={[]} size="${size}" />`,
-	imports: ["import { DsAvatarGroup } from '@drivenets/design-system'"],
+	imports: ["import { DsAvatarGroup } from '@drivenets/design-system';"],
 	id: 'ds-avatar-group',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

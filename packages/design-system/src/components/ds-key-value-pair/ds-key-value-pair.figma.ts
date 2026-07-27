@@ -18,7 +18,7 @@ const orientation =
 
 export default {
 	example: figma.code`<DsKeyValuePair keyLabel="Label" value="Value" orientation="${orientation}" />`,
-	imports: ["import { DsKeyValuePair } from '@drivenets/design-system'"],
+	imports: ["import { DsKeyValuePair } from '@drivenets/design-system';"],
 	id: 'ds-key-value-pair',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

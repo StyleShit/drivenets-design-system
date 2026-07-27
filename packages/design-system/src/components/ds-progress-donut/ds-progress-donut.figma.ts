@@ -39,7 +39,7 @@ const valueProp = typeof value === 'number' ? ` value={${String(value)}}` : '';
 
 export default {
 	example: figma.code`<DsProgressDonut variant="${variant}" size="${size}"${valueProp} />`,
-	imports: ["import { DsProgressDonut } from '@drivenets/design-system'"],
+	imports: ["import { DsProgressDonut } from '@drivenets/design-system';"],
 	id: 'ds-progress-donut',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

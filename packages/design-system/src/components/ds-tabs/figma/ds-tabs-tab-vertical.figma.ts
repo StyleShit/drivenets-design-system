@@ -72,7 +72,7 @@ const attrs = [`value="${value}"`, `label="${label}"`, icon ? `icon="${icon}"` :
 
 export default {
 	example: figma.code`<DsTabs.Tab ${attrs} />`,
-	imports: ["import { DsTabs } from '@drivenets/design-system'"],
+	imports: ["import { DsTabs } from '@drivenets/design-system';"],
 	id: 'ds-tabs-tab-vertical',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

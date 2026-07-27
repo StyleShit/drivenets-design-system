@@ -9,7 +9,7 @@ const content = instance.getSlot('Drawer content slot');
 
 export default {
 	example: figma.code`<DsDrawer.Body>${content}</DsDrawer.Body>`,
-	imports: ["import { DsDrawer } from '@drivenets/design-system'"],
+	imports: ["import { DsDrawer } from '@drivenets/design-system';"],
 	id: 'ds-drawer-content',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

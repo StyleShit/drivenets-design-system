@@ -9,7 +9,7 @@ const checkboxes = instance.getSlot('checkboxes slot');
 
 export default {
 	example: figma.code`<DsCheckboxGroup>${checkboxes}</DsCheckboxGroup>`,
-	imports: ["import { DsCheckboxGroup, DsCheckbox } from '@drivenets/design-system'"],
+	imports: ["import { DsCheckboxGroup, DsCheckbox } from '@drivenets/design-system';"],
 	id: 'ds-checkbox-group',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

@@ -13,7 +13,7 @@ const size = instance.getEnum('Size', {
 
 export default {
 	example: figma.code`<DsSpinner size="${size}" />`,
-	imports: ["import { DsSpinner } from '@drivenets/design-system'"],
+	imports: ["import { DsSpinner } from '@drivenets/design-system';"],
 	id: 'ds-spinner',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

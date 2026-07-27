@@ -32,7 +32,7 @@ export default {
 	</DsStep>
 	{/* Add a <DsStep> per step */}
 </DsStepper>`,
-	imports: ["import { DsStepper, DsStep, DsStepContent, DsNextStepButton } from '@drivenets/design-system'"],
+	imports: ["import { DsStepper, DsStep, DsStepContent, DsNextStepButton } from '@drivenets/design-system';"],
 	id: 'ds-stepper',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

@@ -10,7 +10,7 @@ const openAttr = open ? 'open' : 'open={false}';
 
 export default {
 	example: figma.code`<DsPanel ${openAttr}>{/* panel content */}</DsPanel>`,
-	imports: ["import { DsPanel } from '@drivenets/design-system'"],
+	imports: ["import { DsPanel } from '@drivenets/design-system';"],
 	id: 'ds-panel',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

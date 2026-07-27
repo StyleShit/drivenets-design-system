@@ -83,7 +83,7 @@ const attrs = [
 
 export default {
 	example: figma.code`<DsTabs.Tab ${attrs} />`,
-	imports: ["import { DsTabs } from '@drivenets/design-system'"],
+	imports: ["import { DsTabs } from '@drivenets/design-system';"],
 	id: 'ds-tabs-tab',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

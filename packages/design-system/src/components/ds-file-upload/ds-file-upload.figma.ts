@@ -23,7 +23,7 @@ const attrs = [
 
 export default {
 	example: figma.code`<DsFileUpload ${attrs} />`,
-	imports: ["import { DsFileUpload } from '@drivenets/design-system'"],
+	imports: ["import { DsFileUpload } from '@drivenets/design-system';"],
 	id: 'ds-file-upload',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

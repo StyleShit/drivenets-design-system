@@ -10,7 +10,7 @@ const title = titleNode.type === 'TEXT' ? titleNode.textContent : 'Popover title
 
 export default {
 	example: figma.code`<DsPopover.Header>${title}</DsPopover.Header>`,
-	imports: ["import { DsPopover } from '@drivenets/design-system'"],
+	imports: ["import { DsPopover } from '@drivenets/design-system';"],
 	id: 'ds-popover-header',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;
