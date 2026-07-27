@@ -5,7 +5,7 @@ import figma from 'figma';
 
 export default {
 	example: figma.code`<DsDropdownMenu.Actions>{/* action buttons */}</DsDropdownMenu.Actions>`,
-	imports: ["import { DsDropdownMenu } from '@drivenets/design-system'"],
+	imports: ["import { DsDropdownMenu } from '@drivenets/design-system';"],
 	id: 'ds-dropdown-menu-footer',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

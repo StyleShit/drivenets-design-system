@@ -13,7 +13,7 @@ if (button.type === 'INSTANCE') {
 
 export default {
 	example: figma.code`<DsPopover.Footer>${buttonCode}</DsPopover.Footer>`,
-	imports: ["import { DsPopover } from '@drivenets/design-system'"],
+	imports: ["import { DsPopover } from '@drivenets/design-system';"],
 	id: 'ds-popover-footer',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

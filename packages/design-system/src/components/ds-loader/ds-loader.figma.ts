@@ -5,7 +5,7 @@ import figma from 'figma';
 
 export default {
 	example: figma.code`<DsLoader />`,
-	imports: ["import { DsLoader } from '@drivenets/design-system'"],
+	imports: ["import { DsLoader } from '@drivenets/design-system';"],
 	id: 'ds-loader',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

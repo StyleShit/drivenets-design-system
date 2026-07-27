@@ -24,7 +24,7 @@ const type = instance.getEnum('Type', { Circle: 'circle', Rounded: 'rounded' }) 
 
 export default {
 	example: figma.code`<DsAvatar name="Full Name" size="${size}" type="${type}" />`,
-	imports: ["import { DsAvatar } from '@drivenets/design-system'"],
+	imports: ["import { DsAvatar } from '@drivenets/design-system';"],
 	id: 'ds-avatar',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

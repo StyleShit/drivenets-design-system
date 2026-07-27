@@ -57,7 +57,7 @@ const colorProp = color === 'main' ? '' : figma.code` color="${color}"`;
 
 export default {
 	example: figma.code`<DsTypography variant="${variant}"${colorProp}>${text}</DsTypography>`,
-	imports: ["import { DsTypography } from '@drivenets/design-system'"],
+	imports: ["import { DsTypography } from '@drivenets/design-system';"],
 	id: 'ds-typography',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

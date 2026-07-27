@@ -12,7 +12,7 @@ const body = instance.getSlot('Slot');
 
 export default {
 	example: figma.code`<DsPopover.ContentItem${headlineAttr}>${body}</DsPopover.ContentItem>`,
-	imports: ["import { DsPopover } from '@drivenets/design-system'"],
+	imports: ["import { DsPopover } from '@drivenets/design-system';"],
 	id: 'ds-popover-content-item',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

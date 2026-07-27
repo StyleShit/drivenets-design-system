@@ -30,7 +30,7 @@ if (footer.type === 'INSTANCE') {
 
 export default {
 	example: figma.code`<DsDrawer open columns={4} onOpenChange={() => {}}>${headerCode}${contentCode}${footerCode}</DsDrawer>`,
-	imports: ["import { DsDrawer } from '@drivenets/design-system'"],
+	imports: ["import { DsDrawer } from '@drivenets/design-system';"],
 	id: 'ds-drawer',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

@@ -13,7 +13,7 @@ import figma from 'figma';
 
 export default {
 	example: figma.code`<DsBreadcrumb items={[]} />`,
-	imports: ["import { DsBreadcrumb } from '@drivenets/design-system'"],
+	imports: ["import { DsBreadcrumb } from '@drivenets/design-system';"],
 	id: 'ds-breadcrumb',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

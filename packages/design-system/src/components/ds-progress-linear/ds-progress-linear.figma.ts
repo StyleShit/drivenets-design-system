@@ -20,7 +20,7 @@ const variant = instance.getEnum('Type', {
 
 export default {
 	example: figma.code`<DsProgressLinear variant="${variant}" size="${size}" value={0} />`,
-	imports: ["import { DsProgressLinear } from '@drivenets/design-system'"],
+	imports: ["import { DsProgressLinear } from '@drivenets/design-system';"],
 	id: 'ds-progress-linear',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

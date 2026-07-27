@@ -10,7 +10,7 @@ import figma from 'figma';
 
 export default {
 	example: figma.code`<DsUserCard name="Full Name" subtitle="subtitle" />`,
-	imports: ["import { DsUserCard } from '@drivenets/design-system'"],
+	imports: ["import { DsUserCard } from '@drivenets/design-system';"],
 	id: 'ds-user-card',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

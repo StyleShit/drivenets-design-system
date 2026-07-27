@@ -17,7 +17,7 @@ export default {
 	<DsSegmentGroup.Item value="option-1" label="Option 1" />
 	<DsSegmentGroup.Item value="option-2" label="Option 2" />
 </DsSegmentGroup.Root>`,
-	imports: ["import { DsSegmentGroup } from '@drivenets/design-system'"],
+	imports: ["import { DsSegmentGroup } from '@drivenets/design-system';"],
 	id: 'ds-segment-group',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

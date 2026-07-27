@@ -17,7 +17,7 @@ export default {
 	<DsDropdownMenu.ItemGroupLabel>${label}</DsDropdownMenu.ItemGroupLabel>
 	<DsDropdownMenu.ItemGroupContent>{/* group items */}</DsDropdownMenu.ItemGroupContent>
 </DsDropdownMenu.ItemGroup>`,
-	imports: ["import { DsDropdownMenu } from '@drivenets/design-system'"],
+	imports: ["import { DsDropdownMenu } from '@drivenets/design-system';"],
 	id: 'ds-dropdown-menu-group',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

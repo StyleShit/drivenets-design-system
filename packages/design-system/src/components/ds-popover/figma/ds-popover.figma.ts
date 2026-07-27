@@ -28,7 +28,7 @@ export default {
 	<DsPopover.Trigger>{/* trigger element */}</DsPopover.Trigger>
 	<DsPopover.Panel>${headerCode}${contentCode}${footerCode}</DsPopover.Panel>
 </DsPopover.Root>`,
-	imports: ["import { DsPopover } from '@drivenets/design-system'"],
+	imports: ["import { DsPopover } from '@drivenets/design-system';"],
 	id: 'ds-popover',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

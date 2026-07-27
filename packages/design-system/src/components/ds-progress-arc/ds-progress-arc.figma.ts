@@ -17,7 +17,7 @@ const variant = instance.getEnum('State', {
 
 export default {
 	example: figma.code`<DsProgressArc variant="${variant}" size="${size}" value={0} />`,
-	imports: ["import { DsProgressArc } from '@drivenets/design-system'"],
+	imports: ["import { DsProgressArc } from '@drivenets/design-system';"],
 	id: 'ds-progress-arc',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

@@ -81,7 +81,7 @@ const attrs = [
 
 export default {
 	example: figma.code`<${info.component} ${attrs} />`,
-	imports: [`import { ${info.component} } from '@drivenets/design-system'`],
+	imports: [`import { ${info.component} } from '@drivenets/design-system';`],
 	id: 'ds-input-field-v02',
 	metadata: { nestable: true, props: { fcMember: info.fcMember, fcProps: attrs } },
-};
+} satisfies figma.Template;

@@ -21,7 +21,7 @@ export default {
 		state === 'overflow'
 			? figma.code`<DsSiteNode state="${state}" overflowLabel="${overflowLabel}" />`
 			: figma.code`<DsSiteNode state="${state}" tier="${tier}" siteCode="${siteCode}" />`,
-	imports: ["import { DsSiteNode } from '@drivenets/design-system'"],
+	imports: ["import { DsSiteNode } from '@drivenets/design-system';"],
 	id: 'ds-site-node',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

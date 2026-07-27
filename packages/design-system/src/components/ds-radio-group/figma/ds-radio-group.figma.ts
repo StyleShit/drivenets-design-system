@@ -8,7 +8,7 @@ export default {
 	<DsRadioGroup.Item value="option-1" label="Option 1" />
 	<DsRadioGroup.Item value="option-2" label="Option 2" />
 </DsRadioGroup.Root>`,
-	imports: ["import { DsRadioGroup } from '@drivenets/design-system'"],
+	imports: ["import { DsRadioGroup } from '@drivenets/design-system';"],
 	id: 'ds-radio-group',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

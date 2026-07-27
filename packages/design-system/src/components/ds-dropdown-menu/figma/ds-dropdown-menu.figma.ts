@@ -18,7 +18,7 @@ export default {
 	<DsDropdownMenu.Trigger>{/* trigger element */}</DsDropdownMenu.Trigger>
 	<DsDropdownMenu.Content>${items}${footerCode}</DsDropdownMenu.Content>
 </DsDropdownMenu.Root>`,
-	imports: ["import { DsDropdownMenu } from '@drivenets/design-system'"],
+	imports: ["import { DsDropdownMenu } from '@drivenets/design-system';"],
 	id: 'ds-dropdown-menu',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

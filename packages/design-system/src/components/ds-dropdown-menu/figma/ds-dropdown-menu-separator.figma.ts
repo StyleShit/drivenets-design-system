@@ -5,7 +5,7 @@ import figma from 'figma';
 
 export default {
 	example: figma.code`<DsDropdownMenu.Separator />`,
-	imports: ["import { DsDropdownMenu } from '@drivenets/design-system'"],
+	imports: ["import { DsDropdownMenu } from '@drivenets/design-system';"],
 	id: 'ds-dropdown-menu-separator',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

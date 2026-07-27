@@ -10,7 +10,7 @@ const title = titleNode.type === 'TEXT' ? titleNode.textContent : 'Drawer title'
 
 export default {
 	example: figma.code`<DsDrawer.Header><DsDrawer.Title>${title}</DsDrawer.Title><DsDrawer.CloseTrigger /></DsDrawer.Header>`,
-	imports: ["import { DsDrawer } from '@drivenets/design-system'"],
+	imports: ["import { DsDrawer } from '@drivenets/design-system';"],
 	id: 'ds-drawer-header',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

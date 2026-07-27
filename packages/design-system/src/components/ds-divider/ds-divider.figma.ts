@@ -13,7 +13,7 @@ const orientation =
 
 export default {
 	example: figma.code`<DsDivider orientation="${orientation}" />`,
-	imports: ["import { DsDivider } from '@drivenets/design-system'"],
+	imports: ["import { DsDivider } from '@drivenets/design-system';"],
 	id: 'ds-divider',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

@@ -33,7 +33,7 @@ const attrs = [
 
 export default {
 	example: figma.code`<DsToggle ${attrs} />`,
-	imports: ["import { DsToggle } from '@drivenets/design-system'"],
+	imports: ["import { DsToggle } from '@drivenets/design-system';"],
 	id: 'ds-toggle',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

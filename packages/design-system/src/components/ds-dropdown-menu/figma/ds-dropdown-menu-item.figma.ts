@@ -23,7 +23,7 @@ const indicator = type === 'checkbox' || type === 'radio' ? '<DsDropdownMenu.Ite
 
 export default {
 	example: figma.code`<DsDropdownMenu.Item value="item"${variantAttr}${selectedAttr}>${label}${indicator}</DsDropdownMenu.Item>`,
-	imports: ["import { DsDropdownMenu } from '@drivenets/design-system'"],
+	imports: ["import { DsDropdownMenu } from '@drivenets/design-system';"],
 	id: 'ds-dropdown-menu-item',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

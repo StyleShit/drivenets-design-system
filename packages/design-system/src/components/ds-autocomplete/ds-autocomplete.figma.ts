@@ -30,7 +30,7 @@ const attrs = [
 
 export default {
 	example: figma.code`<DsAutocomplete ${attrs} />`,
-	imports: ["import { DsAutocomplete } from '@drivenets/design-system'"],
+	imports: ["import { DsAutocomplete } from '@drivenets/design-system';"],
 	id: 'ds-autocomplete',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

@@ -26,9 +26,9 @@ createToast({
 	description: 'Description',${actionsLine}
 });`,
 	imports: [
-		"import { useToaster } from '@drivenets/design-system'",
-		"import { DsButtonV3 } from '@drivenets/design-system'",
+		"import { useToaster } from '@drivenets/design-system';",
+		"import { DsButtonV3 } from '@drivenets/design-system';",
 	],
 	id: 'ds-toast',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;

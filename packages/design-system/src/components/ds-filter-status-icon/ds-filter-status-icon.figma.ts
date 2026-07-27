@@ -16,7 +16,7 @@ const activeProp = active ? '' : ' active={false}';
 
 export default {
 	example: figma.code`<DsFilterStatusIcon status="${status}"${activeProp} />`,
-	imports: ["import { DsFilterStatusIcon } from '@drivenets/design-system'"],
+	imports: ["import { DsFilterStatusIcon } from '@drivenets/design-system';"],
 	id: 'ds-filter-status-icon',
 	metadata: { nestable: true },
-};
+} satisfies figma.Template;

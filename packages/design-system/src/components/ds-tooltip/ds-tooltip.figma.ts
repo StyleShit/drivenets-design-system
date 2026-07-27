@@ -10,7 +10,7 @@ const content = labelNode.type === 'TEXT' ? labelNode.textContent : 'Tooltip tex
 
 export default {
 	example: figma.code`<DsTooltip content="${content}">{/* trigger element */}</DsTooltip>`,
-	imports: ["import { DsTooltip } from '@drivenets/design-system'"],
+	imports: ["import { DsTooltip } from '@drivenets/design-system';"],
 	id: 'ds-tooltip',
 	metadata: { nestable: false },
-};
+} satisfies figma.Template;
