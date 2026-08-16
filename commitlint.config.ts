@@ -7,8 +7,8 @@ const config: UserConfig = {
 	extends: ['@commitlint/config-conventional'],
 	plugins: [designSystem],
 	rules: {
-		'design-system/exclamation-mark': [RuleConfigSeverity.Error, hasBreakingChanges ? 'always' : 'never'],
-		'design-system/require-jira-ticket': [RuleConfigSeverity.Error, 'always', { prefix: 'AR' }],
+		'internal/exclamation-mark': [RuleConfigSeverity.Error, hasBreakingChanges ? 'always' : 'never'],
+		'internal/require-jira-ticket': [RuleConfigSeverity.Error, 'always', { prefix: 'AR' }],
 	},
 };
 
