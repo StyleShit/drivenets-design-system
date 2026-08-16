@@ -26,7 +26,13 @@ import styles from './ds-vertical-tabs.module.scss';
  * </DsVerticalTabs>
  * ```
  */
-const DsVerticalTabs = ({ value, onValueChange, className, style, children }: DsVerticalTabsRootProps) => {
+const DsVerticalTabsRoot = ({
+	value,
+	onValueChange,
+	className,
+	style,
+	children,
+}: DsVerticalTabsRootProps) => {
 	const handleValueChange = (details: { value: string | null }) => {
 		onValueChange?.(details.value);
 	};
@@ -73,8 +79,15 @@ const DsVerticalTabsContent = ({ value, className, children }: DsVerticalTabsCon
 	);
 };
 
-DsVerticalTabs.List = DsVerticalTabsList;
-DsVerticalTabs.Tab = DsVerticalTabsTab;
-DsVerticalTabs.Content = DsVerticalTabsContent;
+DsVerticalTabsList.displayName = 'DsVerticalTabs.List';
+DsVerticalTabsTab.displayName = 'DsVerticalTabs.Tab';
+DsVerticalTabsContent.displayName = 'DsVerticalTabs.Content';
+
+const DsVerticalTabs = Object.assign(DsVerticalTabsRoot, {
+	displayName: 'DsVerticalTabs',
+	List: DsVerticalTabsList,
+	Tab: DsVerticalTabsTab,
+	Content: DsVerticalTabsContent,
+});
 
 export default DsVerticalTabs;

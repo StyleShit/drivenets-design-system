@@ -5,9 +5,13 @@ export type { ScrollParams } from './components/ds-table-body-virtualized';
 
 export * from './filters';
 export type { DsColumnGroupMeta } from './grouping';
+export type { DsTableEditDisabledResult } from './ds-table-column.types';
 
 export { default as DsTable } from './ds-table';
 export * from './ds-table.types';
+
+export { createColumnHelper } from '@tanstack/react-table';
+export type { ColumnDef } from '@tanstack/react-table';
 
 export { useCellEditor } from './hooks/use-cell-editor';
 export type {

@@ -10,7 +10,7 @@ pnpm eslint packages/eslint-plugin/src/
 pnpm eslint --fix packages/design-system/src/components/ds-button/
 ```
 
-## Type Checking (tsgo)
+## Type Checking (tsc)
 
 ```bash
 pnpm --filter @drivenets/design-system typecheck
@@ -26,20 +26,33 @@ pnpm --filter @drivenets/eslint-plugin-design-system test src/__tests__/ --run
 pnpm --filter @drivenets/vite-plugin-design-system test --run -t "snapshot"
 ```
 
+## Figma Code Connect (parse)
+
+Validate that Code Connect `*.figma.ts` files parse when any of them change:
+
+```bash
+pnpm --filter @drivenets/design-system figma:lint
+```
+
+Runs `figma connect parse --exit-on-unreadable-files` (no Figma token required). Enforced in CI by the `figma-code-connect-lint` job.
+
 ## When to Run What
 
-| Changed                    | Run                                     |
-| -------------------------- | --------------------------------------- |
-| `*.test.ts` file           | `pnpm --filter <pkg> test <path> --run` |
-| Source file with tests     | Lint the file + run related tests       |
-| Source file, no tests      | Lint the file + typecheck the package   |
-| SCSS file in design-system | Lint the file                           |
+| Changed                     | Run                                                                                                                                     |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `*.test.ts` file            | `pnpm --filter <pkg> test <path> --run`                                                                                                 |
+| Docs snippet coverage       | `pnpm test:storybook-docs -- tests/storybook/docs-snippets.docs.test.ts --run` — see [`docs-tests`](.agents/skills/docs-tests/SKILL.md) |
+| Source file with tests      | Lint the file + run related tests                                                                                                       |
+| Source file, no tests       | Lint the file + typecheck the package                                                                                                   |
+| SCSS file in design-system  | Lint the file                                                                                                                           |
+| `*.figma.ts` (Code Connect) | `pnpm --filter @drivenets/design-system figma:lint`                                                                                     |
 
 ## Notes
 
 - `--run` flag prevents vitest watch mode
 - design-system typecheck auto-generates SCSS type defs
 - Prefer file-level lint, package-level typecheck, file-level test
+- Docs snippet tests use the `storybook-docs` vitest project (excluded from default `pnpm test`, like `requires-build`); one global runner covers all opted-in components — see [`docs-tests`](.agents/skills/docs-tests/SKILL.md) for workflow.
 
 ---
 
@@ -50,6 +63,7 @@ packages/
 ├── design-system/              # @drivenets/design-system
 ├── eslint-plugin/              # @drivenets/eslint-plugin-design-system
 ├── vite-plugin/                # @drivenets/vite-plugin-design-system
+├── mcp/                        # @drivenets/design-system-mcp
 ├── eslint-plugin-internal/     # @drivenets/eslint-plugin-internal
 ├── commitlint-plugin-internal/ # @drivenets/commitlint-plugin-internal
 ```
@@ -80,8 +94,10 @@ ds-{name}/
 - `*.module.scss` — [`scss`](.agents/skills/scss/SKILL.md)
 - `*.stories.tsx` — [`storybook`](.agents/skills/storybook/SKILL.md)
 - `*.browser.test.tsx` — [`browser-tests`](.agents/skills/browser-tests/SKILL.md)
+- `docs-snippets.docs.test.ts` — [`docs-tests`](.agents/skills/docs-tests/SKILL.md)
 - Storybook `play` → tests — [`migrate-story-tests`](.agents/skills/migrate-story-tests/SKILL.md)
 - PR / review — [`code-review`](.agents/skills/code-review/SKILL.md), [`pr-prep`](.agents/skills/pr-prep/SKILL.md)
+- Ticket / bug workflow — [`implement`](.agents/skills/implement/SKILL.md) (`.md` ticket → tested), [`fix`](.agents/skills/fix/SKILL.md) (small bug / adjustment)
 - Plan / debug / TDD — [`grill-me`](.agents/skills/grill-me/SKILL.md), [`to-plan`](.agents/skills/to-plan/SKILL.md), [`diagnose`](.agents/skills/diagnose/SKILL.md), [`tdd`](.agents/skills/tdd/SKILL.md)
 - Subagents — `ds-component-builder`, `ds-browser-test-writer`, `ds-review`, `ds-verifier` (see [Cursor subagents](#cursor-subagents-cursoragents))
 
@@ -115,7 +131,7 @@ Use skill [`ts-standards`](.agents/skills/ts-standards/SKILL.md) for full rules.
 ## Additional rules
 
 - **Domain glossary:** [CONTEXT.md](CONTEXT.md) · **ADRs:** [docs/adr/](docs/adr/)
-- **DS MCP:** [packages/mcp/README.md](packages/mcp/README.md) — Storybook docs for agents (`list-all-documentation`, `get-documentation`); local dev uses `pnpm start` + `--manifests-url http://localhost:6006`
+- **DS MCP:** [packages/mcp/README.md](packages/mcp/README.md) — Storybook docs for agents (`list-all-documentation`, `get-documentation`); local dev uses `pnpm start` + `--manifests-url http://localhost:6006`. Story edits: verify snippets via [`docs-tests`](.agents/skills/docs-tests/SKILL.md) and [storybook Snippet verification](.agents/skills/storybook/SKILL.md#snippet-verification).
 - **Flows:** [docs/agents/skills.md](docs/agents/skills.md)
 - **Subagents:** [docs/agents/subagents.md](docs/agents/subagents.md)
 
@@ -142,6 +158,7 @@ File → skill routing: [Design-system package](#design-system-package). Skill b
 - [`scss`](.agents/skills/scss/SKILL.md) — edit `*.scss`; tokens, focus/disabled, CSS modules
 - [`ts-standards`](.agents/skills/ts-standards/SKILL.md) — edit `.ts` / `.tsx`; JSDoc, exports, Object.freeze
 - [`browser-tests`](.agents/skills/browser-tests/SKILL.md) — add/edit `*.browser.test.tsx`; Vitest browser patterns, a11y queries, Ark locators
+- [`docs-tests`](.agents/skills/docs-tests/SKILL.md) — opt a component into the global `docs-snippets.docs.test.ts`; Show code + MCP manifest snippet verification
 - [`storybook`](.agents/skills/storybook/SKILL.md) — edit `*.stories.tsx`; story variants, args, MCP-friendly docs, no play functions
 - [`component-scaffold`](.agents/skills/component-scaffold/SKILL.md) — "scaffold a new component"; orchestrator for files, exports, skill read order
 - [`figma-to-component`](.agents/skills/figma-to-component/SKILL.md) — Figma URL; trust boundary, Figma/DS MCP orchestration, then component-scaffold
@@ -153,6 +170,8 @@ File → skill routing: [Design-system package](#design-system-package). Skill b
 
 ### Engineering
 
+- [`implement`](.agents/skills/implement/SKILL.md) — "implement this ticket"; orchestrate a markdown ticket → plan → build → test → verify (assumes ticket is already grilled/clear)
+- [`fix`](.agents/skills/fix/SKILL.md) — "fix this bug" / small adjustment; fast path (regression test → minimal fix → verify), no ticket or plan gate
 - [`diagnose`](.agents/skills/diagnose/SKILL.md) — hard bugs or perf regressions; reproduce → minimize → hypothesize → instrument → fix
 - [`tdd`](.agents/skills/tdd/SKILL.md) — test-first implementation; red-green-refactor
 - [`grill-me`](.agents/skills/grill-me/SKILL.md) — stress-test a plan; one question at a time until decisions locked (default before implementation)

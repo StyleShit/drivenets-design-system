@@ -8,6 +8,7 @@ const instance = figma.selectedInstance;
 const size = instance.getEnum('Size', {
 	Default: 'default',
 	Small: 'small',
+	Large: 'large',
 });
 
 const state = instance.getEnum('State', {
@@ -22,7 +23,7 @@ const state = instance.getEnum('State', {
 
 const disabled = state === 'disable';
 
-const sizeAttr = size === 'small' ? 'size="small"' : '';
+const sizeAttr = size === 'small' || size === 'large' ? `size="${size}"` : '';
 
 // Multi-select is driven by the nested dropdown menu's `Type` (Checkbox = multi). The menu
 // lives inside the select tree even when collapsed, so the designer's intent is read in any
@@ -47,7 +48,7 @@ const attrs = [
 
 export default {
 	example: figma.code`<DsSelect ${attrs} />`,
-	imports: ["import { DsSelect } from '@drivenets/design-system'"],
+	imports: ["import { DsSelect } from '@drivenets/design-system';"],
 	id: 'ds-select',
 	metadata: { nestable: true, props: { fcMember: 'Select', fcProps: attrs } },
-};
+} satisfies figma.Template;

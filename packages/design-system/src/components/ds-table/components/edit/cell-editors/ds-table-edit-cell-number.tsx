@@ -20,7 +20,7 @@ export const DsTableEditCellNumber = <TData extends RowData>({
 	max,
 	step,
 }: DsTableEditCellNumberProps<TData>) => {
-	const { value, setValue, error } = useCellEditor<TData, number>({
+	const { value, setValue, error, isPending } = useCellEditor<TData, number>({
 		cellContext,
 	});
 
@@ -44,8 +44,10 @@ export const DsTableEditCellNumber = <TData extends RowData>({
 				min={min}
 				max={max}
 				step={step}
+				disabled={isPending}
 				onValueChange={setValue}
 			/>
 		</TableEditFormControl>
 	);
 };
+DsTableEditCellNumber.displayName = 'DsTableEditCellNumber';

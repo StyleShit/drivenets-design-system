@@ -86,7 +86,7 @@ const DsSmartTab: React.FC<DsSmartTabProps> = ({
 /**
  * Design system SmartTabs component
  */
-const DsSmartTabs = ({
+const DsSmartTabsRoot = ({
 	activeTab,
 	onTabClick,
 	className,
@@ -108,6 +108,11 @@ const DsSmartTabs = ({
 	);
 };
 
-DsSmartTabs.Tab = DsSmartTab;
+DsSmartTab.displayName = 'DsSmartTabs.Tab';
+
+const DsSmartTabs = Object.assign(DsSmartTabsRoot, {
+	displayName: 'DsSmartTabs',
+	Tab: DsSmartTab,
+});
 
 export default DsSmartTabs;

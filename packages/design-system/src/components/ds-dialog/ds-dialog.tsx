@@ -5,6 +5,13 @@ import classNames from 'classnames';
 import styles from './ds-dialog.module.scss';
 import type { DsDialogProps } from './ds-dialog.types';
 
+/**
+ * @summary Lightweight controlled dialog for simple panels and popovers.
+ *
+ * Renders a Radix dialog with required accessible title, optional description,
+ * and custom body content. Use for focused overlays and menu-style panels.
+ * Prefer `DsModal` when you need structured header, body, and footer sections.
+ */
 const DsDialog: React.FC<DsDialogProps> = ({
 	open,
 	onOpenChange,
@@ -66,5 +73,7 @@ const DsDialog: React.FC<DsDialogProps> = ({
 		</RadixDialog.Root>
 	);
 };
+
+DsDialog.displayName = 'DsDialog';
 
 export default DsDialog;

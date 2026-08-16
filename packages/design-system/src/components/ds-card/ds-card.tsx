@@ -51,9 +51,8 @@ const Root = ({
 };
 
 /**
- * Card header - contains title and extra content.
- * Use with DsCard.Title and DsCard.Extra for standard layout,
- * or provide custom children for full flexibility.
+ * Card header — title row and optional trailing content.
+ * Provide custom children for full layout flexibility.
  */
 const Header = ({ className, children, ref, ...rest }: DsCardHeaderProps) => (
 	<div ref={ref} className={classNames(styles.header, className)} {...rest}>
@@ -78,6 +77,11 @@ const Footer = ({ className, children, ref, ...rest }: DsCardFooterProps) => (
 		{children}
 	</div>
 );
+
+Root.displayName = 'DsCard.Root';
+Header.displayName = 'DsCard.Header';
+Body.displayName = 'DsCard.Body';
+Footer.displayName = 'DsCard.Footer';
 
 export const DsCard = {
 	Root,

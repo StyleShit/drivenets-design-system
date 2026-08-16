@@ -22,6 +22,7 @@ Categorize files by type:
 - `*.module.scss` -- Style files
 - `*.test.ts` / `*.test.tsx` -- Test files
 - `*.browser.test.tsx` -- Vitest browser tests (live next to components under `__tests__/`)
+- `*.figma.ts` -- Figma Code Connect files
 - `.changeset/*.md` -- Changeset files
 
 ### Step 2: Run checkers on changed files only
@@ -29,6 +30,25 @@ Categorize files by type:
 Use [AGENTS.md#code-quality-checkers](../../../AGENTS.md#code-quality-checkers) — lint changed paths, typecheck affected packages, run matching tests with `--run`. For [Other packages](../../../AGENTS.md#other-packages), use that section’s filter commands when the diff is not design-system-only.
 
 For new components or substantial interaction/behavior changes, confirm an updated `*.browser.test.tsx` exists under the component's `__tests__/` when appropriate.
+
+### Step 2b: Verify story snippets (when `*.stories.tsx` changed)
+
+Per [storybook](../storybook/SKILL.md) Snippet verification and [docs-tests](../docs-tests/SKILL.md):
+
+1. **Show code + manifest (primary)** — `pnpm test:storybook-docs -- tests/storybook/docs-snippets.docs.test.ts --run`.
+2. **MCP agent tooling (secondary)** — if Storybook is on port 6006, `get-documentation-for-story` via local MCP; else **SKIP**.
+
+Add the component's kebab folder suffix (without the `ds-` prefix, e.g. `button-v3`) to the `COMPONENTS` allowlist in the global `docs-snippets.docs.test.ts` when introducing stories for a component not yet covered.
+
+### Step 2c: Validate Figma Code Connect (when `*.figma.ts` changed)
+
+When any `*.figma.ts` (Figma Code Connect) file is in the diff, validate that all Code Connect files parse:
+
+```bash
+pnpm --filter @drivenets/design-system figma:lint
+```
+
+See [AGENTS.md#figma-code-connect-parse](../../../AGENTS.md#figma-code-connect-parse). Flag any file that fails to parse.
 
 ### Step 3: Review changed files against project rules
 
@@ -52,6 +72,7 @@ For every `.tsx` / `.ts` in the diff:
 2. Check for `forwardRef` usage -- flag as deprecated.
 3. Check for raw `<img` tags in component `.tsx` files (not stories) -- should use `DsAvatar` or an equivalent DS a component with fallback.
 4. In `.stories.tsx` and `.browser.test.tsx` files, check for AI-generated test smell: assertions that only check `toBeTruthy()` / `toBeInTheDocument()` without testing behavior unique to that scenario -- flag as likely useless AI-generated test.
+5. When a `ds-*.types.ts` changed variant arrays, prop names, or defaults and a sibling `*.figma.ts` (Code Connect) exists, verify the mapping (`getEnum(...)`, `example` JSX) still matches the current API -- flag drift. `figma:lint` (Step 2c) only checks parsing, not that the mapping is current.
 
 Date/time in stories and browser tests: follow [storybook](../storybook/SKILL.md) and [browser-tests](../browser-tests/SKILL.md)
 
@@ -76,6 +97,9 @@ PR Preparation Report
 [PASS/FAIL] Lint .................. {details}
 [PASS/FAIL] Typecheck ............. {details}
 [PASS/FAIL] Tests ................. {details}
+[PASS/FAIL] Show code (docs tests) . {details}
+[PASS/FAIL] MCP manifest snippets . {details}
+[PASS/FAIL] Figma Code Connect .... {details}
 [PASS/FAIL] Rule violations ....... {details}
 [PASS/FAIL] No !important ........ {details}
 [PASS/FAIL] No hardcoded colors .. {details}
@@ -88,7 +112,7 @@ PR Preparation Report
 [PASS/FAIL] No AI test slop .... {details}
 [PASS/FAIL] Changeset ............ {details}
 
-{N}/14 checks passed.
+{N}/17 checks passed.
 ```
 
 If all pass, the PR is ready for submission. If any fail, list the specific files and lines that need fixing.

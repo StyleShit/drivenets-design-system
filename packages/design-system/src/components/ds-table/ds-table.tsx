@@ -26,6 +26,7 @@ import { useDragAndDrop } from './hooks/use-drag-and-drop';
 import { type DsTableContextType, DsTableContext, useEditingState } from './context/ds-table-context';
 import { DsTableBodyVirtualized } from './components/ds-table-body-virtualized';
 import { useColumnGroups } from './grouping';
+import { DsSkeletonText } from '../ds-skeleton';
 import {
 	EMPTY_TABLE_STATE_TEXT,
 	EXPANDER_COLUMN_ID,
@@ -34,6 +35,7 @@ import {
 	REORDER_COLUMN_WIDTH,
 	SELECT_COLUMN_ID,
 	SELECT_COLUMN_WIDTH,
+	SKELETON_ROW_COUNT,
 } from './utils/constants';
 
 // Row size to pixel height mapping (matches CSS variables)
@@ -50,6 +52,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 	ref,
 	columns: columnsProp,
 	data: tableData,
+	controls,
 	virtualized = false,
 	virtualizedOptions,
 	className,
@@ -59,6 +62,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 	bordered = true,
 	fullWidth = true,
 	rowSize = 'medium',
+	loading = false,
 	expandable = false,
 	renderExpandedRow,
 	selectable = false,
@@ -201,9 +205,29 @@ const DsTable = <TData extends { id: string }, TValue>({
 		return augmentedColumns;
 	}, [columnsProp, hasExpanderColumn, hasReorderColumn, hasSelectColumn, showSelectAllCheckbox]);
 
+	const skeletonColumns = useMemo<ColumnDef<TData, TValue>[]>(() => {
+		const toSkeleton = (cols: ColumnDef<TData, TValue>[]): ColumnDef<TData, TValue>[] =>
+			cols.map((column) =>
+				'columns' in column && column.columns
+					? { ...column, columns: toSkeleton(column.columns) }
+					: { ...column, cell: column.loadingCell ?? (() => <DsSkeletonText width="60%" />) },
+			);
+
+		return toSkeleton(columns);
+	}, [columns]);
+
+	const skeletonData = useMemo<TData[]>(
+		() =>
+			Array.from(
+				{ length: SKELETON_ROW_COUNT },
+				(_, i) => ({ id: `ds-table-skeleton-${String(i)}` }) as TData,
+			),
+		[],
+	);
+
 	const table = useReactTable({
-		data: reorderable ? data : tableData,
-		columns,
+		data: loading ? skeletonData : reorderable ? data : tableData,
+		columns: loading ? skeletonColumns : columns,
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: handleSortingChange,
 		getSortedRowModel: getSortedRowModel(),
@@ -295,8 +319,9 @@ const DsTable = <TData extends { id: string }, TValue>({
 		selectable,
 		reorderable,
 		showSelectAllCheckbox,
-		onRowClick,
-		onRowDoubleClick,
+		loading,
+		onRowClick: loading ? undefined : onRowClick,
+		onRowDoubleClick: loading ? undefined : onRowDoubleClick,
 		primaryRowActions,
 		secondaryRowActions,
 		renderExpandedRow,
@@ -312,41 +337,43 @@ const DsTable = <TData extends { id: string }, TValue>({
 	return (
 		<DsTableContext.Provider value={contextValue}>
 			<div
-				ref={tableContainerRef}
-				className={classnames(
-					styles.container,
-					!virtualized && styles.dataTableContainer,
-					virtualized && styles.virtualizedContainer,
-					isBulkActionsVisible && styles.bulkActionsVisible,
-					className,
-				)}
+				className={classnames(styles.container, isBulkActionsVisible && styles.bulkActionsVisible, className)}
 			>
-				<DragWrapper>
-					<Table className={classnames(fullWidth && styles.fullWidth, !bordered && styles.tableNoBorder)}>
-						<DsTableHeader table={table} />
-						{virtualized ? (
-							<DsTableBodyVirtualized
-								table={table}
-								emptyState={emptyState}
-								estimateSize={virtualizedOptions?.estimateSize || ROW_SIZE_HEIGHT_MAP[rowSize]}
-								overscan={virtualizedOptions?.overscan}
-								onScroll={onScroll}
-								rowSelection={rowSelection}
-								infiniteScroll={infiniteScroll}
-							/>
-						) : (
-							<TableBody>
-								<SortableWrapper>
-									{rows.length
-										? rows.map((row) => (
-												<DsTableRow key={row.id} row={row} isSelected={!!rowSelection[row.id]} />
-											))
-										: renderEmptyState()}
-								</SortableWrapper>
-							</TableBody>
-						)}
-					</Table>
-				</DragWrapper>
+				{controls && <div className={styles.controls}>{controls}</div>}
+				<div
+					ref={tableContainerRef}
+					className={classnames(
+						!virtualized && styles.dataTableContainer,
+						virtualized && styles.virtualizedContainer,
+					)}
+				>
+					<DragWrapper>
+						<Table className={classnames(fullWidth && styles.fullWidth, !bordered && styles.tableNoBorder)}>
+							<DsTableHeader table={table} />
+							{virtualized ? (
+								<DsTableBodyVirtualized
+									table={table}
+									emptyState={emptyState}
+									estimateSize={virtualizedOptions?.estimateSize || ROW_SIZE_HEIGHT_MAP[rowSize]}
+									overscan={virtualizedOptions?.overscan}
+									onScroll={onScroll}
+									rowSelection={rowSelection}
+									infiniteScroll={infiniteScroll}
+								/>
+							) : (
+								<TableBody>
+									<SortableWrapper>
+										{rows.length
+											? rows.map((row) => (
+													<DsTableRow key={row.id} row={row} isSelected={!!rowSelection[row.id]} />
+												))
+											: renderEmptyState()}
+									</SortableWrapper>
+								</TableBody>
+							)}
+						</Table>
+					</DragWrapper>
+				</div>
 				{selectable && actions.length > 0 && (
 					<DsTableBulkActions
 						numSelectedRows={selectedRows.length}
@@ -361,5 +388,7 @@ const DsTable = <TData extends { id: string }, TValue>({
 		</DsTableContext.Provider>
 	);
 };
+
+DsTable.displayName = 'DsTable';
 
 export default DsTable;

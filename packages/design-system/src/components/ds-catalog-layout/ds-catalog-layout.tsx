@@ -17,7 +17,7 @@ const DEFAULT_LOCALE = Object.freeze({
 	unpinButtonLabel: 'Unpin side menu',
 });
 
-const DsCatalogLayout = ({ className, fillParent = false, ...rest }: DsCatalogLayoutProps) => {
+const DsCatalogLayoutRoot = ({ className, fillParent = false, ...rest }: DsCatalogLayoutProps) => {
 	const [hasSideMenu, setHasSideMenu] = useState(false);
 
 	const registerSideMenu = useCallback(() => setHasSideMenu(true), []);
@@ -121,10 +121,19 @@ const ContentHeader = ({
 	</div>
 );
 
-DsCatalogLayout.Header = Header;
-DsCatalogLayout.Body = Body;
-DsCatalogLayout.SideMenu = SideMenu;
-DsCatalogLayout.Content = Content;
-DsCatalogLayout.ContentHeader = ContentHeader;
+Header.displayName = 'DsCatalogLayout.Header';
+Body.displayName = 'DsCatalogLayout.Body';
+SideMenu.displayName = 'DsCatalogLayout.SideMenu';
+Content.displayName = 'DsCatalogLayout.Content';
+ContentHeader.displayName = 'DsCatalogLayout.ContentHeader';
+
+const DsCatalogLayout = Object.assign(DsCatalogLayoutRoot, {
+	displayName: 'DsCatalogLayout',
+	Header,
+	Body,
+	SideMenu,
+	Content,
+	ContentHeader,
+});
 
 export default DsCatalogLayout;

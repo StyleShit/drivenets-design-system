@@ -1,5 +1,6 @@
 import { AST_NODE_TYPES, type TSESTree } from '@typescript-eslint/utils';
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
+import { resolveDefaultExport } from './resolve-default-export';
 import { unwrapExpression } from './unwrap-expression';
 
 /**
@@ -18,23 +19,9 @@ export function resolveStoryMeta(
 	context: RuleContext<string, readonly unknown[]>,
 	declaration: TSESTree.DefaultExportDeclarations,
 ): TSESTree.ObjectExpression | null {
-	const unwrappedDeclaration = unwrapExpression(declaration);
+	const expression = resolveDefaultExport(context, unwrapExpression(declaration));
 
-	const isInlineObject = unwrappedDeclaration.type !== AST_NODE_TYPES.Identifier;
-
-	if (isInlineObject) {
-		return asObjectExpression(unwrappedDeclaration);
-	}
-
-	const scope = context.sourceCode.getScope(unwrappedDeclaration);
-	const variable = scope.references.find((ref) => ref.identifier === unwrappedDeclaration)?.resolved;
-	const def = variable?.defs[0]?.node;
-
-	if (def?.type === AST_NODE_TYPES.VariableDeclarator) {
-		return asObjectExpression(unwrapExpression(def.init));
-	}
-
-	return null;
+	return asObjectExpression(unwrapExpression(expression));
 }
 
 function asObjectExpression(node: TSESTree.Node | null): TSESTree.ObjectExpression | null {

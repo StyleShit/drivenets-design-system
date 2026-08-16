@@ -18,7 +18,7 @@ export const DsTableEditCellSelect = <TData extends RowData>({
 	options,
 	placeholder,
 }: DsTableEditCellSelectProps<TData>) => {
-	const { value, setValue, error } = useCellEditor<TData, string>({
+	const { value, setValue, error, isPending } = useCellEditor<TData, string>({
 		cellContext,
 	});
 
@@ -29,8 +29,10 @@ export const DsTableEditCellSelect = <TData extends RowData>({
 				value={value}
 				options={options}
 				placeholder={placeholder}
+				disabled={isPending}
 				onValueChange={setValue}
 			/>
 		</TableEditFormControl>
 	);
 };
+DsTableEditCellSelect.displayName = 'DsTableEditCellSelect';

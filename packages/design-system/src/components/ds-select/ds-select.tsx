@@ -135,7 +135,12 @@ const DsSelect = ({
 			lazyMount
 		>
 			<Select.Control
-				className={classNames(styles.control, size === 'small' && styles.small, className)}
+				className={classNames(
+					styles.control,
+					size === 'small' && styles.small,
+					size === 'large' && styles.large,
+					className,
+				)}
 				style={style}
 				onBlur={onBlur}
 				onKeyDown={(e) => {
@@ -270,5 +275,7 @@ function getItemCheckedState({
 
 	return someSelected ? 'indeterminate' : false;
 }
+
+DsSelect.displayName = 'DsSelect';
 
 export default DsSelect;

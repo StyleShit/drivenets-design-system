@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import classNames from 'classnames';
 import { fn } from 'storybook/test';
-import DsButtonV3 from './ds-button-v3';
-import { DsButtonV3 as DsButtonV3Wrapped } from './index';
+import { DsButtonV3 } from './index';
 import {
 	type ButtonV3Color,
 	buttonV3Colors,
@@ -11,6 +10,7 @@ import {
 	buttonV3Variants,
 } from './ds-button-v3.types';
 import storyStyles from './ds-button-v3.stories.module.scss';
+import { DsStack } from '../ds-stack';
 
 const meta: Meta<typeof DsButtonV3> = {
 	title: 'Components/ButtonV3',
@@ -24,6 +24,7 @@ const meta: Meta<typeof DsButtonV3> = {
 		size: { control: 'select', options: buttonV3Sizes },
 		loading: { control: 'boolean' },
 		disabled: { control: 'boolean' },
+		highEmphasis: { control: 'boolean' },
 		className: { table: { disable: true } },
 		style: { table: { disable: true } },
 		ref: { table: { disable: true } },
@@ -44,10 +45,96 @@ export const Default: Story = {
 	},
 };
 
-const matrixRows = [
-	...buttonV3Variants.map((v) => ({ label: v, loading: false })),
-	{ label: 'loading', loading: true },
-];
+const baseArgs = {
+	color: 'default',
+	size: 'medium',
+	icon: 'check_circle',
+	children: 'Button',
+} as const;
+
+/**
+ * Shows a spinner in place of the icon and blocks interaction. Use while an
+ * async action triggered by the button is in progress.
+ */
+export const Loading: Story = {
+	args: { ...baseArgs, variant: 'primary', loading: true },
+};
+
+/**
+ * Non-interactive state for an action that is currently unavailable.
+ */
+export const Disabled: Story = {
+	args: { ...baseArgs, variant: 'primary', disabled: true },
+};
+
+/**
+ * Compact square layout rendered when an `icon` is set without children. Always
+ * pass an `aria-label` so the action is announced to assistive technology.
+ */
+export const IconOnly: Story = {
+	args: {
+		color: 'default',
+		size: 'medium',
+		variant: 'primary',
+		icon: 'check_circle',
+		'aria-label': 'Confirm',
+	},
+};
+
+/**
+ * Pressed / active state for toggle buttons and segmented controls. Reflected via
+ * `aria-pressed` for assistive technology.
+ */
+export const Selected: Story = {
+	args: { ...baseArgs, variant: 'secondary', selected: true },
+};
+
+/**
+ * Raised corner radius (12px instead of 4px) for high-emphasis surfaces such as
+ * Sign in, Landing, and NetGen. Only affects rounding — color and priority are
+ * unchanged.
+ */
+export const HighEmphasis: Story = {
+	args: { ...baseArgs, variant: 'primary', highEmphasis: true },
+};
+
+/**
+ * Palette tuned for dark-background surfaces. Use when the button sits on a dark
+ * container rather than the default light UI.
+ */
+export const OnDark: Story = {
+	args: { ...baseArgs, color: 'light', variant: 'primary' },
+	decorators: [
+		(Story) => (
+			<div className={storyStyles.onDark}>
+				<Story />
+			</div>
+		),
+	],
+};
+
+/**
+ * The `size` prop accepts a responsive object (`{ lg, md }`) as well as a static value.
+ * Use the object form to adapt the button size across breakpoints; the static form
+ * keeps a single size everywhere.
+ */
+export const ResponsiveSize: Story = {
+	render: () => (
+		<DsStack direction="row" alignItems="center" gap="var(--sm)">
+			<DsButtonV3 size={{ lg: 'large', md: 'small' }}>lg: large / md: small</DsButtonV3>
+			<DsButtonV3 size={{ lg: 'medium', md: 'tiny' }}>lg: medium / md: tiny</DsButtonV3>
+			<DsButtonV3 size="medium">static: medium</DsButtonV3>
+		</DsStack>
+	),
+};
+
+// `color="light"` has no `primary-subtle`; its `primary` is styled as the subtle outline.
+const getMatrixRows = (color?: ButtonV3Color) => {
+	const variants =
+		color === 'light' ? buttonV3Variants.filter((v) => v !== 'primary-subtle') : buttonV3Variants;
+
+	return [...variants.map((v) => ({ label: v, loading: false })), { label: 'loading', loading: true }];
+};
 
 const defaultIconMatrixRows = [
 	{ label: 'check circle', icon: 'check_circle', variant: 'primary', color: 'default', loading: false },
@@ -71,9 +158,10 @@ const onDarkIconMatrixRows = [
 
 const MatrixGrid = ({ color }: { color?: ButtonV3Color }) => {
 	const isOnDark = color === 'light';
+	const matrixRows = getMatrixRows(color);
 
 	return (
-		<div className={storyStyles.section}>
+		<DsStack gap="var(--sm)">
 			<div className={storyStyles.columnHeaders}>
 				{buttonV3Sizes.map((size) => (
 					<span
@@ -88,7 +176,7 @@ const MatrixGrid = ({ color }: { color?: ButtonV3Color }) => {
 			</div>
 
 			{matrixRows.map(({ label, loading }) => (
-				<div key={label} className={storyStyles.row}>
+				<DsStack key={label} direction="row" alignItems="center" gap="var(--sm)">
 					<span
 						className={classNames(storyStyles.rowLabel, {
 							[storyStyles.onDarkLabel]: isOnDark,
@@ -98,22 +186,21 @@ const MatrixGrid = ({ color }: { color?: ButtonV3Color }) => {
 					</span>
 
 					{buttonV3Sizes.map((size) => (
-						<div key={size} className={storyStyles.cell}>
+						<DsStack key={size} direction="row" justifyContent="center" flex={1}>
 							<DsButtonV3
 								color={color}
 								variant={loading ? 'primary' : (label as (typeof buttonV3Variants)[number])}
 								size={size}
 								icon="check_circle"
 								loading={loading}
-								onClick={fn()}
 							>
 								{size !== 'tiny' ? 'Button' : undefined}
 							</DsButtonV3>
-						</div>
+						</DsStack>
 					))}
-				</div>
+				</DsStack>
 			))}
-		</div>
+		</DsStack>
 	);
 };
 
@@ -130,7 +217,7 @@ const IconMatrixGrid = ({
 	}>;
 	isOnDark?: boolean;
 }) => (
-	<div className={storyStyles.section}>
+	<DsStack gap="var(--sm)">
 		<div className={storyStyles.columnHeaders}>
 			{buttonV3Sizes.map((size) => (
 				<span
@@ -145,7 +232,7 @@ const IconMatrixGrid = ({
 		</div>
 
 		{rows.map(({ label, icon, loading, variant, color }) => (
-			<div key={label} className={storyStyles.row}>
+			<DsStack key={label} direction="row" alignItems="center" gap="var(--sm)">
 				<span
 					className={classNames(storyStyles.rowLabel, {
 						[storyStyles.onDarkLabel]: isOnDark,
@@ -158,7 +245,7 @@ const IconMatrixGrid = ({
 					const ariaLabel = `${label} ${size}`;
 
 					return (
-						<div key={size} className={storyStyles.cell}>
+						<DsStack key={size} direction="row" justifyContent="center" flex={1}>
 							<DsButtonV3
 								color={color}
 								variant={variant}
@@ -166,18 +253,21 @@ const IconMatrixGrid = ({
 								icon={icon}
 								loading={loading}
 								aria-label={ariaLabel}
-								onClick={fn()}
 							/>
-						</div>
+						</DsStack>
 					);
 				})}
-			</div>
+			</DsStack>
 		))}
-	</div>
+	</DsStack>
 );
 
 export const MatrixDefault: Story = {
-	parameters: { layout: 'fullscreen' },
+	tags: ['!manifest'],
+	parameters: {
+		layout: 'fullscreen',
+		docs: { canvas: { sourceState: 'none' } },
+	},
 	render: () => (
 		<div className={storyStyles.matrix}>
 			<p className={storyStyles.sectionTitle}>Default</p>
@@ -187,7 +277,11 @@ export const MatrixDefault: Story = {
 };
 
 export const MatrixError: Story = {
-	parameters: { layout: 'fullscreen' },
+	tags: ['!manifest'],
+	parameters: {
+		layout: 'fullscreen',
+		docs: { canvas: { sourceState: 'none' } },
+	},
 	render: () => (
 		<div className={storyStyles.matrix}>
 			<p className={storyStyles.sectionTitle}>Error</p>
@@ -197,7 +291,11 @@ export const MatrixError: Story = {
 };
 
 export const MatrixOnDark: Story = {
-	parameters: { layout: 'fullscreen' },
+	tags: ['!manifest'],
+	parameters: {
+		layout: 'fullscreen',
+		docs: { canvas: { sourceState: 'none' } },
+	},
 	render: () => (
 		<div className={storyStyles.matrix}>
 			<div className={storyStyles.onDark}>
@@ -211,7 +309,11 @@ export const MatrixOnDark: Story = {
 };
 
 export const MatrixIcons: Story = {
-	parameters: { layout: 'fullscreen' },
+	tags: ['!manifest'],
+	parameters: {
+		layout: 'fullscreen',
+		docs: { canvas: { sourceState: 'none' } },
+	},
 	render: () => (
 		<div className={storyStyles.matrix}>
 			<p className={storyStyles.sectionTitle}>Icons — Default</p>
@@ -229,25 +331,6 @@ export const MatrixIcons: Story = {
 				</p>
 				<IconMatrixGrid rows={onDarkIconMatrixRows} isOnDark />
 			</div>
-		</div>
-	),
-};
-
-export const ResponsiveSize: Story = {
-	parameters: { layout: 'centered' },
-	render: () => (
-		<div className={storyStyles.responsiveRow}>
-			<DsButtonV3Wrapped size={{ lg: 'large', md: 'small' }} icon="check_circle" onClick={fn()}>
-				lg: large / md: small
-			</DsButtonV3Wrapped>
-
-			<DsButtonV3Wrapped size={{ lg: 'medium', md: 'tiny' }} icon="check_circle" onClick={fn()}>
-				lg: medium / md: tiny
-			</DsButtonV3Wrapped>
-
-			<DsButtonV3Wrapped size="medium" icon="check_circle" onClick={fn()}>
-				static: medium
-			</DsButtonV3Wrapped>
 		</div>
 	),
 };

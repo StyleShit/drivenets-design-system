@@ -1,6 +1,7 @@
 ---
 name: react-patterns
 description: React patterns for design-system TSX including ds-* components, subcomponents, *.stories.tsx, and __tests__/*.browser.test.tsx. Use when editing hooks, useState, useEffect, ref prop, memoization, controlled state, or event handlers in @drivenets/design-system.
+user-invocable: false
 ---
 
 # React Patterns Skill
@@ -70,6 +71,14 @@ const DsButton = ({ ref, ...props }: DsButtonProps) => <button ref={ref} {...pro
 | **Don't spread native objects**       | `{...file}` loses `File` prototype           |
 | **Event propagation**                 | Stop propagation in nested clickable content |
 | **Validate, don't silently fallback** | Reject bad input values                      |
+
+## displayName
+
+Set `displayName` on every new public `Ds*` export (`DsX.displayName = 'DsX'`; compound members: `DsX.Sub.displayName = 'DsX.Sub'`).
+
+## Barrel files
+
+Use `.ts` extension on barrel file, not `.tsx`.
 
 ## Related
 

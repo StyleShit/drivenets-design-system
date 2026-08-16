@@ -11,6 +11,13 @@
 		"install:playwright": {
 			"dependsOn": []
 		},
+		"build:storybook": {
+			"outputs": ["storybook-static/**"],
+			"inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/vite-plugin/**"]
+		},
+		"test:storybook-docs": {
+			"dependsOn": ["build:storybook", "install:playwright"]
+		},
 		"figma:lint": {
 			"dependsOn": [],
 			"inputs": ["**/*.figma.ts", "figma.config.json"]

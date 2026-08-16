@@ -12,6 +12,10 @@ _Avoid_: widget, element (unless HTML element), control (unless form field)
 A named visual or behavioral axis on a **Component**, backed by an `as const` array and union type in `*.types.ts`.
 _Avoid_: mode, type (when meaning visual style), theme
 
+**High-emphasis**:
+A boolean shape axis on `DsButtonV3` that raises corner radius for prominent surfaces (Sign in, Landing, NetGen). Purely rounding — not a priority/emphasis level (do not conflate with the `primary` **Variant**, which is the "highest-emphasis" action).
+_Avoid_: rounded, pill
+
 **Locale**:
 Optional prop bag of user-facing strings for a **Component**; keys name the UI role (e.g. `loading`, `noMatches`). Use a dedicated `Ds{Name}Locale` interface when there are many keys.
 _Avoid_: i18n, translations (this repo does not ship a global i18n framework)
@@ -51,6 +55,18 @@ _Avoid_: replacement, v2 component (as a synonym for the pattern name)
 **Deprecated component**:
 A **Component** (or prop type) still exported but documented as superseded; Storybook uses the `deprecated` tag.
 _Avoid_: legacy, old (without linking to the successor)
+
+**User card**:
+A presentational **Component** (`DsUserCard`) showing a person's identity as an avatar plus a title (their name) and an optional subtitle (role, email, etc.). Display only — not clickable on its own.
+_Avoid_: profile card, user tile, account card
+
+**User menu**:
+A composed pattern — not its own **Component** — built from a **Component** menu (`DsDropdownMenu`) with a **User card** in the header region and a single full-width action (typically logout) in the **Menu footer**. Assembled in product/story code, never exported as `DsUserMenu`.
+_Avoid_: DsUserMenu, account menu (as a component name), profile dropdown
+
+**Menu footer**:
+A menu region for one full-width, prominent action (e.g. logout), distinct from the actions row (right-aligned Cancel/Apply-style buttons). Both are sticky, bordered regions of a **Component** menu.
+_Avoid_: actions bar (that is the button row), toolbar
 
 **Workspace page**:
 A full-screen DAP route for a multi-step **Project** (create, view, or approve) with persistent header chrome and a structured body.
